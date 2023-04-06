@@ -8,17 +8,20 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ActionIdentifier.ChangeAction(Action.WALK);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(ActionIdentifier.isActionDid)
+        {
+            MoveSettingScene();
+        }
     }
 
     public void MoveSettingScene()
     {
-        SceneManager.LoadScene("Setting");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Setting");
     }
 }
