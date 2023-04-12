@@ -1,15 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO.Ports;
+using System.Threading;
+
+[Serializable]
+public class JsonData
+{
+	public float[] datas = new float[8]; 
+}
 
 public class RPInputManager : MonoBehaviour
 {
     public static RPInputManager instance;
-
-    public static float[,] inputMatrix = new float[3,8];
-
+    public static float[,] inputMatrix = new float[4,4];
     public bool isViewerOpen = false;
+    SerialPort sp = new SerialPort();
+    JsonData data = new JsonData();
+    Thread thread;
 
     private void Awake() {
         instance = this;  
@@ -17,28 +27,32 @@ public class RPInputManager : MonoBehaviour
         DontDestroyOnLoad(this);  
     }
 
+    void Start()
+    {
+        sp.PortName = "/dev/cu.usbmodem21201";     // 여기에는 아두이노 포트 넣어주면 됩니다.
+        sp.BaudRate = 9600;      // 아두이노 보레이트랑 맞춰주시면 됩니다.
+        sp.DataBits = 8;
+        sp.Parity = Parity.None;
+        sp.StopBits = StopBits.One;
+        sp.Open();    //포트를 엽니다. 열고나면 닫힐동안 시리얼 모니터를 사용하지 못합니다.(여기서 점유하고있으므로)
+
+        thread = new Thread(new ThreadStart(ReadValue));
+        thread.IsBackground = true;
+        thread.Start();
+    }
+
     // Update is called once per frame
     void Update()
     {
         inputMatrix[0,0] = getSensorValue(0);
-        inputMatrix[1,0] = getSensorValue(1);
-        inputMatrix[1,1] = getSensorValue(2);
-        inputMatrix[2,0] = getSensorValue(3);
+        inputMatrix[0,1] = getSensorValue(1);
+        inputMatrix[0,2] = getSensorValue(2);
+        inputMatrix[0,3] = getSensorValue(3);
 
-        inputMatrix[0,2] = getSensorValue(4);
-        inputMatrix[1,2] = getSensorValue(5);
-        inputMatrix[1,3] = getSensorValue(6);
-        inputMatrix[2,2] = getSensorValue(7);
-
-        inputMatrix[0,4] = getSensorValue(8);
-        inputMatrix[1,4] = getSensorValue(9);
-        inputMatrix[1,5] = getSensorValue(10);
-        inputMatrix[2,4] = getSensorValue(11);
-
-        inputMatrix[0,6] = getSensorValue(12);
-        inputMatrix[1,6] = getSensorValue(13);
-        inputMatrix[1,7] = getSensorValue(14);
-        inputMatrix[2,6] = getSensorValue(15);
+        inputMatrix[1,0] = getSensorValue(4);
+        inputMatrix[1,1] = getSensorValue(5);
+        inputMatrix[1,2] = getSensorValue(6);
+        inputMatrix[1,3] = getSensorValue(7);
 
         if(isViewerOpen)
         {
@@ -51,52 +65,28 @@ public class RPInputManager : MonoBehaviour
         switch (sensorNumber)
         {
             case 0:
-                if(Input.GetKey(KeyCode.Q)) return 1;
-                return 0;
+                if(Input.GetKey(KeyCode.W)) return 10;
+                else return data.datas[0];
             case 1:
-                if(Input.GetKey(KeyCode.A)) return 1;
+                if(Input.GetKey(KeyCode.R)) return 1;
                 return 0;
             case 2:
-                if(Input.GetKey(KeyCode.S)) return 1;
+                if(Input.GetKey(KeyCode.Y)) return 1;
                 return 0;
             case 3:
-                if(Input.GetKey(KeyCode.Z)) return 1;
+                if(Input.GetKey(KeyCode.I)) return 1;
                 return 0;
             case 4:
-                if(Input.GetKey(KeyCode.E)) return 1;
+                if(Input.GetKey(KeyCode.X)) return 1;
                 return 0;
             case 5:
-                if(Input.GetKey(KeyCode.D)) return 1;
+                if(Input.GetKey(KeyCode.V)) return 1;
                 return 0;
             case 6:
-                if(Input.GetKey(KeyCode.F)) return 1;
+                if(Input.GetKey(KeyCode.N)) return 1;
                 return 0;
             case 7:
-                if(Input.GetKey(KeyCode.C)) return 1;
-                return 0;
-            case 8:
-                if(Input.GetKey(KeyCode.T)) return 1;
-                return 0;
-            case 9:
-                if(Input.GetKey(KeyCode.G)) return 1;
-                return 0;
-            case 10:
-                if(Input.GetKey(KeyCode.H)) return 1;
-                return 0;
-            case 11:
-                if(Input.GetKey(KeyCode.B)) return 1;
-                return 0;
-            case 12:
-                if(Input.GetKey(KeyCode.U)) return 1;
-                return 0;
-            case 13:
-                if(Input.GetKey(KeyCode.J)) return 1;
-                return 0;
-            case 14:
-                if(Input.GetKey(KeyCode.K)) return 1;
-                return 0;
-            case 15:
-                if(Input.GetKey(KeyCode.N)) return 1;
+                if(Input.GetKey(KeyCode.Comma)) return 1;
                 return 0;
         }
         return 1;
@@ -108,24 +98,37 @@ public class RPInputManager : MonoBehaviour
         if(canvas.gameObject.activeSelf == false) canvas.gameObject.SetActive(true);
         Transform inputViewer = canvas.GetChild(0);
 
-        inputViewer.GetChild(0).GetComponent<Image>().color = new Color(inputMatrix[0,0],0,0);
-        inputViewer.GetChild(1).GetComponent<Image>().color = new Color(inputMatrix[1,0],0,0);
-        inputViewer.GetChild(2).GetComponent<Image>().color = new Color(inputMatrix[1,1],0,0);
-        inputViewer.GetChild(3).GetComponent<Image>().color = new Color(inputMatrix[2,0],0,0);
+        inputViewer.GetChild(0).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,0]/10),0,0);
+        inputViewer.GetChild(1).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,1]/10),0,0);
+        inputViewer.GetChild(2).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,2]/10),0,0);
+        inputViewer.GetChild(3).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,3]/10),0,0);
 
-        inputViewer.GetChild(4).GetComponent<Image>().color = new Color(inputMatrix[0,2],0,0);
-        inputViewer.GetChild(5).GetComponent<Image>().color = new Color(inputMatrix[1,2],0,0);
-        inputViewer.GetChild(6).GetComponent<Image>().color = new Color(inputMatrix[1,3],0,0);
-        inputViewer.GetChild(7).GetComponent<Image>().color = new Color(inputMatrix[2,2],0,0);
+        inputViewer.GetChild(4).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,0]/10),0,0);
+        inputViewer.GetChild(5).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,1]/10),0,0);
+        inputViewer.GetChild(6).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,2]/10),0,0);
+        inputViewer.GetChild(7).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,3]/10),0,0);
+    }
 
-        inputViewer.GetChild(8).GetComponent<Image>().color = new Color(inputMatrix[0,4],0,0);
-        inputViewer.GetChild(9).GetComponent<Image>().color = new Color(inputMatrix[1,4],0,0);
-        inputViewer.GetChild(10).GetComponent<Image>().color = new Color(inputMatrix[1,5],0,0);
-        inputViewer.GetChild(11).GetComponent<Image>().color = new Color(inputMatrix[2,4],0,0);
+    private void OnApplicationQuit()
+    {
+        sp.Close();    //꺼질때 소켓을 닫아줍니다.
+        thread.Abort();
+    }
 
-        inputViewer.GetChild(12).GetComponent<Image>().color = new Color(inputMatrix[0,6],0,0);
-        inputViewer.GetChild(13).GetComponent<Image>().color = new Color(inputMatrix[1,6],0,0);
-        inputViewer.GetChild(14).GetComponent<Image>().color = new Color(inputMatrix[1,7],0,0);
-        inputViewer.GetChild(15).GetComponent<Image>().color = new Color(inputMatrix[2,6],0,0);
+    void ReadValue()
+    {
+        while(true)
+        {
+            try
+            {
+                string line = sp.ReadLine();
+                Debug.Log(line);
+                data = JsonUtility.FromJson<JsonData>(line);
+            }
+            catch
+            {
+
+            }
+        }
     }
 }

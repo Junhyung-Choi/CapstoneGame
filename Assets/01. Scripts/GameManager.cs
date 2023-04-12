@@ -22,6 +22,6 @@ public class GameManager : MonoBehaviour
 
     public void MoveSettingScene()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Setting");
+        // UnityEngine.SceneManagement.SceneManager.LoadScene("Setting");
     }
 }

@@ -67,24 +67,24 @@ public class ActionIdentifier : MonoBehaviour
     {
         float leftValue = 
             RPInputManager.inputMatrix[0,0] + 
-            RPInputManager.inputMatrix[1,0] +
-            RPInputManager.inputMatrix[1,1] + 
-            RPInputManager.inputMatrix[2,0];
+            RPInputManager.inputMatrix[0,1] +
+            RPInputManager.inputMatrix[1,0] + 
+            RPInputManager.inputMatrix[1,1];
 
         float rightValue = 
-            RPInputManager.inputMatrix[0,6] + 
-            RPInputManager.inputMatrix[1,6] + 
-            RPInputManager.inputMatrix[1,7] + 
-            RPInputManager.inputMatrix[2,7];
+            RPInputManager.inputMatrix[0,2] + 
+            RPInputManager.inputMatrix[0,3] + 
+            RPInputManager.inputMatrix[1,2] + 
+            RPInputManager.inputMatrix[1,3];
         
         if(isStartAction)
         {
-            if(leftValue > rightValue + 2.5)
+            if(leftValue > rightValue + 1)
             {
                 isStartAction = false;
                 isFirstWalkLeft = true;
             }
-            else if (leftValue + 2.5 < rightValue)
+            else if (leftValue + 1 < rightValue)
             {
                 isStartAction = false;
                 isFirstWalkLeft = false;
@@ -94,14 +94,14 @@ public class ActionIdentifier : MonoBehaviour
         {
             if(isFirstWalkLeft)
             {
-                if(leftValue + 2.5 < rightValue)
+                if(leftValue + 1 < rightValue)
                 {
                     return true;
                 }
             }
             else
             {
-                if(leftValue > rightValue + 2.5)
+                if(leftValue > rightValue + 1)
                 {
                     return true;
                 }
