@@ -5,16 +5,18 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    ActionManager actionIdentifier;
     // Start is called before the first frame update
     void Start()
     {
-        ActionIdentifier.ChangeAction(Action.WALK);
+        actionIdentifier = GameObject.Find("RP").GetComponent<ActionManager>();
+        actionIdentifier.ChangeAction(EAction.WALK);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(ActionIdentifier.isActionDid)
+        if(actionIdentifier.isActionDid)
         {
             MoveSettingScene();
         }
