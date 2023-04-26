@@ -9,8 +9,10 @@ public class ActionManager : MonoBehaviour
     ActionSet set = new IdleActionSet();
     public bool isActionDid = false;
 
-    static bool isStartAction = false;
+     bool isStartAction = false;
     bool isFirstWalkLeft = true;
+
+    public float progress = 0.0f;
 
     public void ChangeAction(EAction action)
     {
@@ -53,6 +55,8 @@ public class ActionManager : MonoBehaviour
 
     void CheckActionSet()
     {
+        this.progress = (this.set.curSet - 1) / this.set.maxSet + 
+                        (this.set.curRep / this.set.maxRep) / this.set.maxSet;
         this.set.isActionSetEnd();
     }
 }

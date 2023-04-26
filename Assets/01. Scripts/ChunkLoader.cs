@@ -13,7 +13,7 @@ public class ChunkLoader : MonoBehaviour
     public float movingSpeed = 1;
 
     public float chunkSize = 60;
-    GameObject lastChunk;
+    public GameObject lastChunk;
 
     private void Awake() {
         if(initalSpawnCount <= chunks.Length)
@@ -27,8 +27,8 @@ public class ChunkLoader : MonoBehaviour
 
             chunk.GetComponent<Chunk>().loader = this;
 
-            chunk.transform.localPosition = new Vector3(-i * chunkSize,0, transform.position.z);
-            moveDirection = new Vector3(1,0,0);
+            chunk.transform.localPosition = new Vector3(i * chunkSize,0, transform.position.z);
+            moveDirection = new Vector3(-1,0,0);
 
             lastChunk = chunk;
 
@@ -42,7 +42,7 @@ public class ChunkLoader : MonoBehaviour
     public void DestroyChunk(Chunk thisChunk)
     {
         Vector3 newPos = lastChunk.transform.position;
-        newPos.x -= chunkSize;
+        newPos.x += chunkSize;
 
         lastChunk = thisChunk.gameObject;
         lastChunk.transform.position = newPos;

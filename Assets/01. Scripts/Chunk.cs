@@ -14,7 +14,7 @@ public class Chunk : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(transform.position.x > loader.destoryZone)
+        if(transform.position.x < loader.destoryZone)
             loader.DestroyChunk(this);
     }
 }
