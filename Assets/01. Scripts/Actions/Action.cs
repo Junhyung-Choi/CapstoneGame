@@ -8,7 +8,7 @@ public class Action
     public bool isStarted = false;
     public virtual void CheckRep()
     {
-        set.doRep();
+        this.set.doRep();
     }
 
     public virtual void InitRep()

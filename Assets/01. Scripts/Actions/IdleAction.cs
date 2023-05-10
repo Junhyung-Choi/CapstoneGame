@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class IdleAction : Action
 {
+    float repIdleTime = 0.0f;
+    float maxIdleTime = 3.0f;
+
     /// <summary>
     /// 1회의 동작을 검사하는 함수.
     /// base.CheckRep() 에선 동작을 본인의 Set에 보낸다.
@@ -12,8 +15,13 @@ public class IdleAction : Action
     {
         if(isStarted)
         {
-            // Write Something
-            base.CheckRep();
+            repIdleTime += Time.deltaTime;
+            if(repIdleTime > maxIdleTime)
+            {
+                // Write Something
+                repIdleTime = 0.0f;
+                base.CheckRep();
+            }
         }
     }
 
@@ -23,6 +31,7 @@ public class IdleAction : Action
     /// </summary>
     public override void InitRep()
     {
+        repIdleTime = 0.0f;
         base.InitRep();
     }
 

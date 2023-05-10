@@ -9,7 +9,7 @@ public class ActionManager : MonoBehaviour
     ActionSet set = new IdleActionSet();
     public bool isActionDid = false;
 
-     bool isStartAction = false;
+    bool isStartAction = false;
     bool isFirstWalkLeft = true;
 
     public float progress = 0.0f;
