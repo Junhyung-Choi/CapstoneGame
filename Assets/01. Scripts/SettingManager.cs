@@ -23,15 +23,11 @@ public class SettingManager : MonoBehaviour
 
     private void Update() {
         float leftValue = 
-            RPInputManager.inputMatrix[0,0] + 
-            RPInputManager.inputMatrix[0,1] +
-            RPInputManager.inputMatrix[1,0] + 
-            RPInputManager.inputMatrix[1,1];
+            RPInputManager.inputMatrix[0,0] +
+            RPInputManager.inputMatrix[1,0];
 
         float rightValue = 
-            RPInputManager.inputMatrix[0,2] + 
             RPInputManager.inputMatrix[0,3] + 
-            RPInputManager.inputMatrix[1,2] + 
             RPInputManager.inputMatrix[1,3];
 
         float middleValue = 
