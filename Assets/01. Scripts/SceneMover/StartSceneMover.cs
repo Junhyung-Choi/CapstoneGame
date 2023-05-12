@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class StartSceneMover : SceneMover
 {
+    public float diff = 1.0f;
+
     private void Update() {
         float leftValue = 
             RPInputManager.inputMatrix[0,0] + 
@@ -23,11 +25,11 @@ public class StartSceneMover : SceneMover
 
     void MoveScene(float left, float right)
     {
-        if(left + 1 < right)
+        if(left + diff < right)
         {
             this.MoveToGame();
         }
-        if(right + 1 < left)
+        if(right + diff < left)
         {
             this.MoveToSetting();
         }
