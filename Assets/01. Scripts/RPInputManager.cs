@@ -79,28 +79,28 @@ public class RPInputManager : MonoBehaviour
         switch (sensorNumber)
         {
             case 0:
-                if(Input.GetKey(KeyCode.W)) return 1;
+                if(Input.GetKey(KeyCode.X)) return 1;
                 else return data.datas[0];
             case 1:
-                if(Input.GetKey(KeyCode.R)) return 1;
+                if(Input.GetKey(KeyCode.W)) return 1;
                 else return data.datas[1];
             case 2:
-                if(Input.GetKey(KeyCode.Y)) return 1;
+                if(Input.GetKey(KeyCode.V)) return 1;
                 else return data.datas[2];
             case 3:
-                if(Input.GetKey(KeyCode.I)) return 1;
+                if(Input.GetKey(KeyCode.R)) return 1;
                 else return data.datas[3];
             case 4:
-                if(Input.GetKey(KeyCode.X)) return 1;
+                if(Input.GetKey(KeyCode.N)) return 1;
                 else return data.datas[4];
             case 5:
-                if(Input.GetKey(KeyCode.V)) return 1;
+                if(Input.GetKey(KeyCode.Y)) return 1;
                 else return data.datas[5];
             case 6:
-                if(Input.GetKey(KeyCode.N)) return 1;
+                if(Input.GetKey(KeyCode.Comma)) return 1;
                 else return data.datas[6];
             case 7:
-                if(Input.GetKey(KeyCode.Comma)) return 1;
+                if(Input.GetKey(KeyCode.I)) return 1;
                 else return data.datas[7];
         }
         return 1;
