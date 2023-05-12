@@ -11,6 +11,10 @@ public class SettingManager : MonoBehaviour
     bool quantified = false;
     float qunatifyTimer = 0.0f;
     float quantifyingTime = 1.0f;
+    float succeedingPressTimer = 0.0f;
+
+    float confirmValue = 2.5f;
+    float diff = 1.0f;
 
     string[] modes = {"SetAge", "SetWeight"};
     int modeIndex;
@@ -42,73 +46,83 @@ public class SettingManager : MonoBehaviour
 
     private void setValue(float leftValue, float rightValue, float middleValue)
     {
-        if(leftValue < 0.01f && rightValue < 0.01f)
+        // 계속 누르고 있을수록 빠르게 값을 변경하기 위한 코드
+        succeedingPressTimer += Time.deltaTime * 0.5f;
+        if(succeedingPressTimer > 0.9f)
+        {
+            succeedingPressTimer = 0.9f;
+        }
+
+        // 입력이 없을 시, 중복 입력 방지 타이머와, 지속 입력 타이머 초기화
+        if(leftValue < 0.01f && rightValue < 0.01f && middleValue < 0.01f)
         {
             quantified = false;
             qunatifyTimer = 0.0f;
+            succeedingPressTimer = 0.0f;
         }
 
+        // 나이 설정 모드일때
         if(modeIndex == 0)
         {
-            if(2.5 < middleValue && !quantified)
+            // 가운데를 누르면 다음 모드로 넘어감
+            if(confirmValue < middleValue && !quantified)
             {
                 quantified = true;
                 PlayerPrefs.SetInt("UserAge", userAge);
                 modeIndex = 1;
             }
-            if(leftValue + 1 < rightValue && !quantified)
+            // 오른쪽을 누르면 값이 증가함.
+            if(leftValue + diff < rightValue && !quantified)
             {
                 quantified = true;
                 userAge += 1;
             }
-            if(rightValue + 1 < leftValue && !quantified)
+            // 왼쪽을 누르면 값이 감소함.
+            if(rightValue + diff < leftValue && !quantified)
             {
                 quantified = true;
                 userAge -= 1;
             }
-            if(quantified)
-            {
-                qunatifyTimer += Time.deltaTime;
-                if(quantifyingTime < qunatifyTimer)
-                {
-                    quantified = false;
-                    qunatifyTimer = 0.0f;
-                }
-            }
+            
         }
+        // 무게 설정 모드일때
+        // 이하 동일
         else if(modeIndex == 1)
         {
-            if(2.5 < middleValue && !quantified)
+            if(confirmValue < middleValue && !quantified)
             {
                 quantified = true;
                 PlayerPrefs.SetInt("UserWeight", userWeight);
                 modeIndex += 1;
             }
-            if(leftValue + 1 < rightValue && !quantified)
+            if(leftValue + diff < rightValue && !quantified)
             {
                 quantified = true;
                 userWeight += 1;
             }
-            if(rightValue + 1 < leftValue && !quantified)
+            if(rightValue + diff < leftValue && !quantified)
             {
                 quantified = true;
                 userWeight -= 1;
             }
-            if(quantified)
-            {
-                qunatifyTimer += Time.deltaTime;
-                if(quantifyingTime < qunatifyTimer)
-                {
-                    quantified = false;
-                    qunatifyTimer = 0.0f;
-                }
-            }
         }
+        // 무게 설정 모드에서 넘어가면 바로 씬 이동.
         else if (modeIndex > 1)
         {
             SceneManager.LoadScene("Start");
         }
-    }
+        
+        // 지속 입력시 연속 입력 기능을 위한 타이머 체크.
+        if(quantified)
+        {
+            qunatifyTimer += Time.deltaTime;
+            if((quantifyingTime - succeedingPressTimer) < qunatifyTimer)
+            {
+                quantified = false;
+                qunatifyTimer = 0.0f;
+            }
+        }
+}
 
     private void setUI()
     {
