@@ -33,7 +33,7 @@ public class RPInputManager : MonoBehaviour
     void Start()
     {
         try{
-            sp.PortName = "/dev/cu.usbserial-1120";     // 여기에는 아두이노 포트 넣어주면 됩니다.
+            sp.PortName = "/dev/cu.usbserial-1110";     // 여기에는 아두이노 포트 넣어주면 됩니다.
             sp.BaudRate = 9600;      // 아두이노 보레이트랑 맞춰주시면 됩니다.
             sp.DataBits = 8;
             sp.Parity = Parity.None;
@@ -66,7 +66,7 @@ public class RPInputManager : MonoBehaviour
         inputMatrix[1,3] = getSensorValue(6);
         inputMatrix[0,3] = getSensorValue(7);
 
-        print(inputMatrix[0,0] + " " + inputMatrix[1,0] + " " + inputMatrix[0,1] + " " + inputMatrix[1,1] + " " + inputMatrix[0,2] + " " + inputMatrix[1,2] + " " + inputMatrix[0,3] + " " + inputMatrix[1,3] + " ");
+        // print(inputMatrix[0,0] + " " + inputMatrix[1,0] + " " + inputMatrix[0,1] + " " + inputMatrix[1,1] + " " + inputMatrix[0,2] + " " + inputMatrix[1,2] + " " + inputMatrix[0,3] + " " + inputMatrix[1,3] + " ");
 
         if(isViewerOpen)
         {

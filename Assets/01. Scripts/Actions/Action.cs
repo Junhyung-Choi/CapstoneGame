@@ -6,6 +6,8 @@ public class Action
 {
     public ActionSet set;
     public bool isStarted = false;
+    public float threshold = 30f;
+    public bool isThresholdSet = false;
     public virtual void CheckRep()
     {
         this.set.doRep();
@@ -19,5 +21,11 @@ public class Action
     public virtual void StartRep()
     {
         isStarted = true;
+    }
+
+    public virtual void SetThreshold(float threshold)
+    {
+        this.threshold = threshold;
+        isThresholdSet = true;
     }
 }

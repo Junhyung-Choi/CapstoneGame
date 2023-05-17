@@ -33,4 +33,10 @@ public class ActionSet
             this.curRep = 0;
         }
     }
+
+    public void SetAction(Action action)
+    {
+        this.action = action;
+        this.action.set = this;
+    }
 }

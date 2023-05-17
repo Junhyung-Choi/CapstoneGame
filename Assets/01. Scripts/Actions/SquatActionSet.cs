@@ -6,8 +6,12 @@ public class SquatActionSet : ActionSet
 {
     public SquatActionSet()
     {
-        this.action = new SquatAction();
-        this.action.set = this;
+        base.maxSet = maxSet;
+        base.maxRep = maxRep;
+        base.curSet = curSet;
+        base.curRep = curRep;
+        base.action = new SquatAction();
+        base.action.set = this;
         this.action.InitRep();
     }
     
