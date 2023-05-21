@@ -848,7 +848,7 @@ MonoBehaviour:
   squatObstacle: {fileID: 8255941509880074773, guid: d73b4907c240ba243b71f370597d9aa5, type: 3}
   stepUpObstacle: {fileID: 0}
   plankObstacle: {fileID: 8255941509880074773, guid: d73b4907c240ba243b71f370597d9aa5, type: 3}
-  climbObstacle: {fileID: 0}
+  climbObstacle: {fileID: 625458994008881546, guid: ac639b652bd8ad144b0b2528b5a4a77c, type: 3}
 --- !u!4 &1661435938
 Transform:
   m_ObjectHideFlags: 0
