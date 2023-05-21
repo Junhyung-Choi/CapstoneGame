@@ -5,37 +5,77 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public List<ChunkType> actions = new List<ChunkType>();
-    public ChunkType action = new ChunkType();
+    ActionManager actionManager;
+    public List<ChunkType> chunks = new List<ChunkType>();
 
-    ActionManager actionIdentifier;
+    int currentChunkIndex; 
+    int currentChunkMaxRep = 1, currentChunkMaxSet = 1;
+    int currentChunkRep = 0, currentChunkSet = 1;
+
+    float obstacleTimer = 0f, obstacleMaxTime = 1f;
+
+    bool isObstacleSpawn = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        actionIdentifier = this.transform.GetComponent<ActionManager>();
-        actionIdentifier.ChangeAction(EAction.WALK);
+        currentChunkIndex = 0;
+        actionManager = this.GetComponent<ActionManager>();
+        actionManager.ChangeAction(chunks[currentChunkIndex]);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(actionIdentifier.isActionDid)
+        SpawnObstacle();
+
+        // if(actionIdentifier.isActionDid)
+        // {
+        //     MoveSettingScene();
+        // }
+    }
+
+    public void DoRep()
+    {
+        currentChunkRep += 1;
+        if(currentChunkRep >= currentChunkMaxRep)
         {
-            MoveSettingScene();
+            currentChunkRep = 0;
+            currentChunkSet += 1;
+            if(currentChunkSet > currentChunkMaxSet)
+            {
+                currentChunkSet = 1;
+                NextChunk();
+            }
         }
     }
 
-    public void MoveSettingScene()
+    void NextChunk()
     {
-        // UnityEngine.SceneManagement.SceneManager.LoadScene("Setting");
+        currentChunkIndex += 1;
+        actionManager.ChangeAction(chunks[currentChunkIndex]);
+    }
+
+    void SpawnObstacle()
+    {
+        if(!isObstacleSpawn) return;
+
+        obstacleTimer += Time.deltaTime;
+        if(obstacleTimer >= obstacleMaxTime)
+        {
+            obstacleTimer = 0f;
+            obstacleMaxTime = Random.Range(1f, 3f);
+            ChunkManager.instance.SpawnObstacle(chunks[currentChunkIndex]);
+        }
     }
 
 }
 
 public enum ChunkType
 {
-    // 가만히 있는거
-    IDLE,
+    // 시작 청크
+    START,
     // 걷는거
     WALK,
     // 내려갔다 올라갔다 하면서 걷는거
@@ -45,9 +85,7 @@ public enum ChunkType
     // 팔만 위에 두고 하는 엎드려 뻗쳐 자세
     PLANK,
     // 스쾃.
-    SQAUT,
-    // 시작 청크
-    START,
+    SQUAT,
     // 끝 청크
     END
 }

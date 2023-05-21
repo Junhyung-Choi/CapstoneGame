@@ -6,7 +6,6 @@ public class ActionManager : MonoBehaviour
 {
     public static float[,] avgInputMatrix = new float[4,4];
 
-    public EAction action = EAction.WALK;
     ActionSet set = new WalkActionSet();
     public bool isActionDid = false;
 
@@ -16,25 +15,30 @@ public class ActionManager : MonoBehaviour
     public float progress = 0.0f;
 
 
-    public void ChangeAction(EAction action)
+    public void ChangeAction(ChunkType action)
     {
-        this.action = action;
         switch(action)
         {
-            case EAction.SQUAT:
-                this.set = new SquatActionSet();
-                break;
-            case EAction.STEPUP:
-                this.set = new StepUpActionSet();
-                break;
-            case EAction.WALK:
+            case ChunkType.WALK:
                 this.set = new WalkActionSet();
                 break;
-            case EAction.PLANK:
+            case ChunkType.SQUAT:
+                this.set = new SquatActionSet();
+                break;
+            case ChunkType.STEPUP:
+                this.set = new StepUpActionSet();
+                break;
+            case ChunkType.PLANK:
                 this.set = new PlankActionSet();
                 break;
-            case EAction.CLIMB:
+            case ChunkType.CLIMB:
                 this.set = new ClimbActionSet();
+                break;
+            case ChunkType.START:
+                this.set = new WalkActionSet();
+                break;
+            case ChunkType.END:
+                this.set = new WalkActionSet();
                 break;
         }
         this.set.action.StartRep();
@@ -64,13 +68,4 @@ public class ActionManager : MonoBehaviour
 
         }
     }
-}
-
-public enum EAction
-{
-    SQUAT,
-    STEPUP,
-    WALK,
-    PLANK,
-    CLIMB
 }

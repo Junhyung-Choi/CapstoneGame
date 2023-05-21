@@ -785,8 +785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ea5754bf015c748a30f3dff6034e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: 0600000001000000020000000100000005000000010000000400000001000000030000000100000007000000
-  action: 3
+  chunks: 0000000001000000020000000100000003000000010000000400000001000000050000000100000006000000
 --- !u!4 &1612672820
 Transform:
   m_ObjectHideFlags: 0
@@ -814,9 +813,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9416f3e5ffd88405d843b6c1b7424aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  action: 0
   isActionDid: 0
   progress: 0
+--- !u!1 &1661435936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1661435938}
+  - component: {fileID: 1661435937}
+  m_Layer: 0
+  m_Name: ChunkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1661435937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661435936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd43bdbf69d2c3940a9d1f5f310afd3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkObstacle: {fileID: 0}
+  squatObstacle: {fileID: 8255941509880074773, guid: d73b4907c240ba243b71f370597d9aa5, type: 3}
+  stepUpObstacle: {fileID: 0}
+  plankObstacle: {fileID: 8255941509880074773, guid: d73b4907c240ba243b71f370597d9aa5, type: 3}
+  climbObstacle: {fileID: 0}
+--- !u!4 &1661435938
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661435936}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 540, y: 960, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1753848007
 GameObject:
   m_ObjectHideFlags: 0
