@@ -831,8 +831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2616c375aee1cfe48b8b2e868f7dbb4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFirstAverageChecked: 0
-  isGameReady: 0
+  instruction: {fileID: 1753848007}
 --- !u!4 &1067845898
 Transform:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        actionIdentifier = GameObject.Find("RP").GetComponent<ActionManager>();
+        actionIdentifier = this.transform.GetComponent<ActionManager>();
         actionIdentifier.ChangeAction(EAction.WALK);
     }
 

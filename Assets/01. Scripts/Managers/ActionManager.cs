@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(RPInputManager))]
 public class ActionManager : MonoBehaviour
 {
     public static ActionManager instance;
