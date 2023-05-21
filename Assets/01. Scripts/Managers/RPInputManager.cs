@@ -15,7 +15,7 @@ public class JsonData
 public class RPInputManager : MonoBehaviour
 {
     public static RPInputManager instance;
-    public static float[,] inputMatrix = new float[4,4];
+    public static float[,] inputMatrix = new float[2,4];
     public bool isViewerOpen = false;
     
 
@@ -148,9 +148,9 @@ public class RPInputManager : MonoBehaviour
                 // Debug.Log(line);
                 data = JsonUtility.FromJson<JsonData>(line);
             }
-            catch
+            catch(Exception e)
             {
-
+                Debug.LogWarning(e.Message);
             }
         }
     }

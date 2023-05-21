@@ -10,4 +10,6 @@ public class SceneMover : MonoBehaviour
     public void MoveToGame() { SceneManager.LoadScene("Game"); }
 
     public void MoveToGameStart() { SceneManager.LoadScene("GameStart"); }
+
+    public void MoveToTutorial() { SceneManager.LoadScene("Tutorial"); }
 }
