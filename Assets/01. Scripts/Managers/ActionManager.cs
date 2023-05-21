@@ -6,8 +6,8 @@ public class ActionManager : MonoBehaviour
 {
     public static float[,] avgInputMatrix = new float[4,4];
 
-    public EAction action = EAction.IDLE;
-    ActionSet set = new IdleActionSet();
+    public EAction action = EAction.WALK;
+    ActionSet set = new WalkActionSet();
     public bool isActionDid = false;
 
     bool isStartAction = false;
@@ -21,9 +21,6 @@ public class ActionManager : MonoBehaviour
         this.action = action;
         switch(action)
         {
-            case EAction.IDLE:
-                this.set = new IdleActionSet();
-                break;
             case EAction.SQUAT:
                 this.set = new SquatActionSet();
                 break;
@@ -46,8 +43,11 @@ public class ActionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckAction();
-        CheckActionSet();
+        if(isStartAction)
+        {
+            CheckAction();
+            CheckActionSet();
+        }
     }
 
     void CheckAction()
@@ -59,13 +59,15 @@ public class ActionManager : MonoBehaviour
     {
         this.progress = (this.set.curSet - 1) / this.set.maxSet + 
                         (this.set.curRep / this.set.maxRep) / this.set.maxSet;
-        this.set.isActionSetEnd();
+        if(this.set.isActionSetEnd())
+        {
+
+        }
     }
 }
 
 public enum EAction
 {
-    IDLE,
     SQUAT,
     STEPUP,
     WALK,

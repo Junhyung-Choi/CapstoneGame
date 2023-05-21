@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public List<ActionType> actions = new List<ActionType>();
-    public ActionType action = new ActionType();
+    public List<ChunkType> actions = new List<ChunkType>();
+    public ChunkType action = new ChunkType();
 
     ActionManager actionIdentifier;
     // Start is called before the first frame update
@@ -30,23 +30,24 @@ public class GameManager : MonoBehaviour
         // UnityEngine.SceneManagement.SceneManager.LoadScene("Setting");
     }
 
-    public enum ActionType
-    {
-        // 가만히 있는거
-        IDLE,
-        // 걷는거
-        WALK,
-        // 내려갔다 올라갔다 하면서 걷는거
-        STEPUP,
-        // 위로 올라가는거
-        CLIMB,
-        // 팔만 위에 두고 하는 엎드려 뻗쳐 자세
-        PLANK,
-        // 스쾃.
-        SQAUT,
-        // 시작 청크
-        START,
-        // 끝 청크
-        END
-    }
+}
+
+public enum ChunkType
+{
+    // 가만히 있는거
+    IDLE,
+    // 걷는거
+    WALK,
+    // 내려갔다 올라갔다 하면서 걷는거
+    STEPUP,
+    // 위로 올라가는거
+    CLIMB,
+    // 팔만 위에 두고 하는 엎드려 뻗쳐 자세
+    PLANK,
+    // 스쾃.
+    SQAUT,
+    // 시작 청크
+    START,
+    // 끝 청크
+    END
 }

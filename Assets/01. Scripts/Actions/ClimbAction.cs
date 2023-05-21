@@ -13,7 +13,7 @@ public class ClimbAction : Action
         if(isStarted)
         {
             // Write Something
-            base.CheckRep();
+            DoRep();
         }
     }
 

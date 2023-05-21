@@ -6,9 +6,13 @@ public class WalkActionSet : ActionSet
 {
     public WalkActionSet()
     {
-        this.action = new WalkAction();
-        this.action.set = this;
-        this.action.InitRep();
+        base.maxSet = maxSet;
+        base.curRep = curRep;
+        base.maxRep = maxRep;
+        base.curSet = curSet;
+        base.action = new WalkAction();
+        base.action.set = this;
+        base.action.InitRep();
     }
     
     public new Action action = new WalkAction();

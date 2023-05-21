@@ -53,7 +53,8 @@ public class SquatActionTester : MonoBehaviour
         double avg = sum / count;
         t = (float)avg;
         Debug.Log(t);
-        this.set.action.SetThreshold(t);
+        this.set.action._TestSquat(t);
+        // this.set.action.InitRep();
         slider.minValue = t;
         slider.maxValue = t * 1.2f;
         yield return null;
