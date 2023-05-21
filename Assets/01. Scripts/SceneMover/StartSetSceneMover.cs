@@ -6,6 +6,6 @@ public class StartSetSceneMover : SceneMover
 {
     public void MoveScene()
     {
-        this.MoveToGame();    
+        this.MoveToTutorial();    
     }
 }

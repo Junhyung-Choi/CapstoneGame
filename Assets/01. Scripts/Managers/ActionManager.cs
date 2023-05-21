@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ActionManager : MonoBehaviour
 {
-    public static ActionManager instance;
     public static float[,] avgInputMatrix = new float[4,4];
 
     public EAction action = EAction.IDLE;
@@ -16,17 +15,6 @@ public class ActionManager : MonoBehaviour
 
     public float progress = 0.0f;
 
-    private void Awake() {
-        if(instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(this);
-        }
-        else if(instance != this)
-        {
-            Destroy(this.gameObject);
-        }
-    }
 
     public void ChangeAction(EAction action)
     {

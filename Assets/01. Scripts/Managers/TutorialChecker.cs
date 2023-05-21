@@ -21,7 +21,7 @@ public class TutorialChecker : SceneMover
         slider = tutorialUI.transform.Find("Slider").GetComponent<Slider>();
         text = tutorialUI.transform.Find("Instruction").GetComponent<Text>();
 
-        slider.maxValue = maxTutoCount;
+        slider.maxValue = rightStepMaxTime;
 
         SetRightStepThreshold();
     }
@@ -36,11 +36,15 @@ public class TutorialChecker : SceneMover
         if(CheckRightStep()) // Check Right Step
         {
             rightStepTimer += Time.deltaTime;
-            slider.value = rightStepTimer / rightStepMaxTime;
+            slider.value = rightStepTimer;
 
             if(rightStepTimer > rightStepMaxTime) { this.MoveToGame(); }
         }
-        else { rightStepTimer = 0; }
+        else 
+        { 
+            rightStepTimer = 0; 
+            slider.value = 0f;
+        }
     }
 
     bool CheckRightStep()
@@ -70,6 +74,7 @@ public class TutorialChecker : SceneMover
             }
         }
 
-        rightStepThreshold = sum * rightStepThresholdRate;
+        // rightStepThreshold = sum * rightStepThresholdRate;
+        rightStepThreshold = 0.5f;
     }
 }
