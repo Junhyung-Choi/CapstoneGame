@@ -5,13 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneMover : MonoBehaviour
 {
-    public void MoveToSetting()
-    {
-        SceneManager.LoadScene("Setting");
-    }
+    public void MoveToSetting() { SceneManager.LoadScene("Setting"); }
 
-    public void MoveToGame()
-    {
-        SceneManager.LoadScene("Game");
-    }
+    public void MoveToGame() { SceneManager.LoadScene("Game"); }
+
+    public void MoveToGameStart() { SceneManager.LoadScene("GameStart"); }
 }

@@ -27,7 +27,7 @@ public class StartSceneMover : SceneMover
     {
         if(left + diff < right)
         {
-            this.MoveToGame();
+            this.MoveToGameStart();
         }
         if(right + diff < left)
         {

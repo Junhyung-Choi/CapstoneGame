@@ -25,9 +25,15 @@ public class RPInputManager : MonoBehaviour
     bool isArduinoConnected = false;
 
     private void Awake() {
-        instance = this;  
-
-        DontDestroyOnLoad(this);  
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if(instance != this)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Start()
