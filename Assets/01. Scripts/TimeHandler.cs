@@ -4,16 +4,33 @@ using UnityEngine;
 
 public class TimeHandler : MonoBehaviour
 {
-    public float timeFactor = 1f;
-    // Start is called before the first frame update
-    void Start()
+    public static TimeHandler instance;
+    
+    float timeFactor;
+    float maxTimeFactor = 1.0f;
+    float minTimeFactor = 0.3f;
+
+    Coroutine coroutine;
+
+    private void Awake() {
+        instance = this;
+    }
+    
+    public void SetTimeFactor(float timeFactor)
     {
-        
+        if(coroutine != null)
+            StopCoroutine(coroutine);
+
+        coroutine = StartCoroutine(_SetTimeFactorCoroutine(timeFactor));
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator _SetTimeFactorCoroutine(float timeFactor)
     {
-        Time.timeScale = timeFactor;
+        while(Time.timeScale != timeFactor)
+        {
+            Time.timeScale = Mathf.Lerp(Time.timeScale, timeFactor, 0.05f);
+            Debug.Log(Time.timeScale);
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 }

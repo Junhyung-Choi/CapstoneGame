@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/02. Scenes/_DDScene.unity
     guid: 543dfcae8a384d840a3ac2c0fb8b39d2
   - enabled: 1
+    path: Assets/02. Scenes/Tutorial.unity
+    guid: 6208cc6a55bc24c4987a8d1bc0a062c6
+  - enabled: 1
     path: Assets/02. Scenes/Game.unity
     guid: 30688bd5b2cd0654cacd0e17fd3da1c9
+  - enabled: 1
+    path: Assets/02. Scenes/GameStart.unity
+    guid: 348b907648a5777428557e7bd36bd4cf
   - enabled: 1
     path: Assets/02. Scenes/Setting.unity
     guid: a38f0f0ac6abac74096168bfa8e4687f

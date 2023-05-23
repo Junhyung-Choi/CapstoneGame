@@ -6,9 +6,12 @@ public class Action
 {
     public ActionSet set;
     public bool isStarted = false;
-    public float threshold = 30f;
-    public bool isThresholdSet = false;
     public virtual void CheckRep()
+    {
+        DoRep();
+    }
+
+    public void DoRep()
     {
         this.set.doRep();
     }
@@ -23,9 +26,9 @@ public class Action
         isStarted = true;
     }
 
-    public virtual void SetThreshold(float threshold)
+    public virtual void _TestSquat(float t)
     {
-        this.threshold = threshold;
-        isThresholdSet = true;
+        throw new System.NotImplementedException();
     }
+
 }

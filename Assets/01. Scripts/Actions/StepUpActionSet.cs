@@ -6,9 +6,13 @@ public class StepUpActionSet : ActionSet
 {
     public StepUpActionSet()
     {
-        this.action = new StepUpAction();
-        this.action.set = this;
-        this.action.InitRep();
+        base.maxSet = maxSet;
+        base.curRep = curRep;
+        base.maxRep = maxRep;
+        base.curSet = curSet;
+        base.action = new StepUpAction();
+        base.action.set = this;
+        base.action.InitRep();
     }
     public new Action action = new StepUpAction();
 

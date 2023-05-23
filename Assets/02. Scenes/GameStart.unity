@@ -810,6 +810,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1067845898}
+  - component: {fileID: 1067845897}
   - component: {fileID: 1067845899}
   m_Layer: 0
   m_Name: GameReadyChecker
@@ -818,6 +819,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1067845897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1067845895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2616c375aee1cfe48b8b2e868f7dbb4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instruction: {fileID: 1753848007}
 --- !u!4 &1067845898
 Transform:
   m_ObjectHideFlags: 0
@@ -842,10 +856,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067845895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d527d270742a5ef489bb861b290c95ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 37090abb6606f204ab3556d9f5b6d53d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diff: 1
 --- !u!1 &1148356524
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,7 +930,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBA54\uB274 \uD654\uBA74"
+  m_Text: "\uAC8C\uC784\uC744 \uC2DC\uC791\uD558\uAE30 \uC804\uC5D0 \uAE30\uBCF8
+    \uC790\uC138\uB97C \uCE21\uC815\uD569\uB2C8\uB2E4. \n\uBC1C\uC744 \uC62C\uB9AC\uACE0
+    \uAC00\uB9CC\uD788 \uC788\uC5B4\uC8FC\uC138\uC694."
 --- !u!222 &1148356527
 CanvasRenderer:
   m_ObjectHideFlags: 0

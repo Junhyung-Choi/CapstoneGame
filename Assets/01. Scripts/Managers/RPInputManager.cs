@@ -15,7 +15,7 @@ public class JsonData
 public class RPInputManager : MonoBehaviour
 {
     public static RPInputManager instance;
-    public static float[,] inputMatrix = new float[4,4];
+    public static float[,] inputMatrix = new float[2,4];
     public bool isViewerOpen = false;
     
 
@@ -25,9 +25,15 @@ public class RPInputManager : MonoBehaviour
     bool isArduinoConnected = false;
 
     private void Awake() {
-        instance = this;  
-
-        DontDestroyOnLoad(this);  
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else if(instance != this)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     void Start()
@@ -142,9 +148,9 @@ public class RPInputManager : MonoBehaviour
                 // Debug.Log(line);
                 data = JsonUtility.FromJson<JsonData>(line);
             }
-            catch
+            catch(Exception e)
             {
-
+                Debug.LogWarning(e.Message);
             }
         }
     }

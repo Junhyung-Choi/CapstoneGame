@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SquatAction : Action
 {
+    public float threshold = 30f;
+    public bool isThresholdSet = false;
     float timer;
     float maxTime = 1.5f;
     bool isSquatStart = false;
@@ -22,18 +24,10 @@ public class SquatAction : Action
         // Debug.Log(backValue);
         // Debug.Log("isStarted : " + isStarted + "/ isSquatStart : " + isSquatStart + "/ isSqautEnd : " + isSqautEnd);
             
-        if(isStarted & base.isThresholdSet)
+        if(isStarted & isThresholdSet)
         {
             CheckSquat(backValue);
         }
-    }
-
-    public override void SetThreshold(float threshold)
-    {
-        Debug.Log("SetThreshold");
-        base.SetThreshold(threshold);
-        this.start_threshold = threshold * 0.2f;
-        this.end_threshold = threshold * 0.1f;
     }
 
     /// <summary>
@@ -42,7 +36,7 @@ public class SquatAction : Action
     /// </summary>
     public override void InitRep()
     {
-        base.threshold = 100f;
+        _InitRep();
         base.InitRep();
     }
 
@@ -55,11 +49,34 @@ public class SquatAction : Action
         base.StartRep();
     }
 
+    public override void _TestSquat(float t)
+    {
+        Debug.LogWarning("태스트용 threshold 변경");
+        SetThreshold(t);
+    }
+
+    public void SetThreshold(float threshold)
+    {
+        Debug.Log("SetThreshold");
+        this.threshold = threshold;
+        this.start_threshold = threshold * 0.2f;
+        this.end_threshold = threshold * 0.1f;
+    }
+
+    void _InitRep()
+    {
+        isSquatStart = false;
+        isSqautEnd = false;
+        timer = 0f;
+        
+        float sum = ActionManager.avgInputMatrix[1,2] + ActionManager.avgInputMatrix[0,3];
+        SetThreshold(sum);
+    }
 
     void CheckSquat(float backValue)
     {
         // 아무것도 아닌 상태에서 시작
-        if(!isSquatStart & base.isThresholdSet)
+        if(!isSquatStart & isThresholdSet)
         {
             Debug.Log("내려가!");
             // 특정 무게보다 높아진다면 타이머 체크 시작

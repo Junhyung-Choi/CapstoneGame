@@ -6,6 +6,10 @@ public class PlankActionSet: ActionSet
 {
     public PlankActionSet()
     {
+        base.maxSet = maxSet;
+        base.curRep = curRep;
+        base.maxRep = maxRep;
+        base.curSet = curSet;
         this.action = new PlankAction();
         this.action.set = this;
         this.action.InitRep();

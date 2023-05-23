@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class WalkAction : Action
 {
+    
     public bool isFirstStepLeft = true;
     public bool isFirstStep = true;
+
     /// <summary>
     /// 1회의 동작을 검사하는 함수.
     /// base.CheckRep() 에선 동작을 본인의 Set에 보낸다.
     /// </summary>
     public override void CheckRep()
+    {
+        _CheckRep();
+    }
+
+    void _CheckRep()
     {
         if(isStarted)
         {
@@ -55,9 +62,14 @@ public class WalkAction : Action
     /// </summary>
     public override void InitRep()
     {
+        _InitRep();
+        base.InitRep();
+    }
+
+    public void _InitRep()
+    {
         this.isFirstStep = true;
         this.isFirstStepLeft = true;
-        base.InitRep();
     }
 
     /// <summary>
@@ -66,6 +78,12 @@ public class WalkAction : Action
     /// </summary>
     public override void StartRep()
     {
+        _StartRep();
         base.StartRep();
+    }
+
+    void _StartRep()
+    {
+
     }
 }
