@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActionManager : MonoBehaviour
 {
-    public static float[,] avgInputMatrix = new float[4,4];
+    public static float[,] avgInputMatrix = new float[2,4];
 
     ActionSet set = new WalkActionSet();
     public bool isActionDid = false;
