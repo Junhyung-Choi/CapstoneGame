@@ -39,7 +39,7 @@ public class RPInputManager : MonoBehaviour
     void Start()
     {
         try{
-            sp.PortName = "/dev/cu.usbserial-1120";     // 여기에는 아두이노 포트 넣어주면 됩니다.
+            sp.PortName = "/dev/cu.usbserial-120";     // 여기에는 아두이노 포트 넣어주면 됩니다.
             sp.BaudRate = 9600;      // 아두이노 보레이트랑 맞춰주시면 됩니다.
             sp.DataBits = 8;
             sp.Parity = Parity.None;
