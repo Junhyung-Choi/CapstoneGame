@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
+    public static float deadZone = 0.5f;
     public ChunkLoader loader;
+
+    public bool isActionDid = false;
+    public bool isStartorEnd = false;
 
     // Update is called once per frame
     void Update()
@@ -12,15 +16,15 @@ public class Obstacle : MonoBehaviour
         transform.Translate(loader.moveDirection * loader.movingSpeed * Time.deltaTime);
     }
 
-    void DestroyChunk(Obstacle now)
+    void DestroyObs(Obstacle now)
     {
         Destroy(now.gameObject);
     }
 
     void FixedUpdate()
     {
-        if(transform.position.x < loader.destoryZone)
-            DestroyChunk(this);
+        if(transform.position.x < deadZone)
+            DestroyObs(this);
     }
 
 }

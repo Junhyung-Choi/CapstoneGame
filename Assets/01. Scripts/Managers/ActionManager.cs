@@ -7,13 +7,8 @@ public class ActionManager : MonoBehaviour
     public static float[,] avgInputMatrix = new float[2,4];
 
     ActionSet set = new WalkActionSet();
-    public bool isActionDid = false;
 
-    bool isStartAction = false;
-    bool isFirstWalkLeft = true;
-
-    public float progress = 0.0f;
-
+    int beforeRep = 0;
 
     public void ChangeAction(ChunkType action)
     {
@@ -42,16 +37,14 @@ public class ActionManager : MonoBehaviour
                 break;
         }
         this.set.action.StartRep();
+        beforeRep = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(isStartAction)
-        {
-            CheckAction();
-            CheckActionSet();
-        }
+        CheckAction();
+        CheckActionSet();
     }
 
     void CheckAction()
@@ -61,11 +54,10 @@ public class ActionManager : MonoBehaviour
 
     void CheckActionSet()
     {
-        this.progress = (this.set.curSet - 1) / this.set.maxSet + 
-                        (this.set.curRep / this.set.maxRep) / this.set.maxSet;
-        if(this.set.isActionSetEnd())
+        if(beforeRep != this.set.curRep)
         {
-
+            beforeRep = this.set.curRep;
+            GameManager.instance.DoRep();
         }
     }
 }

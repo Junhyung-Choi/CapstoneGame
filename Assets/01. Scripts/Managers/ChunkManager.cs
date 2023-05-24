@@ -13,7 +13,7 @@ public class ChunkManager : MonoBehaviour
         instance = this;
     }
     
-    public void SpawnObstacle(ChunkType type)
+    public GameObject SpawnObstacle(ChunkType type)
     {
         GameObject tmp;
         switch(type)
@@ -50,6 +50,7 @@ public class ChunkManager : MonoBehaviour
             default:
                 throw new System.Exception("Invalid ChunkType");
         }
+        return tmp;
     }
     // Start is called before the first frame update
     void Start()
