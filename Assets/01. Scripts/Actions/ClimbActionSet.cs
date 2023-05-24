@@ -10,15 +10,15 @@ public class ClimbActionSet:ActionSet
         base.curRep = curRep;
         base.maxRep = maxRep;
         base.curSet = curSet;
-        this.action = new ClimbAction();
-        this.action.set = this;
+        base.action = new ClimbAction();
+        base.action.set = this;
         this.action.InitRep();
     }
 
     public new Action action = new ClimbAction();
 
     public new int maxSet = 3;
-    public new int maxRep = 1;
+    public new int maxRep = 3;
 
     public new int curSet = 1;
     public new int curRep = 0;

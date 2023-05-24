@@ -12,7 +12,7 @@ public class GameReadyChecker : MonoBehaviour
     bool isFirstAverageChecked = false;
     bool isGameReady = false;
     bool isFirstStepStarted = false;
-    
+
     int count = 0;
     int avgCount = 0;
 
@@ -24,8 +24,8 @@ public class GameReadyChecker : MonoBehaviour
     float maxDiff = 30f;
     float diff = 0f;
 
-    float[,] avgMatrix = new float[2,4];
-    float[,] inputMatrix = new float[2,4];
+    float[,] avgMatrix = new float[2, 4];
+    float[,] inputMatrix = new float[2, 4];
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +36,7 @@ public class GameReadyChecker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isGameReady)
+        if (!isGameReady)
         {
             GetInputMatrix();
         }
@@ -51,17 +51,17 @@ public class GameReadyChecker : MonoBehaviour
     {
         avgTimer += Time.deltaTime;
 
-        if(avgTimer > avgMaxTime)
+        if (avgTimer > avgMaxTime)
         {
             avgTimer = 0.0f;
-            if(isFirstAverageChecked)
+            if (isFirstAverageChecked)
             {
                 CheckDiff();
 
-                if(diff < maxDiff) { RenewAvg(); }
+                if (diff < maxDiff) { RenewAvg(); }
                 else { ResetAvg(); }
 
-                if(avgCount >= 5) { isGameReady = true; }
+                if (avgCount >= 5) { isGameReady = true; }
             }
             else
             {
@@ -76,7 +76,7 @@ public class GameReadyChecker : MonoBehaviour
         }
         else
         {
-            if(!isFirstStepStarted) { CheckFirstStep(); }
+            if (!isFirstStepStarted) { CheckFirstStep(); }
             else
             {
                 GainData();
@@ -87,22 +87,22 @@ public class GameReadyChecker : MonoBehaviour
 
     void CheckDiff()
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                diff += Mathf.Abs(avgMatrix[i,j] - inputMatrix[i,j] / count);
+                diff += Mathf.Abs(avgMatrix[i, j] - inputMatrix[i, j] / count);
             }
         }
     }
 
     void RenewAvg()
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                avgMatrix[i,j] =  (avgMatrix[i,j] + (inputMatrix[i,j] / count)) / 2;
+                avgMatrix[i, j] = (avgMatrix[i, j] + (inputMatrix[i, j] / count)) / 2;
             }
         }
         avgCount += 1;
@@ -114,11 +114,11 @@ public class GameReadyChecker : MonoBehaviour
     {
         Debug.Log("자세가 불안정합니다. 측정을 재시작합니다.");
         instructionText.text = ("자세가 불안정합니다. 측정을 재시작합니다.");
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                avgMatrix[i,j] = inputMatrix[i,j] / count;
+                avgMatrix[i, j] = inputMatrix[i, j] / count;
                 avgCount = 0;
             }
         }
@@ -126,22 +126,22 @@ public class GameReadyChecker : MonoBehaviour
 
     void SetAvg()
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                avgMatrix[i,j] = inputMatrix[i,j] / count;
+                avgMatrix[i, j] = inputMatrix[i, j] / count;
             }
         }
     }
 
     void GainData()
     {
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                inputMatrix[i,j] += RPInputManager.inputMatrix[i,j];
+                inputMatrix[i, j] += RPInputManager.inputMatrix[i, j];
             }
         }
     }
@@ -149,15 +149,15 @@ public class GameReadyChecker : MonoBehaviour
     void CheckFirstStep()
     {
         float sum = 0.0f;
-        for(int i = 0; i < 2; i++)
+        for (int i = 0; i < 2; i++)
         {
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                sum += RPInputManager.inputMatrix[i,j];
+                sum += RPInputManager.inputMatrix[i, j];
             }
         }
 
-        if(sum > stepThreshold)
+        if (sum > stepThreshold)
         {
             isFirstStepStarted = true;
             instructionText.text = "자세 측정중입니다. 1 / 5번째 측정중입니다.";

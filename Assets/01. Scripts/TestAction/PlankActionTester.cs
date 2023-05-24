@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ClimbActionTester : MonoBehaviour
+public class PlankActionTester : MonoBehaviour
 {
     public GameObject instruction;
     Text instructionText;
@@ -16,7 +16,7 @@ public class ClimbActionTester : MonoBehaviour
 
     public void Start()
     {
-        set = new ClimbActionSet();
+        set = new PlankActionSet();
         // action = new SquatAction();
         // set.SetAction(action);
         this.set.action.StartRep();
@@ -40,24 +40,24 @@ public class ClimbActionTester : MonoBehaviour
         float maxTime = 10f;
         double sum = 0;
         double count = 0;
-        while(true)
-        {
-            timer += Time.deltaTime;
-            sum += (RPInputManager.inputMatrix[0,0] 
-                    + RPInputManager.inputMatrix[0,3]
-                    + RPInputManager.inputMatrix[1,0]
-                    + RPInputManager.inputMatrix[1,3]);
-            count += 1;
-            if(timer > maxTime)
-            {
-                break;
-            }
-            yield return new WaitForSeconds(0.005f);
-        }
-        double avg = sum / count;
-        t = (float)avg * 0.5f;
-        Debug.Log(t);
-        this.set.action._TestSquat(t);
+        // while(true)
+        // {
+        //     timer += Time.deltaTime;
+        //     sum += (RPInputManager.inputMatrix[0,0] 
+        //             + RPInputManager.inputMatrix[0,3]
+        //             + RPInputManager.inputMatrix[1,0]
+        //             + RPInputManager.inputMatrix[1,3]);
+        //     count += 1;
+        //     if(timer > maxTime)
+        //     {
+        //         break;
+        //     }
+        //     yield return new WaitForSeconds(0.005f);
+        // }
+        // double avg = sum / count;
+        // t = (float)avg * 0.5f;
+        Debug.Log(10);
+        this.set.action._TestSquat(10);
         // this.set.action.InitRep();
         yield return null;
     }

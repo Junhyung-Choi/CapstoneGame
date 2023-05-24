@@ -39,17 +39,21 @@ public class RPInputManager : MonoBehaviour
     void Start()
     {
         try{
-            sp.PortName = "/dev/cu.usbserial-1110";     // 여기에는 아두이노 포트 넣어주면 됩니다.
+            sp.PortName = "/dev/cu.usbserial-1120";     // 여기에는 아두이노 포트 넣어주면 됩니다.
             sp.BaudRate = 9600;      // 아두이노 보레이트랑 맞춰주시면 됩니다.
             sp.DataBits = 8;
             sp.Parity = Parity.None;
             sp.StopBits = StopBits.One;
+            Debug.Log("아두이노 연결시작.", this);
             sp.Open();    //포트를 엽니다. 열고나면 닫힐동안 시리얼 모니터를 사용하지 못합니다.(여기서 점유하고있으므로)
+            Debug.Log("아두이노 연결종료.", this);
             isArduinoConnected = true;
 
+            Debug.Log("쓰레드 시작", this);
             thread = new Thread(new ThreadStart(ReadValue));
             thread.IsBackground = true;
             thread.Start();
+            Debug.Log("쓰레드 종료", this);
         }
         catch (Exception e)
         {
@@ -142,16 +146,29 @@ public class RPInputManager : MonoBehaviour
     {
         while(true)
         {
+            string line = "hi";
             try
             {
-                string line = sp.ReadLine();
-                // Debug.Log(line);
+                line = ReadLine();
                 data = JsonUtility.FromJson<JsonData>(line);
             }
             catch(Exception e)
             {
+                // Debug.Log(line);
                 Debug.LogWarning(e.Message);
             }
         }
+    }
+
+    string ReadLine()
+    {
+        string line = "";
+        while(true)
+        {
+            int readByte = sp.ReadByte();
+            if(readByte == 10) break;
+            line += (char)readByte;
+        }
+        return line;
     }
 }
