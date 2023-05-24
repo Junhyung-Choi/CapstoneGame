@@ -18,7 +18,7 @@ public class TutorialChecker : SceneMover
     bool isTutorialStart  = false;
 
     int tutoCount = 0;
-    int maxTutoCount = 5; // Walk, StepUp, Plank, Sqaut, ArmWalk
+    int maxTutoCount = 3; // Walk, StepUp, Plank, Sqaut, ArmWalk
 
     bool isTutorialEnd = false;
     bool isActionSetEnd = false;
@@ -80,15 +80,17 @@ public class TutorialChecker : SceneMover
 
     public void ControlTutorial()
     {
-        if(tutoCount >= maxTutoCount) {     
-            return; 
-        }
-
         if(actionSet == null) { return; }
 
         if(isActionSetEnd)
         {
             tutoCount += 1;
+            
+            if(tutoCount >= maxTutoCount) {    
+                isTutorialEnd = true; 
+                return; 
+            }
+
             actionSet = GetActionSet(types[tutoCount]);
             actionSet.action.StartRep();
             text.text = ChangeTutorialMent();

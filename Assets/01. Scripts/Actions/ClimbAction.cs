@@ -32,7 +32,7 @@ public class ClimbAction : Action
     /// </summary>
     public override void CheckRep()
     {
-        Debug.Log("ClimbAction CheckRep");
+        // Debug.Log("ClimbAction CheckRep");
         if(isStarted & isThresholdSet)
         {
             CheckClimb();
@@ -111,7 +111,7 @@ public class ClimbAction : Action
             isSideChecked = true;
             resetTimer = 0f;
         }
-        Debug.Log("isSideRight : " + isSideRight + " / isSideChecked : " + isSideChecked);
+        // Debug.Log("isSideRight : " + isSideRight + " / isSideChecked : " + isSideChecked);
     }
 
     void SetPointValue()
@@ -158,7 +158,7 @@ public class ClimbAction : Action
         if(!isSideChecked) { SetIsSideRight(); }
         else
         {
-            Debug.Log("isUpped : " + isUpped);
+            // Debug.Log("isUpped : " + isUpped);
             SetPointValue();
 
             if(!isUpped)

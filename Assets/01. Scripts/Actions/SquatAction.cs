@@ -8,7 +8,7 @@ public class SquatAction : Action
     public float threshold = 30f;
     public bool isThresholdSet = false;
     float timer;
-    float maxTime = 3f;
+    float maxTime = 1.5f;
     bool isSquatStart = false;
     bool isSquatEnd = false;
     float start_threshold = 0f;
