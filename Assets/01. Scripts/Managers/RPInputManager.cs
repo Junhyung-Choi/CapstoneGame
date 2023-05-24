@@ -166,6 +166,7 @@ public class RPInputManager : MonoBehaviour
             catch(TimeoutException e)
             {
                 isTimeOutStarted = true;
+                Debug.LogWarning(e.Message);
             }
             catch(Exception e)
             {

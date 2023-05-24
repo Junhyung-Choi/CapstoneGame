@@ -35,27 +35,6 @@ public class PlankActionTester : MonoBehaviour
 
     public IEnumerator SetThreshold()
     {
-        float t = 0.0f;
-        float timer = 0;
-        float maxTime = 10f;
-        double sum = 0;
-        double count = 0;
-        // while(true)
-        // {
-        //     timer += Time.deltaTime;
-        //     sum += (RPInputManager.inputMatrix[0,0] 
-        //             + RPInputManager.inputMatrix[0,3]
-        //             + RPInputManager.inputMatrix[1,0]
-        //             + RPInputManager.inputMatrix[1,3]);
-        //     count += 1;
-        //     if(timer > maxTime)
-        //     {
-        //         break;
-        //     }
-        //     yield return new WaitForSeconds(0.005f);
-        // }
-        // double avg = sum / count;
-        // t = (float)avg * 0.5f;
         Debug.Log(10);
         this.set.action._TestSquat(10);
         // this.set.action.InitRep();
