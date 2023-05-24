@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public GameObject instructionCanvas;
+
     ActionManager actionManager;
     public List<ChunkType> chunks = new List<ChunkType>();
 
@@ -13,8 +16,12 @@ public class GameManager : MonoBehaviour
     int currentChunkRep = 0, currentChunkSet = 1;
 
     float obstacleTimer = 0f, obstacleMaxTime = 1f;
-
     bool isObstacleSpawn = false;
+
+    bool isStartWaitTimerEnded, isInitNoticeFaded = false;
+    float startWaitTimer = 5f;
+    Text startWaitTimerText;
+    
 
 
     // Start is called before the first frame update
@@ -24,18 +31,52 @@ public class GameManager : MonoBehaviour
         actionManager = this.GetComponent<ActionManager>();
         actionManager.ChangeAction(chunks[currentChunkIndex]);
 
+        startWaitTimerText = instructionCanvas.transform.Find("StartTimer").GetComponent<Text>();
+
         isObstacleSpawn = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        SpawnObstacle();
+        if(!isInitNoticeFaded)
+        {
+            Fade fade = instructionCanvas.transform.Find("InitNotice").GetComponent<Fade>();
+            if(fade.isFadeOut) { 
+                isInitNoticeFaded = true;
+                startWaitTimerText.gameObject.SetActive(true);
+            }
+            return;
+        }
+
+        if(!isStartWaitTimerEnded & isInitNoticeFaded)
+        {
+            WaitStart();
+            return;
+        }
+        else
+        {
+            SpawnObstacle();
+        }
+
 
         // if(actionIdentifier.isActionDid)
         // {
         //     MoveSettingScene();
         // }
+    }
+
+    void WaitStart()
+    {
+        startWaitTimer -= Time.deltaTime;
+        startWaitTimerText.text = Mathf.Ceil(startWaitTimer).ToString();
+        if(startWaitTimer <= 0f)
+        {
+            isStartWaitTimerEnded = true;
+            startWaitTimerText.gameObject.SetActive(false);
+        }
+        return;
     }
 
     public void DoRep()
