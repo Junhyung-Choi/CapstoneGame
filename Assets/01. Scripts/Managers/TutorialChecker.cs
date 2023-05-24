@@ -7,12 +7,15 @@ public class TutorialChecker : SceneMover
 {
     public GameObject tutorialUI;
     Slider slider;
-    Text text;
+    Text text, scoreText;
 
     float rightStepTimer = 0f;
     float rightStepMaxTime = 5f;
-    float rightStepThreshold = 0f;
+    float rightStepThreshold = 5f;
     float rightStepThresholdRate = 0.8f;
+
+    float startWaitTimer = 0f, startMaxWaitTimer = 5f;
+    bool isTutorialStart  = false;
 
     int tutoCount = 0;
     int maxTutoCount = 5; // Walk, StepUp, Plank, Sqaut, ArmWalk
@@ -28,14 +31,15 @@ public class TutorialChecker : SceneMover
     private void Start() {
         slider = tutorialUI.transform.Find("Slider").GetComponent<Slider>();
         text = tutorialUI.transform.Find("Instruction").GetComponent<Text>();
+        scoreText = tutorialUI.transform.Find("Score").GetComponent<Text>();
 
-        types.Add(ChunkType.WALK);
-        types.Add(ChunkType.STEPUP);
         types.Add(ChunkType.SQUAT);
         types.Add(ChunkType.PLANK);
         types.Add(ChunkType.CLIMB);
+        types.Add(ChunkType.WALK);
+        types.Add(ChunkType.STEPUP);
 
-        actionSet = new WalkActionSet();
+        actionSet = new SquatActionSet();
 
         slider.maxValue = rightStepMaxTime;
 
@@ -43,8 +47,21 @@ public class TutorialChecker : SceneMover
     }
     
     private void Update() {
-        ControlTutorial();
-        CheckTutorialEnd();
+        if(!isTutorialStart)
+        {
+            startWaitTimer += Time.deltaTime;
+            if(startWaitTimer > startMaxWaitTimer) 
+            { 
+                Debug.Log("튜토리얼 시작");
+                isTutorialStart = true;
+                text.text = ChangeTutorialMent();
+            }
+        }
+        else
+        {
+            ControlTutorial();
+            CheckTutorialEnd();
+        }
     }
 
     public void ControlTutorial()
@@ -102,7 +119,7 @@ public class TutorialChecker : SceneMover
             case ChunkType.SQUAT:
                 return new SquatActionSet();
             case ChunkType.STEPUP:
-                return new StepUpActionSet();
+                return new WalkActionSet();
             case ChunkType.PLANK:
                 return new PlankActionSet();
             case ChunkType.CLIMB:
@@ -132,12 +149,26 @@ public class TutorialChecker : SceneMover
     {
         float sum = 0f;
         
-        sum = RPInputManager.inputMatrix[1,2] + 
-              RPInputManager.inputMatrix[0,2] + 
-              RPInputManager.inputMatrix[1,3] + 
+        sum = RPInputManager.inputMatrix[1,3] + 
               RPInputManager.inputMatrix[0,3];
+        
+        float restSum = 0f;
+        for(int i = 0; i < 3; i++)
+        {
+            restSum += RPInputManager.inputMatrix[0,i];
+            restSum += RPInputManager.inputMatrix[1,i];
+        }
+        scoreText.text = restSum.ToString();
 
-        if(sum < rightStepThreshold) { return false; }
+        bool isRightSteped = false;
+        if(sum > rightStepThreshold) { isRightSteped = true; }
+
+        bool isnotLeftSteped = false;
+        if(restSum < (rightStepThreshold * 2)) { isnotLeftSteped = true; }
+
+        if( !isRightSteped || !isnotLeftSteped ) {
+            return false; 
+        }
 
         return true;
     }
@@ -156,6 +187,6 @@ public class TutorialChecker : SceneMover
         }
 
         // rightStepThreshold = sum * rightStepThresholdRate;
-        rightStepThreshold = 0.5f;
+        rightStepThreshold = 10f;
     }
 }
