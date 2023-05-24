@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
         currentChunkIndex = 0;
         actionManager = this.GetComponent<ActionManager>();
         actionManager.ChangeAction(chunks[currentChunkIndex]);
+
+        isObstacleSpawn = true;
     }
 
     // Update is called once per frame
@@ -67,9 +69,13 @@ public class GameManager : MonoBehaviour
             obstacleTimer = 0f;
             obstacleMaxTime = Random.Range(1f, 3f);
             ChunkManager.instance.SpawnObstacle(chunks[currentChunkIndex]);
+
+            if(chunks[currentChunkIndex] == ChunkType.START)
+            {
+                currentChunkIndex += 1;
+            }
         }
     }
-
 }
 
 public enum ChunkType
