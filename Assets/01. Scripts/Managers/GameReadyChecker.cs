@@ -12,6 +12,7 @@ public class GameReadyChecker : MonoBehaviour
     bool isFirstAverageChecked = false;
     bool isGameReady = false;
     bool isFirstStepStarted = false;
+    bool isBoxCleared = false;
 
     int count = 0;
     int avgCount = 0;
@@ -26,6 +27,8 @@ public class GameReadyChecker : MonoBehaviour
 
     float[,] avgMatrix = new float[2, 4];
     float[,] inputMatrix = new float[2, 4];
+
+    float boxClearTimer = 0.0f , boxMaxClearTime = 3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +52,8 @@ public class GameReadyChecker : MonoBehaviour
 
     void GetInputMatrix()
     {
+        if(!isBoxCleared) { MakeUserClearBox(); return ; }
+
         if (avgTimer > avgMaxTime)
         {
             avgTimer = 0.0f;
@@ -93,7 +98,6 @@ public class GameReadyChecker : MonoBehaviour
                 diff += Mathf.Abs(avgMatrix[i, j] - (inputMatrix[i, j] / count));
             }
         }
-        Debug.Log(diff);
     }
 
     void RenewAvg()
@@ -108,7 +112,7 @@ public class GameReadyChecker : MonoBehaviour
 
         inputMatrix = new float[2, 4];
         avgCount += 1;
-        Debug.Log("자세 측정중입니다. " + avgCount + " / 5번째 측정중입니다.");
+        // Debug.Log("자세 측정중입니다. " + avgCount + " / 5번째 측정중입니다.");
         instructionText.text = "자세 측정중입니다. " + avgCount + " / 5번째 측정중입니다.";
     }
 
@@ -159,6 +163,49 @@ public class GameReadyChecker : MonoBehaviour
         {
             isFirstStepStarted = true;
             instructionText.text = "자세 측정중입니다. 1 / 5번째 측정중입니다.";
+        }
+    }
+
+    void MakeUserClearBox()
+    {
+        Debug.Log("박스를 비워주세요");
+        instructionText.text = "박스를 비워주세요";
+
+        if (boxClearTimer > boxMaxClearTime)
+        {
+            boxClearTimer = 0.0f;
+            float sum = 0;
+            for(int i = 0; i < 2; i++)
+            {
+                for(int j = 0; j < 4; j++)
+                {
+                    sum += (inputMatrix[i, j] / count);
+                    inputMatrix[i, j] = 0;
+                }
+            }
+            count = 0;
+            if(sum < 10f)
+            {
+                isBoxCleared = true;
+                instructionText.text = "자세 측정할거니까 올라오세요";
+            }
+            else
+            {
+                Debug.Log("박스를 비우라구요");
+                instructionText.text = "박스를 비우라구요";
+            }
+        }
+        else
+        {
+            boxClearTimer += Time.deltaTime;
+            for(int i = 0; i < 2; i++)
+            {
+                for(int j = 0; j < 4; j++)
+                {
+                    inputMatrix[i, j] += RPInputManager.inputMatrix[i, j];
+                }
+            }
+            count += 1;
         }
     }
 

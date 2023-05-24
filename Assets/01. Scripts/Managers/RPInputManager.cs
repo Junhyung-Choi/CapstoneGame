@@ -14,6 +14,8 @@ public class JsonData
 
 public class RPInputManager : MonoBehaviour
 {
+    bool isTimeOutStarted = false, isTimeOutEnded = false;
+
     public static RPInputManager instance;
     public static float[,] inputMatrix = new float[2,4];
     public bool isViewerOpen = false;
@@ -44,16 +46,11 @@ public class RPInputManager : MonoBehaviour
             sp.DataBits = 8;
             sp.Parity = Parity.None;
             sp.StopBits = StopBits.One;
-            Debug.Log("아두이노 연결시작.", this);
+            sp.ReadTimeout = 1000;
             sp.Open();    //포트를 엽니다. 열고나면 닫힐동안 시리얼 모니터를 사용하지 못합니다.(여기서 점유하고있으므로)
-            Debug.Log("아두이노 연결종료.", this);
             isArduinoConnected = true;
 
-            Debug.Log("쓰레드 시작", this);
-            thread = new Thread(new ThreadStart(ReadValue));
-            thread.IsBackground = true;
-            thread.Start();
-            Debug.Log("쓰레드 종료", this);
+            StartCoroutine(StartThread());
         }
         catch (Exception e)
         {
@@ -131,6 +128,19 @@ public class RPInputManager : MonoBehaviour
         inputViewer.GetChild(5).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,1] * 0.05f),0,0);
         inputViewer.GetChild(6).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,2] * 0.05f),0,0);
         inputViewer.GetChild(7).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,3] * 0.05f),0,0);
+    
+
+        GameObject stateMachine = canvas.transform.Find("StateMachine").gameObject;
+        Text text = stateMachine.GetComponent<Text>();
+        if(!isTimeOutEnded)
+        {
+            text.text = "로딩 중입니다. \n 올라오지 마세요.";
+        }
+        else
+        {
+            if(stateMachine.activeSelf == true) stateMachine.SetActive(false);
+        }
+    
     }
 
     private void OnApplicationQuit()
@@ -146,15 +156,19 @@ public class RPInputManager : MonoBehaviour
     {
         while(true)
         {
-            string line = "hi";
+            string line = "";
             try
             {
                 line = ReadLine();
                 data = JsonUtility.FromJson<JsonData>(line);
+                if(isTimeOutStarted) isTimeOutEnded = true;
+            }
+            catch(TimeoutException e)
+            {
+                isTimeOutStarted = true;
             }
             catch(Exception e)
             {
-                // Debug.Log(line);
                 Debug.LogWarning(e.Message);
             }
         }
@@ -170,5 +184,14 @@ public class RPInputManager : MonoBehaviour
             line += (char)readByte;
         }
         return line;
+    }
+
+    IEnumerator StartThread()
+    {
+        thread = new Thread(new ThreadStart(ReadValue));
+        thread.IsBackground = true;
+        thread.Start();
+
+        yield return null;
     }
 }

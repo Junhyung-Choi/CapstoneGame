@@ -20,7 +20,7 @@ public class PlankAction : Action
     public override void CheckRep()
     {
         float inputValue = RPInputManager.inputMatrix[1,1] + RPInputManager.inputMatrix[1,2];
-
+        
         if(isStarted & isThresholdSet)
         {
             CheckPlank(inputValue);
@@ -48,14 +48,15 @@ public class PlankAction : Action
 
     public override void _TestSquat(float t)
     {
-        Debug.LogWarning("태스트용 threshold 변경");
+        Debug.LogWarning("테스트용 threshold 변경");
         SetThreshold(t);
         isThresholdSet = true;
     }
 
     public void SetThreshold(float threshold)
     {
-        this.threshold = threshold;
+        isThresholdSet = true;
+        this.threshold = threshold * 0.6f;
     }
 
     void _InitRep()
@@ -93,7 +94,7 @@ public class PlankAction : Action
         {
             if(inputValue > threshold)
             {
-                if(!isJumped) { return ; }
+                if(!isJumped) { Debug.Log("올라와"); return ; }
                 timer += Time.deltaTime;
                 if(timer > maxTime)
                 {

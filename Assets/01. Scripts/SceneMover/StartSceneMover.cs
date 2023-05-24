@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class StartSceneMover : SceneMover
 {
-    public float diff = 1.0f;
+    public float diff = 10.0f;
 
     private void Update() {
         float leftValue = 

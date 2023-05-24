@@ -8,11 +8,16 @@ public class SquatAction : Action
     public float threshold = 30f;
     public bool isThresholdSet = false;
     float timer;
-    float maxTime = 1.5f;
+    float maxTime = 3f;
     bool isSquatStart = false;
-    bool isSqautEnd = false;
+    bool isSquatEnd = false;
     float start_threshold = 0f;
     float end_threshold = 0f;
+
+    float stableTimer = 0f, stableMaxTime = 5f;
+    bool isUserStable = false;
+    float[,] inputMatrix = new float[2,4];
+    int inputCount = 0;
 
     /// <summary>
     /// 1회의 동작을 검사하는 함수.
@@ -22,9 +27,9 @@ public class SquatAction : Action
     {
         float backValue = RPInputManager.inputMatrix[1,2] + RPInputManager.inputMatrix[0,3];
         // Debug.Log(backValue);
-        // Debug.Log("isStarted : " + isStarted + "/ isSquatStart : " + isSquatStart + "/ isSqautEnd : " + isSqautEnd);
+        // Debug.Log("isStarted : " + isStarted + "/ isThresholdSet : " + isThresholdSet);
             
-        if(isStarted & isThresholdSet)
+        if(base.isStarted & isThresholdSet)
         {
             CheckSquat(backValue);
         }
@@ -36,6 +41,7 @@ public class SquatAction : Action
     /// </summary>
     public override void InitRep()
     {
+        Debug.Log("Squat Init");
         _InitRep();
         base.InitRep();
     }
@@ -47,6 +53,8 @@ public class SquatAction : Action
     public override void StartRep()
     {
         base.StartRep();
+        Debug.Log("스쿼트를 시작하기 위해선 안정화 작업이 필요합니다.");
+        Debug.Log("스텝박스 위에 올라가 안정되게 서 주세요.");
     }
 
     public override void _TestSquat(float t)
@@ -57,16 +65,17 @@ public class SquatAction : Action
 
     public void SetThreshold(float threshold)
     {
-        Debug.Log("SetThreshold");
+        isThresholdSet = true;
         this.threshold = threshold;
         this.start_threshold = threshold * 0.2f;
         this.end_threshold = threshold * 0.1f;
+        Debug.Log("threshold : " + threshold + "/ start_threshold : " + start_threshold + "/ end_threshold : " + end_threshold);
     }
 
     void _InitRep()
     {
         isSquatStart = false;
-        isSqautEnd = false;
+        isSquatEnd = false;
         timer = 0f;
         
         float sum = ActionManager.avgInputMatrix[1,2] + ActionManager.avgInputMatrix[0,3];
@@ -75,32 +84,38 @@ public class SquatAction : Action
 
     void CheckSquat(float backValue)
     {
+        if(!isUserStable)
+        {
+            MakeUserStable();
+            return ;
+        }
+
         // 아무것도 아닌 상태에서 시작
         if(!isSquatStart & isThresholdSet)
         {
-            Debug.Log("내려가!");
+            bool isBackValueHigher = backValue > threshold + start_threshold;
             // 특정 무게보다 높아진다면 타이머 체크 시작
-            if(backValue > threshold + start_threshold)
+            if(isBackValueHigher)
             {
                 isSquatStart = true;
-                isSqautEnd = false;
+                isSquatEnd = false;
             }
         }
         else
         {
             // 타이머 체크 시작
             // 타이머 완료 안되어 있음.
-            if(!isSqautEnd)
+            if(!isSquatEnd)
             {
                 // 타이머 체크 도중 밟는게 너무 가벼워짐 -> 회수 인정 안함.
                 if(backValue < end_threshold) { 
                     isSquatStart = false; 
-                    isSqautEnd = false; 
+                    isSquatEnd = false; 
                 }
                 timer += Time.deltaTime;
                 if(timer > maxTime)
                 {
-                    isSqautEnd = true;
+                    isSquatEnd = true;
                     timer = 0.0f;
                     // base.CheckRep();
                 }
@@ -110,14 +125,54 @@ public class SquatAction : Action
             {
                 if(backValue < threshold + end_threshold)
                 {
+                    Debug.Log("한 회 완료");
                     base.CheckRep();
                     isSquatStart = false;
-                    isSqautEnd = false;
+                    isSquatEnd = false;
                 }
                 else
                 {
                     Debug.Log("올라와!!");
                 }
+            }
+        }
+    }
+
+    void MakeUserStable()
+    {
+        stableTimer += Time.deltaTime;
+        for(int i = 0; i < 2; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                inputMatrix[i,j] += RPInputManager.inputMatrix[i,j];
+            }
+        }
+        inputCount += 1;
+        
+        if(stableTimer > stableMaxTime)
+        {
+            stableTimer = 0f;
+
+            float diff = 0f;
+            for(int i = 0; i < 2; i++)
+            {
+                for(int j = 0; j < 4; j++)
+                {
+                    diff += ActionManager.avgInputMatrix[i,j] - (inputMatrix[i,j] / inputCount);
+                    inputMatrix[i,j] = 0f;
+                }
+            }
+            inputCount = 0;
+
+            if(diff < 10)
+            {
+                isUserStable = true;
+                Debug.Log("사용자 안정화 완료");
+            }
+            else
+            {
+                Debug.Log("사용자 안정화 실패");
             }
         }
     }

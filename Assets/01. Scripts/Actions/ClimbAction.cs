@@ -80,7 +80,7 @@ public class ClimbAction : Action
             sum += ActionManager.avgInputMatrix[1,i];
         }
         sum /= 8f;
-        SetThreshold(sum);
+        SetThreshold(sum * 0.5f);
     }
 
     void SetIsSideRight()

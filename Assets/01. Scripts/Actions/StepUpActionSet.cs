@@ -14,7 +14,6 @@ public class StepUpActionSet : ActionSet
         base.action.set = this;
         base.action.InitRep();
     }
-    public new Action action = new StepUpAction();
 
     public new int maxSet = 3;
     public new int maxRep = 30;

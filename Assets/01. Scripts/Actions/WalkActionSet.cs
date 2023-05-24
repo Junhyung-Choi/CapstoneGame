@@ -15,7 +15,6 @@ public class WalkActionSet : ActionSet
         base.action.InitRep();
     }
     
-    public new Action action = new WalkAction();
 
     public new int maxSet = 1;
     public new int maxRep = 1;

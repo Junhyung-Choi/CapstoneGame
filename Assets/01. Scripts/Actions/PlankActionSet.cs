@@ -14,7 +14,6 @@ public class PlankActionSet: ActionSet
         base.action.set = this;
         this.action.InitRep();
     }
-    public new Action action = new PlankAction();
 
     public new int maxSet = 5;
     public new int maxRep = 5;

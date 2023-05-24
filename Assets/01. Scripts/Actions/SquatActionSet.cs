@@ -15,7 +15,6 @@ public class SquatActionSet : ActionSet
         this.action.InitRep();
     }
     
-    public new Action action = new SquatAction();
 
     public new int maxSet = 3;
     public new int maxRep = 12;

@@ -25,7 +25,6 @@ public class TutorialChecker : SceneMover
 
     List<ChunkType> types = new List<ChunkType>();
 
-    Action action;
     ActionSet actionSet;
 
     private void Start() {
@@ -55,12 +54,27 @@ public class TutorialChecker : SceneMover
                 Debug.Log("튜토리얼 시작");
                 isTutorialStart = true;
                 text.text = ChangeTutorialMent();
+                actionSet.action.StartRep();
             }
         }
         else
         {
+            DoAction();
             ControlTutorial();
             CheckTutorialEnd();
+        }
+    }
+    public void DoAction()
+    {
+        if(!this.isActionSetEnd) {
+            this.actionSet.action.CheckRep(); 
+        }
+
+        scoreText.text = this.actionSet.curRep.ToString();
+
+        if(this.actionSet.curRep >= 1)
+        {
+            isActionSetEnd = true;
         }
     }
 
@@ -76,6 +90,7 @@ public class TutorialChecker : SceneMover
         {
             tutoCount += 1;
             actionSet = GetActionSet(types[tutoCount]);
+            actionSet.action.StartRep();
             text.text = ChangeTutorialMent();
             isActionSetEnd = false;
         }
@@ -100,15 +115,6 @@ public class TutorialChecker : SceneMover
         }
     }
 
-    public void DoAction()
-    {
-        if(!this.isActionSetEnd) { this.actionSet.action.CheckRep(); }
-
-        if(this.actionSet.curRep >= 3)
-        {
-            isActionSetEnd = true;
-        }
-    }
 
     ActionSet GetActionSet(ChunkType type)
     {
@@ -158,7 +164,6 @@ public class TutorialChecker : SceneMover
             restSum += RPInputManager.inputMatrix[0,i];
             restSum += RPInputManager.inputMatrix[1,i];
         }
-        scoreText.text = restSum.ToString();
 
         bool isRightSteped = false;
         if(sum > rightStepThreshold) { isRightSteped = true; }

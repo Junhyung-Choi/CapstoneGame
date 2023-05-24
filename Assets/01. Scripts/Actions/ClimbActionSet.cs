@@ -15,8 +15,6 @@ public class ClimbActionSet:ActionSet
         this.action.InitRep();
     }
 
-    public new Action action = new ClimbAction();
-
     public new int maxSet = 3;
     public new int maxRep = 3;
 
