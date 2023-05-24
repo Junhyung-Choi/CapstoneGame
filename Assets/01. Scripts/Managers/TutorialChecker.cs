@@ -17,9 +17,25 @@ public class TutorialChecker : SceneMover
     int tutoCount = 0;
     int maxTutoCount = 5; // Walk, StepUp, Plank, Sqaut, ArmWalk
 
+    bool isTutorialEnd = false;
+    bool isActionSetEnd = false;
+
+    List<ChunkType> types = new List<ChunkType>();
+
+    Action action;
+    ActionSet actionSet;
+
     private void Start() {
         slider = tutorialUI.transform.Find("Slider").GetComponent<Slider>();
         text = tutorialUI.transform.Find("Instruction").GetComponent<Text>();
+
+        types.Add(ChunkType.WALK);
+        types.Add(ChunkType.STEPUP);
+        types.Add(ChunkType.SQUAT);
+        types.Add(ChunkType.PLANK);
+        types.Add(ChunkType.CLIMB);
+
+        actionSet = new WalkActionSet();
 
         slider.maxValue = rightStepMaxTime;
 
@@ -27,13 +43,78 @@ public class TutorialChecker : SceneMover
     }
     
     private void Update() {
+        ControlTutorial();
         CheckTutorialEnd();
-        
+    }
+
+    public void ControlTutorial()
+    {
+        if(tutoCount >= maxTutoCount) {     
+            return; 
+        }
+
+        if(actionSet == null) { return; }
+
+        if(isActionSetEnd)
+        {
+            tutoCount += 1;
+            actionSet = GetActionSet(types[tutoCount]);
+            text.text = ChangeTutorialMent();
+            isActionSetEnd = false;
+        }
+    }
+
+    string ChangeTutorialMent()
+    {
+        switch(this.types[tutoCount])
+        {
+            case ChunkType.WALK:
+                return "걷기를 해보세요!";
+            case ChunkType.SQUAT:
+                return "스쿼트를 해보세요!";
+            case ChunkType.STEPUP:
+                return "스텝업을 해보세요!";
+            case ChunkType.PLANK:
+                return "플랭크를 해보세요!";
+            case ChunkType.CLIMB:
+                return "클라이밍을 해보세요!";
+            default:
+                throw new System.Exception("Wrong ChunkType");
+        }
+    }
+
+    public void DoAction()
+    {
+        if(!this.isActionSetEnd) { this.actionSet.action.CheckRep(); }
+
+        if(this.actionSet.curRep >= 3)
+        {
+            isActionSetEnd = true;
+        }
+    }
+
+    ActionSet GetActionSet(ChunkType type)
+    {
+        switch(type)
+        {
+            case ChunkType.WALK:
+                return new WalkActionSet();
+            case ChunkType.SQUAT:
+                return new SquatActionSet();
+            case ChunkType.STEPUP:
+                return new StepUpActionSet();
+            case ChunkType.PLANK:
+                return new PlankActionSet();
+            case ChunkType.CLIMB:
+                return new ClimbActionSet();
+            default:
+                throw new System.Exception("Wrong ChunkType");
+        }
     }
 
     void CheckTutorialEnd()
     {
-        if(CheckRightStep()) // Check Right Step
+        if(CheckRightStep() || isTutorialEnd) // Check Right Step
         {
             rightStepTimer += Time.deltaTime;
             slider.value = rightStepTimer;
