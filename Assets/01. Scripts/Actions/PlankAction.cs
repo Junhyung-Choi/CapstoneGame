@@ -9,7 +9,13 @@ public class PlankAction : Action
     public bool isThresholdSet = false; // 플랭크 동작의 기준이 되는 값이 설정되었는지 확인하는 변수
     float timer = 0.0f, maxTime = 2f;   // 플랭크 동작의 최대 시간
     float resetTimer = 0.0f, resetMaxTime = 1f;   // 플랭크 동작 리셋 시간
-    float jumpTimer = 0.0f, jumpMaxTime = 1f;
+
+    float stableTimer, stableMaxTime = 1f; // 플랭크 동작이 시작되기 전 안정화 시간
+    float[,] inputMatrix = new float[2,4];
+    int inputCount = 0;
+    bool isUserStable = false;
+
+
 
     bool isPlankStart = false, isJumped = false;
 
@@ -44,6 +50,8 @@ public class PlankAction : Action
     public override void StartRep()
     {
         base.StartRep();
+        Debug.Log("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.");
+        Debug.Log("스텝박스에서 내려오세용.");
     }
 
     public override void _TestSquat(float t)
@@ -89,6 +97,8 @@ public class PlankAction : Action
     }
     void CheckPlank(float inputValue)
     {
+        if(!isUserStable) { MakeUserStable(); return ;}
+
         if(!isPlankStart) { CheckStart(inputValue); }
         else
         {
@@ -116,6 +126,45 @@ public class PlankAction : Action
                 {
                     CheckUndo();
                 }
+            }
+        }
+    }
+
+    void MakeUserStable()
+    {
+        stableTimer += Time.deltaTime;
+        for(int i = 0; i < 2; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                inputMatrix[i,j] += RPInputManager.inputMatrix[i,j];
+            }
+        }
+        inputCount += 1;
+        
+        if(stableTimer > stableMaxTime)
+        {
+            stableTimer = 0f;
+
+            float diff = 0f;
+            for(int i = 0; i < 2; i++)
+            {
+                for(int j = 0; j < 4; j++)
+                {
+                    diff += inputMatrix[i,j] / inputCount;
+                    inputMatrix[i,j] = 0f;
+                }
+            }
+            inputCount = 0;
+
+            if(diff < 5)
+            {
+                isUserStable = true;
+                Debug.Log("플랭크 운동 시작 가능");
+            }
+            else
+            {
+                Debug.Log("내려오세용.");
             }
         }
     }
