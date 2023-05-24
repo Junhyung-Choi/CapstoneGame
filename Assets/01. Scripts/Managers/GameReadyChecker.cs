@@ -16,7 +16,7 @@ public class GameReadyChecker : MonoBehaviour
     int count = 0;
     int avgCount = 0;
 
-    float stepThreshold = 0.5f;
+    float stepThreshold = 10f;
 
     float avgTimer = 0.0f;
     float avgMaxTime = 2f;
@@ -49,8 +49,6 @@ public class GameReadyChecker : MonoBehaviour
 
     void GetInputMatrix()
     {
-        avgTimer += Time.deltaTime;
-
         if (avgTimer > avgMaxTime)
         {
             avgTimer = 0.0f;
@@ -79,6 +77,7 @@ public class GameReadyChecker : MonoBehaviour
             if (!isFirstStepStarted) { CheckFirstStep(); }
             else
             {
+                avgTimer += Time.deltaTime;
                 GainData();
                 count += 1;
             }
@@ -91,9 +90,10 @@ public class GameReadyChecker : MonoBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                diff += Mathf.Abs(avgMatrix[i, j] - inputMatrix[i, j] / count);
+                diff += Mathf.Abs(avgMatrix[i, j] - (inputMatrix[i, j] / count));
             }
         }
+        Debug.Log(diff);
     }
 
     void RenewAvg()
@@ -105,6 +105,8 @@ public class GameReadyChecker : MonoBehaviour
                 avgMatrix[i, j] = (avgMatrix[i, j] + (inputMatrix[i, j] / count)) / 2;
             }
         }
+
+        inputMatrix = new float[2, 4];
         avgCount += 1;
         Debug.Log("자세 측정중입니다. " + avgCount + " / 5번째 측정중입니다.");
         instructionText.text = "자세 측정중입니다. " + avgCount + " / 5번째 측정중입니다.";
@@ -112,16 +114,10 @@ public class GameReadyChecker : MonoBehaviour
 
     void ResetAvg()
     {
-        Debug.Log("자세가 불안정합니다. 측정을 재시작합니다.");
         instructionText.text = ("자세가 불안정합니다. 측정을 재시작합니다.");
-        for (int i = 0; i < 2; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                avgMatrix[i, j] = inputMatrix[i, j] / count;
-                avgCount = 0;
-            }
-        }
+        inputMatrix = new float[2, 4];
+        isFirstAverageChecked = false;
+        avgCount = 0;
     }
 
     void SetAvg()
@@ -133,6 +129,8 @@ public class GameReadyChecker : MonoBehaviour
                 avgMatrix[i, j] = inputMatrix[i, j] / count;
             }
         }
+        inputMatrix = new float[2, 4];
+        count = 0;
     }
 
     void GainData()
