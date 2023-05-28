@@ -54,6 +54,8 @@ public class ActionManager : MonoBehaviour
 
     void CheckActionSet()
     {
+        Debug.Log("curRep : " + this.set.curRep);
+        Debug.Log("beforeRep : " + beforeRep);
         if(beforeRep != this.set.curRep)
         {
             beforeRep = this.set.curRep;

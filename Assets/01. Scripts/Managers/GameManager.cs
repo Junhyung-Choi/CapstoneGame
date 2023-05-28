@@ -7,26 +7,41 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance; 
-    public GameObject instructionCanvas;
-
+    
+    /// <summary>
+    /// InstructionManager
+    /// InstructionCanvas 관리하는 매니저
+    /// </summary>
+    InstructionManager instructionManager;
+    /// <summary>
+    /// ActionManager
+    /// 동작을 관리하는 매니저
+    /// </summary>
     ActionManager actionManager;
+    
     public List<ChunkType> chunks = new List<ChunkType>();
-    List<GameObject> obstacles = new List<GameObject>();
+    public List<GameObject> obstacles = new List<GameObject>();
 
     public int currentChunkIndex; 
     int maxRep = 10, curRep = 0;
 
-    float obstacleTimer = 0f, obstacleMaxTime = 1f;
-    bool isObstacleSpawn = false;
+    float obstacleTimer = 0f, obstacleSpawnTime = 1f;
 
-    float obstacleSpawnTimer = 0f, obstacleSpawnMaxTime = 5f;
+    bool isWaitChunk = true;
+    float ChunkWaitTimer = 0f, ChunkWaitMaxTime = 5f;
 
     bool isStartWaitTimerEnded, isInitNoticeFaded = false;
     float startWaitTimer = 5f;
-    Text startWaitTimerText;
 
     public GameObject nearObs;
-    float farDistance = 30f, nearDistance = 5f;
+    float farDistance = 40f, nearDistance = 15f;
+
+    float playTimer = 0f;
+    bool isPlayStart = false;
+
+    public static bool isPaused = false;
+
+    //------------------------------------------------------------------------------------------------------------------
 
     private void Awake() {
         if(instance == null) { instance = this; }
@@ -40,35 +55,153 @@ public class GameManager : MonoBehaviour
         actionManager = this.GetComponent<ActionManager>();
         actionManager.ChangeAction(chunks[currentChunkIndex]);
 
-        startWaitTimerText = instructionCanvas.transform.Find("StartTimer").GetComponent<Text>();
+        instructionManager = GameObject.Find("Instruction Canvas").GetComponent<InstructionManager>();
 
-        isObstacleSpawn = true;
+        isWaitChunk = false;
     }
 
     void Update()
     {
+        HandlePause();
+        if(isPaused) { return; }
+
         if(!isInitNoticeFaded) { WaitInitNoticeFaded(); }
-        else if(!isStartWaitTimerEnded) { WaitStartText(); }
+        else if(!isStartWaitTimerEnded) { WaitStartWaitTimerEnded(); }
+
+        if(isPlayStart) { SetPlayTimer(); }
+
 
         SpawnObstacle();
 
-        CheckObstacleNear();
-
-        // if(actionIdentifier.isActionDid)
-        // {
-        //     MoveSettingScene();
-        // }
+        HandleObstacle();
     }
 
-    void CheckObstacleNear()
+    //---------------------------------------정지 관련 코드들-----------------------------------------------------------
+    void HandlePause()
+    {
+        if(!isPaused)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                isPaused = true;
+                instructionManager.SetPauseActive(true);
+                Time.timeScale = 0f;
+            }
+        }
+        else
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                isPaused = false;
+                instructionManager.SetPauseActive(false);
+                Time.timeScale = 1f;
+            }
+        }
+    }
+
+    //------------------------------------------시작 관련 코드들--------------------------------------------------------
+
+    void SetPlayTimer()
+    {
+        if(!isPaused)
+        {
+            playTimer += Time.unscaledDeltaTime;
+            instructionManager.SetPlayTimer(playTimer);
+        }
+    }
+
+    void WaitInitNoticeFaded()
+    {
+        if(instructionManager.isInitNoticeFaded) { 
+            isInitNoticeFaded = true;
+            instructionManager.SetStartWaitTimer(true);
+        }
+    }
+
+    IEnumerator WaitStartTextCoroutine()
+    {
+        yield return new WaitForSeconds(1f);
+        instructionManager.AcitvateStartMessage();
+        isPlayStart = true;
+    }
+
+    void WaitStartWaitTimerEnded()
+    {
+        startWaitTimer -= Time.deltaTime;
+        instructionManager.SetStartWaitTimerText(startWaitTimer);
+        if(startWaitTimer <= 0f)
+        {
+            isStartWaitTimerEnded = true;
+            StartCoroutine(WaitStartTextCoroutine());
+        }
+    }
+    
+    //------------------------------------------스폰 관련 코드들--------------------------------------------------------
+
+    void SpawnObstacle()
+    {
+        // 다음 청크로 넘어가기 전에 대기
+        if(isWaitChunk) 
+        {
+            ChunkWaitTimer += Time.deltaTime;
+            if(ChunkWaitTimer >= ChunkWaitMaxTime)
+            {
+                ChunkWaitTimer = 0f;
+                isWaitChunk = false;
+                NextChunk();
+            }
+            return;
+        }
+
+        obstacleTimer += Time.deltaTime;
+        if(obstacleTimer >= obstacleSpawnTime)
+        {
+            obstacleTimer = 0f;
+            obstacleSpawnTime = GetObstacleSpawnTime();
+            GameObject obs = ChunkManager.instance.SpawnObstacle(chunks[currentChunkIndex]);
+            obs.name = chunks[currentChunkIndex].ToString() + curRep.ToString();
+            obstacles.Add(obs);
+            curRep += 1;
+            if(curRep >= maxRep) { isWaitChunk = true; }
+
+            if(chunks[currentChunkIndex] == ChunkType.START )
+            {
+                obs.GetComponent<Obstacle>().isStartorEnd = true;
+                NextChunk();
+            }
+
+            if(chunks[currentChunkIndex] == ChunkType.END)
+            {
+                obs.GetComponent<Obstacle>().isStartorEnd = true;
+                // 끝날때 정지시키는 코드.
+            }
+        }
+    }
+
+    float GetTimeScale(float dist)
+    {
+        float timeScale = 1f;
+
+        if(dist < nearDistance) { timeScale = 0f; }
+        else if(dist < farDistance)
+        { 
+            timeScale = (dist - nearDistance) / (farDistance - nearDistance);
+        }
+        return timeScale;
+    }
+    
+    //------------------------------------------스폰 관련 코드들--------------------------------------------------------
+    
+    void HandleObstacle()
     {
         if(obstacles.Count == 0) return;
 
         nearObs = obstacles[0];
-        if(nearObs == null)
+        while(nearObs == null)
         {
+            if(obstacles.Count == 0) return;
             obstacles.RemoveAt(0);
-            return;
+            nearObs = obstacles[0];
         }
 
         float dist = Vector3.Distance(nearObs.transform.position, transform.position);
@@ -84,47 +217,12 @@ public class GameManager : MonoBehaviour
         else { TimeHandler.instance.SetTimeFactor(1f); }
     }
 
-    float GetTimeScale(float dist)
-    {
-        float timeScale = 1f;
 
-        if(dist < nearDistance) { timeScale = 0f; }
-        else if(dist < farDistance)
-        { 
-            timeScale = (dist - nearDistance) / (farDistance - nearDistance);
-        }
-        return timeScale;
-    }
 
-    void WaitInitNoticeFaded()
-    {
-        Fade fade = instructionCanvas.transform.Find("InitNotice").GetComponent<Fade>();
-        if(fade.isFadeOut) { 
-            isInitNoticeFaded = true;
-            startWaitTimerText.gameObject.SetActive(true);
-        }
-    }
-
-    IEnumerator WaitStartTextCoroutine()
-    {
-        yield return new WaitForSeconds(1f);
-        startWaitTimerText.gameObject.SetActive(false);
-        instructionCanvas.transform.Find("START").gameObject.SetActive(true);
-    }
-
-    void WaitStartText()
-    {
-        startWaitTimer -= Time.deltaTime;
-        startWaitTimerText.text = Mathf.Ceil(startWaitTimer).ToString();
-        if(startWaitTimer <= 0f)
-        {
-            isStartWaitTimerEnded = true;
-            StartCoroutine(WaitStartTextCoroutine());
-        }
-    }
 
     public void DoRep()
     {
+        Debug.Log("DoRep");
         nearObs.GetComponent<Obstacle>().isActionDid = true;
     }
 
@@ -136,35 +234,19 @@ public class GameManager : MonoBehaviour
         actionManager.ChangeAction(chunks[currentChunkIndex]);
     }
 
-    void SpawnObstacle()
+    //------------------------------------------------------------------------------------------------------------------
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    float GetObstacleSpawnTime()
     {
-        if(!isObstacleSpawn) 
+        switch(this.chunks[currentChunkIndex])
         {
-            obstacleSpawnTimer += Time.deltaTime;
-            if(obstacleSpawnTimer >= obstacleSpawnMaxTime)
-            {
-                obstacleSpawnTimer = 0f;
-                isObstacleSpawn = true;
-                NextChunk();
-            }
-            return;
-        }
-
-        obstacleTimer += Time.deltaTime;
-        if(obstacleTimer >= obstacleMaxTime)
-        {
-            obstacleTimer = 0f;
-            obstacleMaxTime = Random.Range(1f, 3f);
-            GameObject obs = ChunkManager.instance.SpawnObstacle(chunks[currentChunkIndex]);
-            obstacles.Add(obs);
-            curRep += 1;
-            if(curRep >= maxRep) { isObstacleSpawn = false; }
-
-            if(chunks[currentChunkIndex] == ChunkType.START)
-            {
-                obs.GetComponent<Obstacle>().isStartorEnd = true;
-                NextChunk();
-            }
+            case ChunkType.STEPUP:
+                return Random.Range(2f,3f);
+            default:
+                return Random.Range(3f,5f);
         }
     }
 

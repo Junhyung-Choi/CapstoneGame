@@ -26,10 +26,11 @@ public class TimeHandler : MonoBehaviour
 
     IEnumerator _SetTimeFactorCoroutine(float timeFactor)
     {
-        while(Time.timeScale != timeFactor)
+        float finalTimeFactor = timeFactor * 2.0f;
+        while(Time.timeScale != finalTimeFactor)
         {
-            Time.timeScale = Mathf.Lerp(Time.timeScale, timeFactor, 0.05f);
-            Debug.Log(Time.timeScale);
+            if(GameManager.isPaused) break;
+            Time.timeScale = Mathf.Lerp(Time.timeScale, finalTimeFactor, 0.05f);
             yield return new WaitForSeconds(0.01f);
         }
     }
