@@ -7,7 +7,7 @@ public class DDSceneMover : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.LoadScene("Start");
+        SceneManager.LoadScene("RealStart");
     }
 
     // Update is called once per frame
