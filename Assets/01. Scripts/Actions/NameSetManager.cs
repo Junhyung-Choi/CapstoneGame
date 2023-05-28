@@ -31,7 +31,7 @@ public class NameSetManager
         isSideRight = false;
         isSideCheckStart = false;
         isSideCheckEnd = false;
-        count = 0,x = 0,y = 0;
+        count = 0; x = 0; y = 0;
         Timer = 0f;
     }
 
