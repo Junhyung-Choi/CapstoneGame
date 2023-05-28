@@ -64,7 +64,7 @@ public class PlankAction : Action
     public void SetThreshold(float threshold)
     {
         isThresholdSet = true;
-        this.threshold = threshold * 0.6f;
+        this.threshold = threshold * 0.4f;
     }
 
     void _InitRep()

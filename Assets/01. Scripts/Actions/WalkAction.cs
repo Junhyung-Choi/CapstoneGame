@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class WalkAction : Action
 {
-    
-    public bool isFirstStepLeft = true;
-    public bool isFirstStep = true;
+
+    public bool isFirstStep = false, isStepEnd = true;
+    bool isFirstStepLeft = false;
+    float timer = 0.0f, maxTime = 10f;
+    float threshold = 30f;
+
+
+    float leftValue, rightValue;
 
     /// <summary>
     /// 1회의 동작을 검사하는 함수.
@@ -19,40 +24,66 @@ public class WalkAction : Action
 
     void _CheckRep()
     {
-        if(isStarted)
+        timer += Time.deltaTime;
+        leftValue = 
+            (RPInputManager.inputMatrix[1,0] + RPInputManager.inputMatrix[0,0] +
+            RPInputManager.inputMatrix[0,1] + RPInputManager.inputMatrix[1,1]) / 4;
+
+        rightValue = 
+            RPInputManager.inputMatrix[1,2] + RPInputManager.inputMatrix[0,2] +
+            RPInputManager.inputMatrix[0,3] + RPInputManager.inputMatrix[1,3] / 4;
+        
+        if(timer > maxTime) { 
+            timer = 0f;
+            return; 
+        }
+        else{
+            if(!isStepEnd) { CheckStepEnd(); return;}
+
+            if(!isFirstStep){
+                CheckFirstStep(rightValue,leftValue);
+            }
+            else{
+                CheckNextStep(rightValue,leftValue);
+            }
+        }
+    }
+
+    void CheckFirstStep(float rightValue,float leftValue){
+        // if(leftValue > threshold * 0.5f)
+        if(leftValue > threshold * 0.5f)
         {
-            float leftValue = 
-                RPInputManager.inputMatrix[0,0] + 
-                RPInputManager.inputMatrix[1,0];
+            isFirstStep = true;
+            isFirstStepLeft = true;
+            timer = 0.0f;
+        }
+        // if(rightValue > threshold * 0.5f)
+        if(rightValue > threshold * 0.5f)
+        {
+            isFirstStep = true;
+            isFirstStepLeft = false;
+            timer = 0.0f;
+        }
+    }
 
-            float rightValue = 
-                RPInputManager.inputMatrix[0,3] + 
-                RPInputManager.inputMatrix[1,3];
+    void CheckNextStep(float rightValue,float leftValue){
+        if(isFirstStepLeft)
+        {
+            if(rightValue > threshold * 0.5f) { isStepEnd = false; }
+        }
+        else
+        {
+            if(leftValue > threshold * 0.5f) { isStepEnd = false; }
+        }
+    }
 
-            if(isFirstStep)
-            {
-                if(rightValue + 1 < leftValue)
-                {
-                    isFirstStep = false;
-                    isFirstStepLeft = true;
-                }
-                if(rightValue > leftValue + 1)
-                {
-                    isFirstStep = false;
-                    isFirstStepLeft = false;
-                }
-            }
-            else
-            {
-                if(isFirstStepLeft)
-                {
-                    if(rightValue > leftValue + 1) this.set.doRep();
-                }
-                else
-                {
-                    if(leftValue > rightValue + 1) this.set.doRep();
-                }
-            }
+    void CheckStepEnd()
+    {
+        if(leftValue < 1 && rightValue < 1)
+        {
+            isStepEnd = true;
+            isFirstStep = false;
+            this.DoRep();
         }
     }
 
@@ -66,10 +97,34 @@ public class WalkAction : Action
         base.InitRep();
     }
 
+    public override void _TestSquat(float t)
+    {
+        Debug.LogWarning("태스트용 threshold 변경");
+        SetThreshold(t);
+        isStarted = true;
+    }
+
     public void _InitRep()
     {
-        this.isFirstStep = true;
-        this.isFirstStepLeft = true;
+        this.isFirstStep = false;
+        this.isFirstStepLeft = false;
+        this.timer = 0.0f;
+        
+        this.threshold = 0f;
+        for(int i = 0; i < 4 ; i++){
+            this.threshold += ActionManager.avgInputMatrix[0,i];
+            this.threshold += ActionManager.avgInputMatrix[1,i];
+        }
+        this.threshold = this.threshold / 2;
+        this.threshold = this.threshold * 0.5f;
+        Debug.Log("threshold : " + threshold);
+        // SetThreshold(this.threshold);
+    }
+
+    public void SetThreshold(float threshold)
+    {
+        this.threshold = threshold;
+        // Debug.Log("threshold : " + threshold);
     }
 
     /// <summary>
@@ -84,6 +139,8 @@ public class WalkAction : Action
 
     void _StartRep()
     {
-
+    //     Debug.Log("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.");
+    //     Debug.Log("스텝박스에서 내려오세용.");
     }
+
 }

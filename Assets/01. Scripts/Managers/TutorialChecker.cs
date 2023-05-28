@@ -18,7 +18,7 @@ public class TutorialChecker : SceneMover
     bool isTutorialStart  = false;
 
     int tutoCount = 0;
-    int maxTutoCount = 3; // Walk, StepUp, Plank, Sqaut, ArmWalk
+    int maxTutoCount = 4; // Walk, StepUp, Plank, Sqaut, ArmWalk
 
     bool isTutorialEnd = false;
     bool isActionSetEnd = false;
@@ -32,13 +32,12 @@ public class TutorialChecker : SceneMover
         text = tutorialUI.transform.Find("Instruction").GetComponent<Text>();
         scoreText = tutorialUI.transform.Find("Score").GetComponent<Text>();
 
+        types.Add(ChunkType.WALK);
         types.Add(ChunkType.SQUAT);
         types.Add(ChunkType.PLANK);
         types.Add(ChunkType.CLIMB);
-        types.Add(ChunkType.WALK);
-        types.Add(ChunkType.STEPUP);
 
-        actionSet = new SquatActionSet();
+        actionSet = GetActionSet(types[tutoCount]);
 
         slider.maxValue = rightStepMaxTime;
 
