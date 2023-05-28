@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    public static float deadZone = 0.5f;
+    public static float deadZone = -5f;
     public ChunkLoader loader;
 
     public bool isActionDid = false;

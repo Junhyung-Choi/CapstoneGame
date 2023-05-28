@@ -43,6 +43,9 @@ public class GameManager : MonoBehaviour
 
     public static bool isPaused = false;
 
+    Coroutine coroutine;
+    Vector3 camStartPos;
+
     //------------------------------------------------------------------------------------------------------------------
 
     private void Awake() {
@@ -56,6 +59,8 @@ public class GameManager : MonoBehaviour
         currentChunkIndex = 0;
         actionManager = this.GetComponent<ActionManager>();
         actionManager.ChangeAction(chunks[currentChunkIndex]);
+
+        camStartPos = Camera.main.transform.position;
 
         instructionManager = GameObject.Find("Instruction Canvas").GetComponent<InstructionManager>();
 
@@ -171,6 +176,7 @@ public class GameManager : MonoBehaviour
             {
                 obs.GetComponent<Obstacle>().isStartorEnd = true;
                 NextChunk();
+                actionManager.ChangeAction(chunks[currentChunkIndex]);
             }
 
             if(chunks[currentChunkIndex] == ChunkType.END)
@@ -236,11 +242,86 @@ public class GameManager : MonoBehaviour
             Debug.Log("Already Did");
             return;
         }
-        
-        Debug.Log("DoRep");
+
+        PlayRepEffect();
+
         nearObs.GetComponent<Obstacle>().isActionDid = true;
         curRep += 1;
     }
+
+    public void PlayRepEffect()
+    {
+        Debug.Log("ActionManager.curAction" + actionManager.curAction);
+        switch(actionManager.curAction)
+        {
+            case ChunkType.WALK:
+                if(coroutine != null) { StopCoroutine(coroutine); }
+                coroutine = StartCoroutine(PlayWalkEffect());
+                break;
+            case ChunkType.STEPUP:
+                if(coroutine != null) { StopCoroutine(coroutine); }
+                coroutine = StartCoroutine(PlayWalkEffect());
+                break;
+            case ChunkType.SQUAT:
+                break;
+            case ChunkType.PLANK:
+                break;
+            case ChunkType.CLIMB:
+                if(coroutine != null) { StopCoroutine(coroutine); }
+                coroutine = StartCoroutine(PlayClimbEffect());
+                break;
+            default:
+                break;
+        }
+    }
+
+    IEnumerator PlayWalkEffect()
+    {
+        Vector3 height = new Vector3(0,2,0);
+        float time = 0f;
+        while(Camera.main.transform.position.y < camStartPos.y + 2f)
+        {
+            time += Time.deltaTime;
+            Camera.main.transform.position = Vector3.Lerp(camStartPos, camStartPos + height, time * 2);
+            yield return null;
+        }
+        
+        time = 0f;
+        while(Camera.main.transform.position.y > camStartPos.y)
+        {
+            time += Time.deltaTime;
+            Camera.main.transform.position = Vector3.Lerp(camStartPos + height, camStartPos, time * 2);
+            yield return null;
+        }
+    }
+
+    IEnumerator PlayClimbEffect()
+    {
+        float time = 0f;
+        Vector3 height = new Vector3(0,-1,0);
+        Quaternion startDegree = Quaternion.Euler(0, 90, 0);
+        Quaternion rotDegree = Quaternion.Euler(90, 90, 0);
+        while(Camera.main.transform.eulerAngles.x < 90f)
+        {
+            time += Time.deltaTime;
+            Camera.main.transform.rotation = Quaternion.Lerp(startDegree, rotDegree, time);
+            Camera.main.transform.position = Vector3.Lerp(camStartPos, camStartPos + height, time * 3);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1f);
+        
+        time = 0f;
+        while(Camera.main.transform.eulerAngles.x > 0f)
+        {
+            time += Time.deltaTime;
+            Camera.main.transform.rotation = Quaternion.Lerp(rotDegree, startDegree, time);
+            Camera.main.transform.position = Vector3.Lerp(camStartPos + height, camStartPos, time * 2);
+            yield return null;
+        }
+    }
+
+
 
 
     void NextChunk()

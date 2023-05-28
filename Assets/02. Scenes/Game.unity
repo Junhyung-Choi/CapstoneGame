@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.5256903, g: 0.70981115, b: 0.794488, a: 1}
+  m_IndirectSpecularColor: {r: 0.5256993, g: 0.7098144, b: 0.7944886, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1449,7 +1449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ea5754bf015c748a30f3dff6034e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunks: 000000000100000002000000030000000400000005000000020000000400000001000000050000000100000006000000
+  chunks: 000000000300000001000000020000000400000005000000020000000400000001000000050000000100000006000000
   obstacles: []
   currentChunkIndex: 0
   nearObs: {fileID: 0}
@@ -1480,6 +1480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9416f3e5ffd88405d843b6c1b7424aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curAction: 1
 --- !u!114 &1612672822
 MonoBehaviour:
   m_ObjectHideFlags: 0

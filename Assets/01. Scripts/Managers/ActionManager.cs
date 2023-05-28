@@ -6,6 +6,8 @@ public class ActionManager : MonoBehaviour
 {
     public static float[,] avgInputMatrix = new float[2,4];
 
+    public ChunkType curAction = ChunkType.WALK;
+
     ActionSet set = new WalkActionSet();
 
     int beforeRep = 0;
@@ -36,6 +38,7 @@ public class ActionManager : MonoBehaviour
                 this.set = new WalkActionSet();
                 break;
         }
+        this.curAction = action;
         this.set.action.StartRep();
         beforeRep = 0;
     }
