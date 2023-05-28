@@ -13,6 +13,7 @@ public class StepUpAction : Action
         if(isStarted)
         {
             // Write Something
+            Debug.Log("StepUpAction CheckRep");
             // base.CheckRep();
         }
     }

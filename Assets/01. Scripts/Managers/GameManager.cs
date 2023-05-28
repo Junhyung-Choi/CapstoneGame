@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> obstacles = new List<GameObject>();
 
     public int currentChunkIndex; 
+    int maxObstacleSpawnNum = 10, curSpawnedObstacleNum = 0;
+
     int maxRep = 10, curRep = 0;
 
     float obstacleTimer = 0f, obstacleSpawnTime = 1f;
@@ -70,10 +72,11 @@ public class GameManager : MonoBehaviour
 
         if(isPlayStart) { SetPlayTimer(); }
 
-
         SpawnObstacle();
 
         HandleObstacle();
+
+        SetAction();
     }
 
     //---------------------------------------정지 관련 코드들-----------------------------------------------------------
@@ -159,10 +162,10 @@ public class GameManager : MonoBehaviour
             obstacleTimer = 0f;
             obstacleSpawnTime = GetObstacleSpawnTime();
             GameObject obs = ChunkManager.instance.SpawnObstacle(chunks[currentChunkIndex]);
-            obs.name = chunks[currentChunkIndex].ToString() + curRep.ToString();
+            obs.name = chunks[currentChunkIndex].ToString() + curSpawnedObstacleNum.ToString();
             obstacles.Add(obs);
-            curRep += 1;
-            if(curRep >= maxRep) { isWaitChunk = true; }
+            curSpawnedObstacleNum += 1;
+            if(curSpawnedObstacleNum >= maxObstacleSpawnNum) { isWaitChunk = true; }
 
             if(chunks[currentChunkIndex] == ChunkType.START )
             {
@@ -218,23 +221,46 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-
     public void DoRep()
     {
+        float dist = Vector3.Distance(nearObs.transform.position, transform.position);
+
+        if(dist > farDistance)
+        {
+            Debug.Log("Too Far");
+            return;
+        }
+
+        if(nearObs.GetComponent<Obstacle>().isActionDid)
+        {
+            Debug.Log("Already Did");
+            return;
+        }
+        
         Debug.Log("DoRep");
         nearObs.GetComponent<Obstacle>().isActionDid = true;
+        curRep += 1;
     }
+
 
     void NextChunk()
     {
         currentChunkIndex += 1;
-        curRep = 0;
+        curSpawnedObstacleNum = 0;
         SetMaxRep();
-        actionManager.ChangeAction(chunks[currentChunkIndex]);
+        // actionManager.ChangeAction(chunks[currentChunkIndex]);
     }
 
     //------------------------------------------------------------------------------------------------------------------
+
+    void SetAction()
+    {
+        if(curRep >= maxRep)
+        {
+            actionManager.ChangeAction(chunks[currentChunkIndex]);
+            curRep = 0;
+        }
+    }
 
 
     //------------------------------------------------------------------------------------------------------------------
@@ -244,7 +270,7 @@ public class GameManager : MonoBehaviour
         switch(this.chunks[currentChunkIndex])
         {
             case ChunkType.STEPUP:
-                return Random.Range(2f,3f);
+                return Random.Range(1f,2f);
             default:
                 return Random.Range(3f,5f);
         }
@@ -252,11 +278,11 @@ public class GameManager : MonoBehaviour
 
     void SetMaxRep()
     {
-        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxRep = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxRep = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxRep = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxRep = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxRep = 10; }
+        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxObstacleSpawnNum = 10; }
+        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxObstacleSpawnNum = 10; }
+        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxObstacleSpawnNum = 10; }
+        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxObstacleSpawnNum = 10; }
+        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxObstacleSpawnNum = 10; }
     }
 }
 
