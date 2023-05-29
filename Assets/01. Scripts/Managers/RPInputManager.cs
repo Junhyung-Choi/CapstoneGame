@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO.Ports;
 using System.Threading;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class JsonData
@@ -20,6 +21,9 @@ public class RPInputManager : MonoBehaviour
     public static float[,] inputMatrix = new float[2,4];
     public bool isViewerOpen = false;
     
+    Transform canvas;
+    List<string> mergedCanvasScenes = new List<string>();
+    bool isMerged = false;
 
     SerialPort sp = new SerialPort();
     JsonData data = new JsonData();
@@ -40,6 +44,7 @@ public class RPInputManager : MonoBehaviour
 
     void Start()
     {
+        
         try{
             sp.PortName = "/dev/cu.usbserial-120";     // 여기에는 아두이노 포트 넣어주면 됩니다.
             sp.BaudRate = 9600;      // 아두이노 보레이트랑 맞춰주시면 됩니다.
@@ -57,8 +62,11 @@ public class RPInputManager : MonoBehaviour
             Debug.Log("아두이노 연결 안됨.", this);
             Debug.LogWarning(e.Message);
         }
-        
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -74,12 +82,18 @@ public class RPInputManager : MonoBehaviour
         inputMatrix[0,3] = getSensorValue(7);
 
         // print(inputMatrix[0,0] + " " + inputMatrix[1,0] + " " + inputMatrix[0,1] + " " + inputMatrix[1,1] + " " + inputMatrix[0,2] + " " + inputMatrix[1,2] + " " + inputMatrix[0,3] + " " + inputMatrix[1,3] + " ");
-
-        if(isViewerOpen)
-        {
-            ShowViewer();
-        }
+        
+        ShowViewer();
     }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        canvas = GameObject.Find("Instruction Canvas").transform;
+
+        if(mergedCanvasScenes.Contains(scene.name)) { isMerged = true; }
+        else { isMerged = false; }
+    }
+
 
     float getSensorValue(int sensorNumber)
     {
@@ -115,20 +129,10 @@ public class RPInputManager : MonoBehaviour
 
     void ShowViewer()
     {
-        Transform canvas = transform.GetChild(0);
         if(canvas.gameObject.activeSelf == false) canvas.gameObject.SetActive(true);
-        Transform inputViewer = canvas.GetChild(0);
 
-        inputViewer.GetChild(0).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,0] * 0.05f),0,0);
-        inputViewer.GetChild(1).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,1] * 0.05f),0,0);
-        inputViewer.GetChild(2).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,2] * 0.05f),0,0);
-        inputViewer.GetChild(3).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,3] * 0.05f),0,0);
-
-        inputViewer.GetChild(4).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,0] * 0.05f),0,0);
-        inputViewer.GetChild(5).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,1] * 0.05f),0,0);
-        inputViewer.GetChild(6).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,2] * 0.05f),0,0);
-        inputViewer.GetChild(7).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,3] * 0.05f),0,0);
-    
+        if(isMerged) _ShowMergedViewer();
+        else _ShowUnmergedViewer();
 
         GameObject stateMachine = canvas.transform.Find("StateMachine").gameObject;
         Text text = stateMachine.GetComponent<Text>();
@@ -142,6 +146,37 @@ public class RPInputManager : MonoBehaviour
         }
     
     }
+
+    void _ShowMergedViewer()
+    {
+        Transform inputViewer = canvas.GetChild(0);
+
+        inputViewer.GetChild(0).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,0] * 0.05f),0,0);
+        inputViewer.GetChild(1).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,1] * 0.05f),0,0);
+        inputViewer.GetChild(2).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,2] * 0.05f),0,0);
+        inputViewer.GetChild(3).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,3] * 0.05f),0,0);
+
+        inputViewer.GetChild(4).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,0] * 0.05f),0,0);
+        inputViewer.GetChild(5).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,1] * 0.05f),0,0);
+        inputViewer.GetChild(6).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,2] * 0.05f),0,0);
+        inputViewer.GetChild(7).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,3] * 0.05f),0,0);
+    }
+
+    void _ShowUnmergedViewer()
+    {
+        Transform inputViewer = canvas.GetChild(0);
+
+        inputViewer.GetChild(0).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,0] * 0.05f),0,0);
+        inputViewer.GetChild(1).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,1] * 0.05f),0,0);
+        inputViewer.GetChild(2).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,2] * 0.05f),0,0);
+        inputViewer.GetChild(3).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,3] * 0.05f),0,0);
+
+        inputViewer.GetChild(4).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,0] * 0.05f),0,0);
+        inputViewer.GetChild(5).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,1] * 0.05f),0,0);
+        inputViewer.GetChild(6).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,2] * 0.05f),0,0);
+        inputViewer.GetChild(7).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,3] * 0.05f),0,0);
+    }
+
 
     private void OnApplicationQuit()
     {
