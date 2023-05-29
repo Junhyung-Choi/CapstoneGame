@@ -64,7 +64,7 @@ public class PlankAction : Action
     public void SetThreshold(float threshold)
     {
         isThresholdSet = true;
-        this.threshold = threshold * 0.4f;
+        this.threshold = threshold * 0.2f;
     }
 
     void _InitRep()
@@ -72,6 +72,9 @@ public class PlankAction : Action
         isPlankStart = false;
         isJumped = true;
         timer = 0.0f;
+        isThresholdSet = false;
+        timer = 0.0f, maxTime = 2f;
+        resetTimer = 0.0f, resetMaxTime = 1f;
 
         float sum = ActionManager.avgInputMatrix[1,1] + ActionManager.avgInputMatrix[1,2];
         SetThreshold(sum);
@@ -95,6 +98,7 @@ public class PlankAction : Action
             resetTimer = 0.0f;
         }
     }
+
     void CheckPlank(float inputValue)
     {
         if(!isUserStable) { MakeUserStable(); return ;}
