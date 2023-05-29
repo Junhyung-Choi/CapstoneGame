@@ -51,14 +51,14 @@ public class WalkAction : Action
 
     void CheckFirstStep(float rightValue,float leftValue){
         // if(leftValue > threshold * 0.5f)
-        if(leftValue > threshold * 0.5f)
+        if(leftValue > threshold * 0.3f)
         {
             isFirstStep = true;
             isFirstStepLeft = true;
             timer = 0.0f;
         }
         // if(rightValue > threshold * 0.5f)
-        if(rightValue > threshold * 0.5f)
+        if(rightValue > threshold * 0.3f)
         {
             isFirstStep = true;
             isFirstStepLeft = false;
@@ -69,11 +69,11 @@ public class WalkAction : Action
     void CheckNextStep(float rightValue,float leftValue){
         if(isFirstStepLeft)
         {
-            if(rightValue > threshold * 0.5f) { isStepEnd = false; }
+            if(rightValue > threshold * 0.3f) { isStepEnd = false; }
         }
         else
         {
-            if(leftValue > threshold * 0.5f) { isStepEnd = false; }
+            if(leftValue > threshold * 0.3f) { isStepEnd = false; }
         }
     }
 
