@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     bool isPlayStart = false;
 
     public static bool isPaused = false;
+    float pauseTimer = 0f, pauseMaxTime = 5f;
 
     Coroutine coroutine;
     Vector3 camStartPos;
@@ -89,6 +90,9 @@ public class GameManager : MonoBehaviour
     {
         if(!isPaused)
         {
+            float leftValue = 0f;
+            leftValue = RPInputManager.inputMatrix[0, 0] + RPInputManager.inputMatrix[1, 0];
+            
             if(Input.GetKeyDown(KeyCode.Escape))
             {
                 isPaused = true;
