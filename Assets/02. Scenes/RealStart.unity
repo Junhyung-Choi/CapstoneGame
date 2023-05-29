@@ -812,7 +812,7 @@ GameObject:
   - component: {fileID: 1067845898}
   - component: {fileID: 1067845899}
   m_Layer: 0
-  m_Name: StartSceneMover
+  m_Name: RealStartSceneMover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -842,10 +842,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1067845895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d527d270742a5ef489bb861b290c95ca, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bfc82e13ef7245a5b91fbb5eaecfc3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diff: 1
 --- !u!1 &1148356524
 GameObject:
   m_ObjectHideFlags: 0

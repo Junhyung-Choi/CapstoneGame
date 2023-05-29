@@ -73,8 +73,8 @@ public class PlankAction : Action
         isJumped = true;
         timer = 0.0f;
         isThresholdSet = false;
-        timer = 0.0f, maxTime = 2f;
-        resetTimer = 0.0f, resetMaxTime = 1f;
+        timer = 0.0f; maxTime = 2f;
+        resetTimer = 0.0f; resetMaxTime = 1f;
 
         float sum = ActionManager.avgInputMatrix[1,1] + ActionManager.avgInputMatrix[1,2];
         SetThreshold(sum);
@@ -106,19 +106,22 @@ public class PlankAction : Action
         if(!isPlankStart) { CheckStart(inputValue); }
         else
         {
+            Debug.Log("플랭크 중");
             if(inputValue > threshold)
             {
+                Debug.Log("밟는중");
                 if(!isJumped) { Debug.Log("올라와"); return ; }
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 if(timer > maxTime)
                 {
                     isJumped = false;
-                    isPlankStart = false;
+                    // isPlankStart = false;
                     timer = 0.0f;
                 }
             }
             else
             {
+                Debug.Log("안밟는중");
                 if(!isJumped)
                 {
                     isJumped = true;

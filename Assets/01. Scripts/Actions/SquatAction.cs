@@ -112,7 +112,7 @@ public class SquatAction : Action
                     isSquatStart = false; 
                     isSquatEnd = false; 
                 }
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 if(timer > maxTime)
                 {
                     isSquatEnd = true;

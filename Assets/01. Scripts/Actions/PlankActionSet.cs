@@ -12,7 +12,7 @@ public class PlankActionSet: ActionSet
         base.curSet = curSet;
         base.action = new PlankAction();
         base.action.set = this;
-        this.action.InitRep();
+        base.action.InitRep();
     }
 
     public new int maxSet = 10;
