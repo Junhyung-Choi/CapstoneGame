@@ -25,7 +25,8 @@ public class GameManager : MonoBehaviour
     public int currentChunkIndex; 
     int maxObstacleSpawnNum = 10, curSpawnedObstacleNum = 0;
 
-    int maxRep = 10, curRep = 0;
+    [SerializeField]
+    int maxRep = 1, curRep = 0;
 
     float obstacleTimer = 0f, obstacleSpawnTime = 1f;
 
@@ -60,6 +61,9 @@ public class GameManager : MonoBehaviour
         currentChunkIndex = 0;
         actionManager = this.GetComponent<ActionManager>();
         actionManager.ChangeAction(chunks[currentChunkIndex]);
+
+        SetMaxObstacle();
+        maxRep = InitMaxRep();
 
         camStartPos = Camera.main.transform.position;
 
@@ -336,7 +340,7 @@ public class GameManager : MonoBehaviour
     {
         currentChunkIndex += 1;
         curSpawnedObstacleNum = 0;
-        SetMaxRep();
+        SetMaxObstacle();
         // actionManager.ChangeAction(chunks[currentChunkIndex]);
     }
 
@@ -348,6 +352,7 @@ public class GameManager : MonoBehaviour
         {
             actionManager.ChangeAction(chunks[currentChunkIndex]);
             curRep = 0;
+            SetMaxRep();
         }
     }
 
@@ -365,13 +370,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void SetMaxObstacle()
+    {
+        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxObstacleSpawnNum = 7;}
+        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxObstacleSpawnNum = 7;}
+        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxObstacleSpawnNum = 5;}
+        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxObstacleSpawnNum = 5;}
+        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxObstacleSpawnNum = 5;}
+    }
+
     void SetMaxRep()
     {
-        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxObstacleSpawnNum = 7; }
-        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxObstacleSpawnNum = 7; }
-        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxObstacleSpawnNum = 3; }
-        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxObstacleSpawnNum = 5; }
-        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxObstacleSpawnNum = 5; }
+        if(nearObs == null) { return; } 
+        if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.WALK) { maxRep = 7;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.STEPUP) { maxRep = 7;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.CLIMB) { maxRep = 5;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.PLANK) { maxRep = 5;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.SQUAT) { maxRep = 5;}
+    }
+
+    int InitMaxRep()
+    {
+        if(chunks[1] == ChunkType.WALK) { return 7;}
+        else if(chunks[1] == ChunkType.STEPUP) { return 7;}
+        else if(chunks[1] == ChunkType.CLIMB) { return 5;}
+        else if(chunks[1] == ChunkType.PLANK) { return 5;}
+        else if(chunks[1] == ChunkType.SQUAT) { return 5;}
+        else { return 0; }
     }
 }
 

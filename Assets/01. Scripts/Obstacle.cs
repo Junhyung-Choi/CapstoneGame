@@ -10,6 +10,8 @@ public class Obstacle : MonoBehaviour
     public bool isActionDid = false;
     public bool isStartorEnd = false;
 
+    public ChunkType chunkType = ChunkType.WALK;
+
     // Update is called once per frame
     void Update()
     {

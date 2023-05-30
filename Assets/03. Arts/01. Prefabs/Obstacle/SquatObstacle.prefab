@@ -45,6 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886737e5ef1fbdb45acbdfe052b6c933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loader: {fileID: 0}
+  isActionDid: 0
+  isStartorEnd: 0
+  chunkType: 5
 --- !u!1 &4009824387973789385
 GameObject:
   m_ObjectHideFlags: 0

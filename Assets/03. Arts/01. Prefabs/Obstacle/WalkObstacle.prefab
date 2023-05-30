@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loader: {fileID: 0}
+  isActionDid: 0
+  isStartorEnd: 0
+  chunkType: 2
 --- !u!1 &8216270256472785622
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,6 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886737e5ef1fbdb45acbdfe052b6c933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loader: {fileID: 0}
+  isActionDid: 0
+  isStartorEnd: 0
+  chunkType: 4
 --- !u!1001 &8255941509432818081
 PrefabInstance:
   m_ObjectHideFlags: 0
