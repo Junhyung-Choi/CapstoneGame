@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class GameReadyChecker : MonoBehaviour
 {
     StartSetSceneMover startSetSceneMover;
-    public GameObject instruction;
-    Text instructionText;
+    public GameObject instruction, GuideBox, initMent;
+    TMPro.TextMeshPro instructionText;
 
     bool isFirstAverageChecked = false;
     bool isGameReady = false;
@@ -33,7 +33,8 @@ public class GameReadyChecker : MonoBehaviour
     void Start()
     {
         startSetSceneMover = this.transform.GetComponent<StartSetSceneMover>();
-        instructionText = instruction.transform.Find("Instruction").GetComponent<Text>();
+        instructionText = GuideBox.transform.Find("Instruction").GetComponent<TMPro.TextMeshPro>();
+        initMent = GuideBox.transform.Find("Init").gameObject;
     }
 
     // Update is called once per frame
@@ -118,7 +119,7 @@ public class GameReadyChecker : MonoBehaviour
 
     void ResetAvg()
     {
-        instructionText.text = ("자세가 불안정합니다. 측정을 재시작합니다.");
+        instructionText.text = ("자세가 불안정합니다. 측정을 재시작합니다." + " 1/5 번째 측정중입니다.");
         inputMatrix = new float[2, 4];
         isFirstAverageChecked = false;
         avgCount = 0;
@@ -162,14 +163,13 @@ public class GameReadyChecker : MonoBehaviour
         if (sum > stepThreshold)
         {
             isFirstStepStarted = true;
-            instructionText.text = "자세 측정중입니다. 1 / 5번째 측정중입니다.";
+            instructionText.text = "잘하셨습니다.\n 지금부터 10초간 움직이지 않고 올바른 자세를 유지해주세요.";
         }
     }
 
     void MakeUserClearBox()
     {
-        Debug.Log("박스를 비워주세요");
-        instructionText.text = "박스를 비워주세요";
+        instructionText.text = "스텝박스에서 떨어져주세요.";
 
         if (boxClearTimer > boxMaxClearTime)
         {
@@ -187,12 +187,11 @@ public class GameReadyChecker : MonoBehaviour
             if(sum < 10f)
             {
                 isBoxCleared = true;
-                instructionText.text = "자세 측정할거니까 올라오세요";
+                instructionText.text = "무게 측정을 시작합니다.\n 표시된 발 모양에 맞춰 서주세요.";
             }
             else
             {
-                Debug.Log("박스를 비우라구요");
-                instructionText.text = "박스를 비우라구요";
+                instructionText.text = "스텝박스에서 내려와주세요.";
             }
         }
         else

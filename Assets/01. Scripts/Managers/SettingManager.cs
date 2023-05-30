@@ -23,12 +23,12 @@ public class SettingManager : MonoBehaviour
     int modeIndex;
 
     GameObject instructionCanvasObject;
-    Text instructionText, valueText;
+    TMPro.TextMeshPro instructionText, valueText;
 
     private void Start() {
         instructionCanvasObject = GameObject.Find("Instruction Canvas");
-        instructionText = instructionCanvasObject.transform.Find("Instruction").GetComponent<Text>();
-        valueText = instructionCanvasObject.transform.Find("Value").GetComponent<Text>();
+        instructionText = instructionCanvasObject.transform.Find("Instruction").GetComponent<TMPro.TextMeshPro>();
+        valueText = instructionCanvasObject.transform.Find("Value").GetComponent<TMPro.TextMeshPro>();
 
         userAge = PlayerPrefs.GetInt("UserAge",20);
         userWeight = PlayerPrefs.GetInt("UserWeight",50);

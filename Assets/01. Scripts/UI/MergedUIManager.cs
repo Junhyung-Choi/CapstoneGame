@@ -24,9 +24,9 @@ public class MergedUIManager : MonoBehaviour
         float rightvalue = GetRightValue();
         float middleValue = GetMiddleValue();
 
-        leftValue = GetTimeScale(leftValue, 5f, 45f);
-        rightvalue = GetTimeScale(rightvalue, 5f, 45f);
-        middleValue = GetTimeScale(middleValue, 5f, 45f);
+        leftValue = Map(leftValue, 5f, 45f);
+        rightvalue = Map(rightvalue, 5f, 45f);
+        middleValue = Map(middleValue, 5f, 45f);
 
         leftImage.color = Color.Lerp(gray, orange, leftValue);
         rightImage.color = Color.Lerp(gray, orange, rightvalue);
@@ -58,7 +58,7 @@ public class MergedUIManager : MonoBehaviour
         return value;
     }
 
-    float GetTimeScale(float value, float min, float max)
+    float Map(float value, float min, float max)
     {
         float ret_value = 1f;
 
