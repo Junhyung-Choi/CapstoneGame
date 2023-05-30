@@ -6,6 +6,10 @@ using System;
 
 public class UnMergedUIManager : MonoBehaviour
 {
+    
+    Color gray = new Color(0f,0f,0f,1f);
+    Color orange = new Color(1,0.5f,0,1);
+    
     Transform canvas;
     private void Update() {
         canvas = this.transform;

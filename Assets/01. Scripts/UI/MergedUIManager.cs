@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MergedUIManager : MonoBehaviour
 {
-    Color gray = new Color(0f,0f,0f,0.72f);
+    Color gray = new Color(0f,0f,0f,1f);
     Color orange = new Color(1,0.5f,0,1);
 
     Transform canvas;
