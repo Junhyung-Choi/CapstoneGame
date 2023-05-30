@@ -50,12 +50,14 @@ public class PlankAction : Action
     public override void StartRep()
     {
         base.StartRep();
+        RPInputManager.instance.ShowNotice("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.\n 스텝박스에서 내려오세용.");
         Debug.Log("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.");
         Debug.Log("스텝박스에서 내려오세용.");
     }
 
     public override void _TestSquat(float t)
     {
+        RPInputManager.instance.ShowNotice("테스트용 threshold 변경");
         Debug.LogWarning("테스트용 threshold 변경");
         SetThreshold(t);
         isThresholdSet = true;
@@ -106,11 +108,12 @@ public class PlankAction : Action
         if(!isPlankStart) { CheckStart(inputValue); }
         else
         {
-            Debug.Log("플랭크 중");
             if(inputValue > threshold)
             {
-                Debug.Log("밟는중");
-                if(!isJumped) { Debug.Log("올라와"); return ; }
+                if(!isJumped) { 
+                    RPInputManager.instance.ShowNotice("올라와!");
+                    Debug.Log("올라와"); return ; 
+                }
                 timer += Time.unscaledDeltaTime;
                 if(timer > maxTime)
                 {
@@ -121,7 +124,6 @@ public class PlankAction : Action
             }
             else
             {
-                Debug.Log("안밟는중");
                 if(!isJumped)
                 {
                     isJumped = true;
@@ -167,10 +169,12 @@ public class PlankAction : Action
             if(diff < 5)
             {
                 isUserStable = true;
+                RPInputManager.instance.ShowNotice("플랭크 운동 시작 가능");
                 Debug.Log("플랭크 운동 시작 가능");
             }
             else
             {
+                RPInputManager.instance.ShowNotice("내려오세용.");
                 Debug.Log("내려오세용.");
             }
         }

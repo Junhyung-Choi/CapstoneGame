@@ -6,10 +6,16 @@ public class Fade : MonoBehaviour
 {
     public float solidTime = 3f, fadeTime = 1f;
     public bool isFadeOut = false;
+
+    public bool isNotice;
+    Coroutine coroutine;
     CanvasGroup canvasGroup;
 
     private void OnEnable() {
         canvasGroup = GetComponent<CanvasGroup>();
+        if(coroutine != null) {
+            StopCoroutine(coroutine);
+        }
         StartCoroutine(FadeOut());
     }
 
@@ -29,5 +35,9 @@ public class Fade : MonoBehaviour
             yield return null;
         }
         isFadeOut = true;
+
+        if(isNotice) {
+            this.gameObject.SetActive(false);
+        }
     }
 }

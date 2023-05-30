@@ -41,7 +41,6 @@ public class SquatAction : Action
     /// </summary>
     public override void InitRep()
     {
-        Debug.Log("Squat Init");
         _InitRep();
         base.InitRep();
     }
@@ -53,6 +52,7 @@ public class SquatAction : Action
     public override void StartRep()
     {
         base.StartRep();
+        RPInputManager.instance.ShowNotice("스쿼트를 시작하기 위해선 안정화 작업이 필요합니다." + "\n" + "스텝박스 위에 올라가 안정되게 서 주세요.");
         Debug.Log("스쿼트를 시작하기 위해선 안정화 작업이 필요합니다.");
         Debug.Log("스텝박스 위에 올라가 안정되게 서 주세요.");
     }
@@ -125,6 +125,7 @@ public class SquatAction : Action
             {
                 if(backValue < threshold + end_threshold)
                 {
+                    RPInputManager.instance.ShowNotice("한 회 완료");
                     Debug.Log("한 회 완료");
                     base.CheckRep();
                     isSquatStart = false;
@@ -132,6 +133,7 @@ public class SquatAction : Action
                 }
                 else
                 {
+                    RPInputManager.instance.ShowNotice("올라와!!");
                     Debug.Log("올라와!!");
                 }
             }
@@ -168,10 +170,12 @@ public class SquatAction : Action
             if(diff < 10)
             {
                 isUserStable = true;
+                RPInputManager.instance.ShowNotice("사용자 안정화 완료");
                 Debug.Log("사용자 안정화 완료");
             }
             else
             {
+                RPInputManager.instance.ShowNotice("사용자 안정화 실패");
                 Debug.Log("사용자 안정화 실패");
             }
         }

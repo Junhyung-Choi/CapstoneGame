@@ -21,9 +21,7 @@ public class RPInputManager : MonoBehaviour
     public static float[,] inputMatrix = new float[2,4];
     public bool isViewerOpen = false;
     
-    Transform canvas;
-    List<string> mergedCanvasScenes = new List<string>();
-    bool isMerged = false;
+    public TMPro.TMP_Text noticeText;
 
     SerialPort sp = new SerialPort();
     JsonData data = new JsonData();
@@ -62,8 +60,12 @@ public class RPInputManager : MonoBehaviour
             Debug.Log("아두이노 연결 안됨.", this);
             Debug.LogWarning(e.Message);
         }
+    }
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+    public void ShowNotice(string text)
+    {
+        noticeText.text = text;
+        noticeText.gameObject.SetActive(true);
     }
 
     
@@ -83,17 +85,7 @@ public class RPInputManager : MonoBehaviour
 
         // print(inputMatrix[0,0] + " " + inputMatrix[1,0] + " " + inputMatrix[0,1] + " " + inputMatrix[1,1] + " " + inputMatrix[0,2] + " " + inputMatrix[1,2] + " " + inputMatrix[0,3] + " " + inputMatrix[1,3] + " ");
         
-        ShowViewer();
     }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // canvas = GameObject.Find("Instruction Canvas").transform;
-
-        // if(mergedCanvasScenes.Contains(scene.name)) { isMerged = true; }
-        // else { isMerged = false; }
-    }
-
 
     float getSensorValue(int sensorNumber)
     {
@@ -127,55 +119,6 @@ public class RPInputManager : MonoBehaviour
         return 1;
     }
 
-    void ShowViewer()
-    {
-        // if(canvas.gameObject.activeSelf == false) canvas.gameObject.SetActive(true);
-
-        // if(isMerged) _ShowMergedViewer();
-        // else _ShowUnmergedViewer();
-
-        // GameObject stateMachine = canvas.transform.Find("StateMachine").gameObject;
-        // Text text = stateMachine.GetComponent<Text>();
-        // if(!isTimeOutEnded)
-        // {
-        //     text.text = "로딩 중입니다. \n 올라오지 마세요.";
-        // }
-        // else
-        // {
-        //     if(stateMachine.activeSelf == true) stateMachine.SetActive(false);
-        // }
-    
-    }
-
-    void _ShowMergedViewer()
-    {
-        Transform inputViewer = canvas.GetChild(0);
-
-        inputViewer.GetChild(0).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,0] * 0.05f),0,0);
-        inputViewer.GetChild(1).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,1] * 0.05f),0,0);
-        inputViewer.GetChild(2).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,2] * 0.05f),0,0);
-        inputViewer.GetChild(3).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,3] * 0.05f),0,0);
-
-        inputViewer.GetChild(4).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,0] * 0.05f),0,0);
-        inputViewer.GetChild(5).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,1] * 0.05f),0,0);
-        inputViewer.GetChild(6).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,2] * 0.05f),0,0);
-        inputViewer.GetChild(7).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,3] * 0.05f),0,0);
-    }
-
-    void _ShowUnmergedViewer()
-    {
-        Transform inputViewer = canvas.GetChild(0);
-
-        inputViewer.GetChild(0).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,0] * 0.05f),0,0);
-        inputViewer.GetChild(1).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,1] * 0.05f),0,0);
-        inputViewer.GetChild(2).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,2] * 0.05f),0,0);
-        inputViewer.GetChild(3).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[0,3] * 0.05f),0,0);
-
-        inputViewer.GetChild(4).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,0] * 0.05f),0,0);
-        inputViewer.GetChild(5).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,1] * 0.05f),0,0);
-        inputViewer.GetChild(6).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,2] * 0.05f),0,0);
-        inputViewer.GetChild(7).GetComponent<Image>().color = new Color(Math.Abs(inputMatrix[1,3] * 0.05f),0,0);
-    }
 
 
     private void OnApplicationQuit()

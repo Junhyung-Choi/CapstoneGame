@@ -13,22 +13,22 @@ public class UnMergedUIManager : MonoBehaviour
     Transform canvas;
     Transform imageParent;
     List<Image> images = new List<Image>();
-    
-    private void Update() {
+
+    private void Start() {
         canvas = this.transform;
         imageParent = this.transform.Find("Steps_8");
 
         for(int i = 0; i < 8; i++)
-            images.Add(imageParent.GetChild(0).GetComponent<Image>());
+            images.Add(imageParent.GetChild(i).GetComponent<Image>());
 
     }
-
-    void ShowViewer()
-    {
-        Transform inputViewer = canvas.GetChild(0);
-
-        for(int i = 0; i < 8; i++)
-            images[i].color = Color.Lerp(gray, orange, Map(RPInputManager.inputMatrix[i/4,i%4], 5f, 45f));
+    
+    private void Update() {
+        for(int i = 0; i < 4; i++)
+        {
+            images[i * 2].color = Color.Lerp(gray, orange, Map(RPInputManager.inputMatrix[0,i], 1f, 30f));
+            images[i * 2 +1].color = Color.Lerp(gray, orange, Map(RPInputManager.inputMatrix[1,i], 1f, 30f));
+        }
     }
 
     float Map(float value, float min, float max)

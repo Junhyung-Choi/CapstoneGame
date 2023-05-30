@@ -5,10 +5,7 @@ using UnityEngine.UI;
 
 public class TutorialChecker : SceneMover
 {
-    public GameObject tutorialUI;
-    Slider slider;
-    Text text, scoreText;
-
+    public TutorialUIManager tutorialUIManager;
     float rightStepTimer = 0f;
     float rightStepMaxTime = 5f;
     float rightStepThreshold = 5f;
@@ -28,9 +25,6 @@ public class TutorialChecker : SceneMover
     ActionSet actionSet;
 
     private void Start() {
-        slider = tutorialUI.transform.Find("Slider").GetComponent<Slider>();
-        text = tutorialUI.transform.Find("Instruction").GetComponent<Text>();
-        scoreText = tutorialUI.transform.Find("Score").GetComponent<Text>();
 
         types.Add(ChunkType.WALK);
         types.Add(ChunkType.SQUAT);
@@ -39,7 +33,7 @@ public class TutorialChecker : SceneMover
 
         actionSet = GetActionSet(types[tutoCount]);
 
-        slider.maxValue = rightStepMaxTime;
+        tutorialUIManager.rightStepMaxTime = this.rightStepMaxTime;
 
         SetRightStepThreshold();
     }
@@ -52,13 +46,13 @@ public class TutorialChecker : SceneMover
             { 
                 Debug.Log("튜토리얼 시작");
                 isTutorialStart = true;
-                text.text = ChangeTutorialMent();
+                tutorialUIManager.ShowMent(ChangeTutorialMent());
                 actionSet.action.StartRep();
             }
         }
         else
         {
-            DoAction();
+            DoAction();              
             ControlTutorial();
             CheckTutorialEnd();
         }
@@ -69,7 +63,7 @@ public class TutorialChecker : SceneMover
             this.actionSet.action.CheckRep(); 
         }
 
-        scoreText.text = this.actionSet.curRep.ToString();
+        tutorialUIManager.UpdateScore(this.actionSet.curRep);
 
         if(this.actionSet.curRep >= 1)
         {
@@ -92,7 +86,7 @@ public class TutorialChecker : SceneMover
 
             actionSet = GetActionSet(types[tutoCount]);
             actionSet.action.StartRep();
-            text.text = ChangeTutorialMent();
+            tutorialUIManager.ShowMent(ChangeTutorialMent());
             isActionSetEnd = false;
         }
     }
@@ -102,15 +96,16 @@ public class TutorialChecker : SceneMover
         switch(this.types[tutoCount])
         {
             case ChunkType.WALK:
-                return "걷기를 해보세요!";
+                return "스텝박스에서 내려온 상태에서 \n양발을 차례대로 올린 뒤 \n다시 내려와 보세요.";
             case ChunkType.SQUAT:
-                return "스쿼트를 해보세요!";
+                return "발 위치에 맞춰선 후 \n스쿼트를 따라해 보아요";
             case ChunkType.STEPUP:
-                return "스텝업을 해보세요!";
+                return "스텝박스에서 내려온 상태에서 \n양발을 차례대로 올린 뒤 \n다시 내려와 보세요.";
             case ChunkType.PLANK:
-                return "플랭크를 해보세요!";
+                return "플랭크 버피를 따라해보아요";
             case ChunkType.CLIMB:
-                return "클라이밍을 해보세요!";
+                tutorialUIManager.SetActiveStartUI(true);
+                return "스텝박스의 끝(시작점)으로 이동하여 \n암워크를 따라해보아요";
             default:
                 throw new System.Exception("Wrong ChunkType");
         }
@@ -141,14 +136,14 @@ public class TutorialChecker : SceneMover
         if(CheckRightStep() || isTutorialEnd) // Check Right Step
         {
             rightStepTimer += Time.deltaTime;
-            slider.value = rightStepTimer;
+            tutorialUIManager.UpdateSlider(rightStepTimer);
 
             if(rightStepTimer > rightStepMaxTime) { this.MoveToGame(); }
         }
         else 
         { 
             rightStepTimer = 0; 
-            slider.value = 0f;
+            tutorialUIManager.UpdateSlider(0f);
         }
     }
 

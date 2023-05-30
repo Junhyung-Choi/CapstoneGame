@@ -32,6 +32,7 @@ public class ClimbAction : Action
     /// </summary>
     public override void CheckRep()
     {
+
         // Debug.Log("ClimbAction CheckRep");
         if(isStarted & isThresholdSet)
         {
@@ -60,6 +61,7 @@ public class ClimbAction : Action
 
     public override void _TestSquat(float t)
     {
+        RPInputManager.instance.ShowNotice("태스트용 threshold 변경");
         Debug.LogWarning("태스트용 threshold 변경");
         SetThreshold(t);
         isThresholdSet = true;
@@ -83,7 +85,7 @@ public class ClimbAction : Action
         for(int i = 0; i < 4; i++)
         {
             sum += ActionManager.avgInputMatrix[0,i];
-            sum += ActionManager.avgInputMatrix[1,i];
+            sum += ActionManager.avgInputMatrix[1,i];      
         }
         sum /= 8f;
         SetThreshold(sum * 0.5f);
@@ -111,6 +113,7 @@ public class ClimbAction : Action
             isSideChecked = true;
             resetTimer = 0f;
         }
+
         // Debug.Log("isSideRight : " + isSideRight + " / isSideChecked : " + isSideChecked);
     }
 
@@ -158,6 +161,7 @@ public class ClimbAction : Action
         if(!isSideChecked) { SetIsSideRight(); }
         else
         {
+
             // Debug.Log("isUpped : " + isUpped);
             SetPointValue();
 
@@ -209,10 +213,12 @@ public class ClimbAction : Action
             if(diff < 5)
             {
                 isUserStable = true;
+                RPInputManager.instance.ShowNotice("올라가기 운동 시작 가능");
                 Debug.Log("올라가기 운동 시작 가능");
             }
             else
             {
+                RPInputManager.instance.ShowNotice("내려오세용.");
                 Debug.Log("내려오세용.");
             }
         }
