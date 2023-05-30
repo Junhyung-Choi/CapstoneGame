@@ -237,12 +237,14 @@ public class GameManager : MonoBehaviour
 
         if(dist > farDistance)
         {
+            RPInputManager.instance.ShowNotice("Too Far");
             Debug.Log("Too Far");
             return;
         }
 
         if(nearObs.GetComponent<Obstacle>().isActionDid)
         {
+            RPInputManager.instance.ShowNotice("Already Did");
             Debug.Log("Already Did");
             return;
         }
@@ -267,6 +269,8 @@ public class GameManager : MonoBehaviour
                 coroutine = StartCoroutine(PlayWalkEffect());
                 break;
             case ChunkType.SQUAT:
+                if(coroutine != null) { StopCoroutine(coroutine); }
+                coroutine = StartCoroutine(PlayWalkEffect());
                 break;
             case ChunkType.PLANK:
                 break;
@@ -363,11 +367,11 @@ public class GameManager : MonoBehaviour
 
     void SetMaxRep()
     {
-        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxObstacleSpawnNum = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxObstacleSpawnNum = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxObstacleSpawnNum = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxObstacleSpawnNum = 10; }
-        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxObstacleSpawnNum = 10; }
+        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxObstacleSpawnNum = 7; }
+        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxObstacleSpawnNum = 7; }
+        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxObstacleSpawnNum = 3; }
+        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxObstacleSpawnNum = 5; }
+        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxObstacleSpawnNum = 5; }
     }
 }
 

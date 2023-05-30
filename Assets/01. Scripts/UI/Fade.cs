@@ -28,10 +28,10 @@ public class Fade : MonoBehaviour
     }
 
     IEnumerator FadeOut() {
-        yield return new WaitForSeconds(solidTime);
         canvasGroup.alpha = 1f;
+        yield return new WaitForSecondsRealtime(solidTime);
         while (canvasGroup.alpha > 0f) {
-            canvasGroup.alpha -= Time.deltaTime / fadeTime;
+            canvasGroup.alpha -= Time.unscaledDeltaTime / fadeTime;
             yield return null;
         }
         isFadeOut = true;

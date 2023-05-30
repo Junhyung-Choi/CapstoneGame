@@ -16,7 +16,7 @@ public class SettingManager : MonoBehaviour
 
     float keepPressTimer = 0.0f;
 
-    float threshold = 30f;
+    float threshold = 15f;
     float diff = 15f;
 
     string[] modes = {"SetSex", "SetAge", "SetWeight"};

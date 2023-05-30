@@ -141,7 +141,7 @@ public class ClimbAction : Action
     {
         if(totalValue < threshold)
         {
-            resetTimer += Time.deltaTime;
+            resetTimer += Time.unscaledDeltaTime;
             if(resetTimer > resetMaxTime)
             {
                 isUpped = false;
@@ -185,7 +185,7 @@ public class ClimbAction : Action
 
     void MakeUserStable()
     {
-        stableTimer += Time.deltaTime;
+        stableTimer += Time.unscaledDeltaTime;
         for(int i = 0; i < 2; i++)
         {
             for(int j = 0; j < 4; j++)

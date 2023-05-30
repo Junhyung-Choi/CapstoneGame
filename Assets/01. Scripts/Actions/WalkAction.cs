@@ -24,7 +24,7 @@ public class WalkAction : Action
 
     void _CheckRep()
     {
-        timer += Time.deltaTime;
+        timer += Time.unscaledDeltaTime;
         leftValue = 
             (RPInputManager.inputMatrix[1,0] + RPInputManager.inputMatrix[0,0] +
             RPInputManager.inputMatrix[0,1] + RPInputManager.inputMatrix[1,1]) / 4;

@@ -93,7 +93,7 @@ public class PlankAction : Action
 
     void CheckUndo()
     {
-        resetTimer += Time.deltaTime;
+        resetTimer += Time.unscaledDeltaTime;
         if(resetTimer > resetMaxTime)
         {
             isPlankStart = false;
@@ -141,7 +141,7 @@ public class PlankAction : Action
 
     void MakeUserStable()
     {
-        stableTimer += Time.deltaTime;
+        stableTimer += Time.unscaledDeltaTime;
         for(int i = 0; i < 2; i++)
         {
             for(int j = 0; j < 4; j++)

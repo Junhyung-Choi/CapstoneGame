@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InstructionManager : MonoBehaviour
 {
-    Text startWaitTimerText, playTimerText;
+    TMPro.TMP_Text startWaitTimerText, playTimerText;
 
     Fade initNoticeFade;
 
@@ -41,8 +41,8 @@ public class InstructionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        startWaitTimerText = transform.Find("StartTimer").GetComponent<Text>();
-        playTimerText = transform.Find("PlayTimer").GetComponent<Text>();
+        startWaitTimerText = transform.Find("StartTimer").GetComponent<TMPro.TMP_Text>();
+        playTimerText = transform.Find("PlayTimer").GetComponent<TMPro.TMP_Text>();
 
         initNoticeFade = transform.Find("InitNotice").GetComponent<Fade>();
     }

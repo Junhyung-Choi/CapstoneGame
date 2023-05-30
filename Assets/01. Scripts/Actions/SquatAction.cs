@@ -63,7 +63,7 @@ public class SquatAction : Action
         SetThreshold(t);
     }
 
-    public void SetThreshold(float threshold)
+    public void SetThreshold(float threshold) 
     {
         isThresholdSet = true;
         this.threshold = threshold;
@@ -142,7 +142,7 @@ public class SquatAction : Action
 
     void MakeUserStable()
     {
-        stableTimer += Time.deltaTime;
+        stableTimer += Time.unscaledDeltaTime;
         for(int i = 0; i < 2; i++)
         {
             for(int j = 0; j < 4; j++)
@@ -170,8 +170,8 @@ public class SquatAction : Action
             if(diff < 10)
             {
                 isUserStable = true;
-                RPInputManager.instance.ShowNotice("사용자 안정화 완료");
-                Debug.Log("사용자 안정화 완료");
+                RPInputManager.instance.ShowNotice("사용자 안정화 완료\n 스쿼트를 시작해주세요.");
+                Debug.Log("사용자 안정화 완료\n 스쿼트를 시작해주세요.");
             }
             else
             {

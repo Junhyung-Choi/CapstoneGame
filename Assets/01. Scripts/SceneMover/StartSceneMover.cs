@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartSceneMover : SceneMover
 {
     public float diff = 20.0f;
-    float offTimer, offMaxTime = 2f;
+    float offTimer, offMaxTime = 0.5f;
 
     bool isStartReady = false;
 
