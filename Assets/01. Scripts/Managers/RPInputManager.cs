@@ -15,7 +15,7 @@ public class JsonData
 
 public class RPInputManager : MonoBehaviour
 {
-    bool isTimeOutStarted = false, isTimeOutEnded = false;
+    public bool isTimeOutStarted = false, isTimeOutEnded = false;
 
     public static RPInputManager instance;
     public static float[,] inputMatrix = new float[2,4];
@@ -88,10 +88,10 @@ public class RPInputManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        canvas = GameObject.Find("Instruction Canvas").transform;
+        // canvas = GameObject.Find("Instruction Canvas").transform;
 
-        if(mergedCanvasScenes.Contains(scene.name)) { isMerged = true; }
-        else { isMerged = false; }
+        // if(mergedCanvasScenes.Contains(scene.name)) { isMerged = true; }
+        // else { isMerged = false; }
     }
 
 
@@ -129,21 +129,21 @@ public class RPInputManager : MonoBehaviour
 
     void ShowViewer()
     {
-        if(canvas.gameObject.activeSelf == false) canvas.gameObject.SetActive(true);
+        // if(canvas.gameObject.activeSelf == false) canvas.gameObject.SetActive(true);
 
-        if(isMerged) _ShowMergedViewer();
-        else _ShowUnmergedViewer();
+        // if(isMerged) _ShowMergedViewer();
+        // else _ShowUnmergedViewer();
 
-        GameObject stateMachine = canvas.transform.Find("StateMachine").gameObject;
-        Text text = stateMachine.GetComponent<Text>();
-        if(!isTimeOutEnded)
-        {
-            text.text = "로딩 중입니다. \n 올라오지 마세요.";
-        }
-        else
-        {
-            if(stateMachine.activeSelf == true) stateMachine.SetActive(false);
-        }
+        // GameObject stateMachine = canvas.transform.Find("StateMachine").gameObject;
+        // Text text = stateMachine.GetComponent<Text>();
+        // if(!isTimeOutEnded)
+        // {
+        //     text.text = "로딩 중입니다. \n 올라오지 마세요.";
+        // }
+        // else
+        // {
+        //     if(stateMachine.activeSelf == true) stateMachine.SetActive(false);
+        // }
     
     }
 

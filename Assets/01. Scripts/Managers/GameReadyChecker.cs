@@ -7,7 +7,7 @@ public class GameReadyChecker : MonoBehaviour
 {
     StartSetSceneMover startSetSceneMover;
     public GameObject instruction;
-    Text instructionText;
+    TMPro.TMP_Text instructionText;
 
     bool isFirstAverageChecked = false;
     bool isGameReady = false;
@@ -33,7 +33,7 @@ public class GameReadyChecker : MonoBehaviour
     void Start()
     {
         startSetSceneMover = this.transform.GetComponent<StartSetSceneMover>();
-        instructionText = instruction.transform.Find("Instruction").GetComponent<Text>();
+        instructionText = instruction.transform.Find("GuideBox").Find("Instruction").GetComponent<TMPro.TMP_Text>();
     }
 
     // Update is called once per frame

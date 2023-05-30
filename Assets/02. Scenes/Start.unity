@@ -627,17 +627,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6091437592699460471, guid: 06e1628ea61a64d568e9e61b4f3af119, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 225
+      objectReference: {fileID: 0}
     - target: {fileID: 7936103162835027141, guid: 06e1628ea61a64d568e9e61b4f3af119, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7936103162835027141, guid: 06e1628ea61a64d568e9e61b4f3af119, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7936103162835027141, guid: 06e1628ea61a64d568e9e61b4f3af119, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06e1628ea61a64d568e9e61b4f3af119, type: 3}

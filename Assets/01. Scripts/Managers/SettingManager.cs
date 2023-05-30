@@ -16,19 +16,21 @@ public class SettingManager : MonoBehaviour
 
     float keepPressTimer = 0.0f;
 
-    float threshold = 10f;
-    float diff = 1.0f;
+    float threshold = 30f;
+    float diff = 15f;
 
     string[] modes = {"SetSex", "SetAge", "SetWeight"};
     int modeIndex;
 
+    bool isSettingReady = false;
+
     GameObject instructionCanvasObject;
-    Text instructionText, valueText;
+    TMPro.TMP_Text instructionText, valueText;
 
     private void Start() {
         instructionCanvasObject = GameObject.Find("Instruction Canvas");
-        instructionText = instructionCanvasObject.transform.Find("Instruction").GetComponent<Text>();
-        valueText = instructionCanvasObject.transform.Find("Value").GetComponent<Text>();
+        instructionText = instructionCanvasObject.transform.Find("Instruction").GetComponent<TMPro.TMP_Text>();
+        valueText = instructionCanvasObject.transform.Find("Value").GetComponent<TMPro.TMP_Text>();
 
         userAge = PlayerPrefs.GetInt("UserAge",20);
         userWeight = PlayerPrefs.GetInt("UserWeight",50);
@@ -43,15 +45,23 @@ public class SettingManager : MonoBehaviour
         leftValue = GetLeftValue();
         rightValue = GetRightValue();
         middleValue = GetMiddleValue();
+
+        if(leftValue < 2f && rightValue < 2f && middleValue < 4f)
+        {
+            isSettingReady = true;
+        }
         
-        SetSetting(leftValue, rightValue, middleValue);
-        SetText();
+        if(isSettingReady)
+        {
+            SetSetting(leftValue, rightValue, middleValue);
+            SetText();
+        }
     }
 
     private void SetSetting(float leftValue, float rightValue, float middleValue)
     {
         // 계속 누르고 있을수록 빠르게 값을 변경하기 위한 코드
-        keepPressTimer += Time.deltaTime * 0.5f;
+        keepPressTimer += Time.deltaTime * 0.1f;
         if(keepPressTimer > 0.6f)
         {
             keepPressTimer = 0.6f;
@@ -99,7 +109,7 @@ public class SettingManager : MonoBehaviour
     void SetSex() 
     {
         // 가운데를 누르면 다음 모드로 넘어감
-        if(threshold < middleValue && !isKeepPressing)
+        if(threshold < middleValue && leftValue < threshold * 0.5f && rightValue < threshold && !isKeepPressing)
         {
             isKeepPressing = true;
             qunatifyTimer = 0.0f;
@@ -124,7 +134,7 @@ public class SettingManager : MonoBehaviour
 
     void SetAge() 
     {
-        if(threshold < middleValue && !isKeepPressing)
+        if(threshold < middleValue && leftValue < threshold * 0.5f && rightValue < threshold * 0.5f && !isKeepPressing)
         {
             isKeepPressing = true;
             qunatifyTimer = 0.0f;
@@ -146,7 +156,7 @@ public class SettingManager : MonoBehaviour
 
     void SetWeight() 
     {
-        if(threshold < middleValue && !isKeepPressing)
+        if(threshold < middleValue && leftValue < threshold * 0.5f && rightValue < threshold * 0.5f && !isKeepPressing)
         {
             isKeepPressing = true;
             qunatifyTimer = 0.0f;

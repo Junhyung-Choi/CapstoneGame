@@ -13,6 +13,6 @@ public class Rotate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += new Vector3(Mathf.Sin(Time.time), Mathf.Cos(Time.time), 0) * Time.deltaTime;
+        transform.Rotate(Vector3.forward * -100f * Time.deltaTime);
     }
 }
