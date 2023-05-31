@@ -15,7 +15,6 @@ public class InstructionManager : MonoBehaviour
     public void SetPauseActive(bool isActive)
     {
         transform.Find("Pause").gameObject.SetActive(isActive);
-        progress = transform.Find("Image").GetComponent<Image>();
     }
 
     public void SetPlayTimer(float time)
@@ -47,6 +46,7 @@ public class InstructionManager : MonoBehaviour
         playTimerText = transform.Find("PlayTimer").GetComponent<TMPro.TMP_Text>();
 
         initNoticeFade = transform.Find("InitNotice").GetComponent<Fade>();
+        progress = transform.Find("Image").GetComponent<Image>();
     }
 
     // Update is called once per frame
