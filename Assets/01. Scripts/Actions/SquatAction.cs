@@ -72,8 +72,8 @@ public class SquatAction : Action
         }
         else
         {
-            this.start_threshold = threshold * 0.15f;
-            this.end_threshold = threshold * 0.15f;
+            this.start_threshold = threshold * 0.12f;
+            this.end_threshold = threshold * 0.12f;
         }
 
         isThresholdSet = true;
