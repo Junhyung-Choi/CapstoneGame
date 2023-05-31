@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.5256993, g: 0.7098144, b: 0.7944886, a: 1}
+  m_IndirectSpecularColor: {r: 0.5256903, g: 0.70981115, b: 0.794488, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1191,6 +1191,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Logo
       objectReference: {fileID: 0}
+    - target: {fileID: 7945258781854573470, guid: 8354f924b0dea4ba5b3f453aee5ebaa6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 89
+      objectReference: {fileID: 0}
     - target: {fileID: 7945258782027393222, guid: 8354f924b0dea4ba5b3f453aee5ebaa6, type: 3}
       propertyPath: m_Name
       value: Body
@@ -1198,6 +1202,10 @@ PrefabInstance:
     - target: {fileID: 7945258782027393240, guid: 8354f924b0dea4ba5b3f453aee5ebaa6, type: 3}
       propertyPath: m_text
       value: "\n\uD45C\uC2DC\uB41C \uBC1C \uBAA8\uC591\uC5D0 \uB9DE\uCDB0 \uC11C\uC8FC\uC138\uC694."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7945258782452653696, guid: 8354f924b0dea4ba5b3f453aee5ebaa6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 305
       objectReference: {fileID: 0}
     - target: {fileID: 7945258782518765836, guid: 8354f924b0dea4ba5b3f453aee5ebaa6, type: 3}
       propertyPath: m_Name
