@@ -1255,6 +1255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1334407233857581890}
   - component: {fileID: -1663876199737063361}
+  - component: {fileID: 6153129348871316498}
   m_Layer: 0
   m_Name: FinishLine
   m_TagString: Untagged
@@ -1296,6 +1297,18 @@ MonoBehaviour:
   isActionDid: 0
   isStartorEnd: 0
   chunkType: 6
+--- !u!114 &6153129348871316498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859728139496368632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421bfe19ffe5f67418ddb0384acb1a30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1909529623901936827
 GameObject:
   m_ObjectHideFlags: 0
