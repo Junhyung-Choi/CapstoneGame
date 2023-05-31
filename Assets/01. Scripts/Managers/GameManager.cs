@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
         SetAction();
 
-        actionProgress = actionManager.progress;
+        actionProgress = actionManager.set.action.progress;
     }
 
     //---------------------------------------정지 관련 코드들-----------------------------------------------------------

@@ -114,7 +114,7 @@ public class ClimbAction : Action
         {
             isSideChecked = true;
             resetTimer = 0f;
-            destProgress = 0.5f;
+            progress = 0.5f;
         }
 
         // Debug.Log("isSideRight : " + isSideRight + " / isSideChecked : " + isSideChecked);
@@ -149,7 +149,7 @@ public class ClimbAction : Action
             {
                 isUpped = false;
                 resetTimer = 0f;
-                destProgress = 0f;
+                progress = 0f;
             }
         }
         else
@@ -173,13 +173,13 @@ public class ClimbAction : Action
             {
                 CheckUndo();
 
-                if(endPointValue > threshold) { isUpped = true; destProgress = 1f;}
+                if(endPointValue > threshold) { isUpped = true; progress = 1f;}
             }
             else
             {
                 if(startPointValue > threshold)
                 {
-                    destProgress = 0f;
+                    progress = 0f;
                     isUpped = false;
                     base.CheckRep();
                 }

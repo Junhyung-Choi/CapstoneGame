@@ -8,7 +8,7 @@ public class ActionManager : MonoBehaviour
 
     public ChunkType curAction = ChunkType.WALK;
 
-    ActionSet set = new WalkActionSet();
+    public ActionSet set = new WalkActionSet();
 
     int beforeRep = 0;
     
@@ -55,11 +55,6 @@ public class ActionManager : MonoBehaviour
     void CheckAction()
     {
         this.set.action.CheckRep();
-        if(this.progress != this.set.action.destProgress)
-        {
-            StartCoroutine(this.set.action.SetProgress(this.set.action.progress));
-            this.progress = this.set.action.progress;
-        }
     }
 
     void CheckActionSet()

@@ -55,6 +55,5 @@ public class InstructionManager : MonoBehaviour
         isInitNoticeFaded = initNoticeFade.isFadeOut;
 
         progress.fillAmount = GameManager.instance.actionProgress;
-
     }
 }
