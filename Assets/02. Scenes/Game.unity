@@ -2252,13 +2252,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ea5754bf015c748a30f3dff6034e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunks: 000000000100000005000000040000000300000006000000
+  chunks: 000000000100000003000000050000000400000006000000
   obstacles: []
   currentChunkIndex: 0
   maxRep: 10
   curRep: 0
   nearObs: {fileID: 0}
   playTimer: 0
+  actionProgress: 0
 --- !u!4 &1612672820
 Transform:
   m_ObjectHideFlags: 0
@@ -2287,6 +2288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curAction: 1
+  progress: 0
 --- !u!114 &1612672822
 MonoBehaviour:
   m_ObjectHideFlags: 0
