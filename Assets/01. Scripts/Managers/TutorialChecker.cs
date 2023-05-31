@@ -105,7 +105,7 @@ public class TutorialChecker : SceneMover
                 return "플랭크 버피를 따라해보아요";
             case ChunkType.CLIMB:
                 tutorialUIManager.SetActiveStartUI(true);
-                return "스텝박스의 끝(시작점)으로 이동하여 \n암워크를 따라해보아요";
+                return "스텝박스의 끝(시작점)으로 이동\n하여 암워크를 따라해보아요";
             default:
                 throw new System.Exception("Wrong ChunkType");
         }

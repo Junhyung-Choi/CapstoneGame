@@ -25,7 +25,7 @@ public class SquatAction : Action
     /// </summary>
     public override void CheckRep()
     {
-        float backValue = RPInputManager.inputMatrix[1,2] + RPInputManager.inputMatrix[0,3];
+        float backValue = RPInputManager.inputMatrix[0,1] + RPInputManager.inputMatrix[0,2];
         // Debug.Log(backValue);
         // Debug.Log("isStarted : " + isStarted + "/ isThresholdSet : " + isThresholdSet);
             
@@ -78,7 +78,7 @@ public class SquatAction : Action
         isSquatEnd = false;
         timer = 0f;
         
-        float sum = ActionManager.avgInputMatrix[1,2] + ActionManager.avgInputMatrix[0,3];
+        float sum = ActionManager.avgInputMatrix[0,1] + ActionManager.avgInputMatrix[0,2];
         SetThreshold(sum);
     }
 

@@ -164,7 +164,7 @@ public class GameReadyChecker : MonoBehaviour
 
     void MakeUserClearBox()
     {
-        gameStartUIManager.SetInstructionMent("스텝박스에서 떨어져주세요.");
+        gameStartUIManager.SetInstructionMent("스텝박스에서 내려와주세요.");
 
         if (boxClearTimer > boxMaxClearTime)
         {
@@ -186,7 +186,7 @@ public class GameReadyChecker : MonoBehaviour
             }
             else
             {
-                gameStartUIManager.SetInstructionMent("스텝박스에서 떨어져주세요.");
+                gameStartUIManager.SetInstructionMent("스텝박스에서 내려와주세요.");
             }
         }
         else
