@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class TutorialChecker : SceneMover
 {
     public TutorialUIManager tutorialUIManager;
+    
     float rightStepTimer = 0f;
     float rightStepMaxTime = 5f;
     float rightStepThreshold = 5f;
@@ -96,14 +97,19 @@ public class TutorialChecker : SceneMover
         switch(this.types[tutoCount])
         {
             case ChunkType.WALK:
+                GuideVideoManager.instance.ShowVideo(this.types[tutoCount]);
                 return "스텝박스에서 내려온 상태에서 \n양발을 차례대로 올린 뒤 \n다시 내려와 보세요.";
             case ChunkType.SQUAT:
+                GuideVideoManager.instance.ShowVideo(this.types[tutoCount]);
                 return "발 위치에 맞춰선 후 \n스쿼트를 따라해 보아요";
             case ChunkType.STEPUP:
+                GuideVideoManager.instance.ShowVideo(this.types[tutoCount]);
                 return "스텝박스에서 내려온 상태에서 \n양발을 차례대로 올린 뒤 \n다시 내려와 보세요.";
             case ChunkType.PLANK:
+                GuideVideoManager.instance.ShowVideo(this.types[tutoCount]);
                 return "플랭크 버피를 따라해보아요";
             case ChunkType.CLIMB:
+                GuideVideoManager.instance.ShowVideo(this.types[tutoCount]);
                 tutorialUIManager.SetActiveStartUI(true);
                 return "스텝박스의 끝(시작점)으로 이동하여 \n암워크를 따라해보아요";
             default:

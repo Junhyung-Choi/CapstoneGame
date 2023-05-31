@@ -182,6 +182,8 @@ public class GameManager : MonoBehaviour
 
             if(chunks[currentChunkIndex] == ChunkType.START )
             {
+                GuideVideoManager.instance.ShowVideo(ChunkType.WALK);
+                GuideVideoManager.instance.ShowNotice("영상을 따라서 걸어보세요");
                 obs.GetComponent<Obstacle>().isStartorEnd = true;
                 NextChunk();
                 actionManager.ChangeAction(chunks[currentChunkIndex]);
@@ -351,6 +353,8 @@ public class GameManager : MonoBehaviour
         if(curRep >= maxRep)
         {
             actionManager.ChangeAction(chunks[currentChunkIndex]);
+            GuideVideoManager.instance.ShowVideo(chunks[currentChunkIndex]);
+            GuideVideoManager.instance.ShowNotice("영상을 따라해보세요.");
             curRep = 0;
             SetMaxRep();
         }
