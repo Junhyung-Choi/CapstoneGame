@@ -158,7 +158,7 @@ public class GameReadyChecker : MonoBehaviour
         if (sum > stepThreshold)
         {
             isFirstStepStarted = true;
-            gameStartUIManager.SetNoticeMent("잘하셨습니다.","\n 지금부터 10초간 움직이지 않고 올바른 자세를 유지해주세요.");
+            gameStartUIManager.SetNoticeMent("잘하셨습니다.","\n 지금부터 10초간 움직이지 않고 \n올바른 자세를 유지해주세요.");
         }
     }
 

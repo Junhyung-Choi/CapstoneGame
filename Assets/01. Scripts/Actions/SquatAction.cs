@@ -52,7 +52,7 @@ public class SquatAction : Action
     public override void StartRep()
     {
         base.StartRep();
-        RPInputManager.instance.ShowNotice("스쿼트를 시작하기 위해선 안정화 작업이 필요합니다." + "\n" + "스텝박스 위에 올라가 안정되게 서 주세요.");
+        RPInputManager.instance.ShowNotice("스쿼트를 시작하기 위해선\n 안정화 작업이 필요합니다." + "\n" + "스텝박스 위에 올라가 안정되게 서 주세요.");
         Debug.Log("스쿼트를 시작하기 위해선 안정화 작업이 필요합니다.");
         Debug.Log("스텝박스 위에 올라가 안정되게 서 주세요.");
     }
@@ -67,17 +67,18 @@ public class SquatAction : Action
     {
         if(PlayerPrefs.GetInt("UserWeight") > 60)
         {
-
+            this.start_threshold = threshold * 0.2f;
+            this.end_threshold = threshold * 0.2f;
         }
         else
         {
-            
+            this.start_threshold = threshold * 0.15f;
+            this.end_threshold = threshold * 0.15f;
         }
 
         isThresholdSet = true;
         this.threshold = threshold;
-        this.start_threshold = threshold * 0.1f;
-        this.end_threshold = threshold * 0.1f;
+        
         Debug.Log("threshold : " + threshold + "/ start_threshold : " + start_threshold + "/ end_threshold : " + end_threshold);
     }
 
@@ -136,7 +137,7 @@ public class SquatAction : Action
             {
                 if(backValue < threshold + end_threshold)
                 {
-                    RPInputManager.instance.ShowNotice("한 회 완료");
+                    RPInputManager.instance.ShowNotice("Perfect!");
                     Debug.Log("한 회 완료");
                     base.CheckRep();
                     isSquatStart = false;

@@ -213,13 +213,13 @@ public class ClimbAction : Action
             if(diff < 5)
             {
                 isUserStable = true;
-                RPInputManager.instance.ShowNotice("올라가기 운동 시작 가능");
-                Debug.Log("올라가기 운동 시작 가능");
+                RPInputManager.instance.ShowNotice("암워크 운동입니다");
+                Debug.Log("암워크 운동입니다");
             }
             else
             {
-                RPInputManager.instance.ShowNotice("내려오세용.");
-                Debug.Log("내려오세용.");
+                RPInputManager.instance.ShowNotice("내려오세요.");
+                Debug.Log("내려오세요.");
             }
         }
     }

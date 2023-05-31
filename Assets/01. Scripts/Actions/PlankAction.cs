@@ -50,7 +50,7 @@ public class PlankAction : Action
     public override void StartRep()
     {
         base.StartRep();
-        RPInputManager.instance.ShowNotice("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.\n 스텝박스에서 내려오세요.");
+        RPInputManager.instance.ShowNotice("플랭크를 시작하기 위해선\n 안정화 작업이 필요합니다.\n 스텝박스에서 내려오세요.");
         Debug.Log("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.");
         Debug.Log("스텝박스에서 내려오세요.");
     }
@@ -169,13 +169,13 @@ public class PlankAction : Action
             if(diff < 5)
             {
                 isUserStable = true;
-                RPInputManager.instance.ShowNotice("플랭크 운동 시작 가능");
-                Debug.Log("플랭크 운동 시작 가능");
+                RPInputManager.instance.ShowNotice("플랭크 운동입니다");
+                Debug.Log("플랭크 운동입니다");
             }
             else
             {
-                RPInputManager.instance.ShowNotice("내려오세요!.");
-                Debug.Log("내려오세요!.");
+                RPInputManager.instance.ShowNotice("내려오세요.");
+                Debug.Log("내려오세요!");
             }
         }
     }
