@@ -7,7 +7,7 @@ public class FinishLine : SceneMover
     
     void Update()
     {
-        if (transform.position.z < -10)
+        if (transform.position.x < -10)
         {
             PlayerPrefs.SetFloat("PlayTime",GameManager.instance.playTimer); 
         }

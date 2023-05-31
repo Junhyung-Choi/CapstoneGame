@@ -50,9 +50,9 @@ public class PlankAction : Action
     public override void StartRep()
     {
         base.StartRep();
-        RPInputManager.instance.ShowNotice("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.\n 스텝박스에서 내려오세용.");
+        RPInputManager.instance.ShowNotice("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.\n 스텝박스에서 내려오세요.");
         Debug.Log("플랭크를 시작하기 위해선 안정화 작업이 필요합니다.");
-        Debug.Log("스텝박스에서 내려오세용.");
+        Debug.Log("스텝박스에서 내려오세요.");
     }
 
     public override void _TestSquat(float t)
@@ -111,8 +111,8 @@ public class PlankAction : Action
             if(inputValue > threshold)
             {
                 if(!isJumped) { 
-                    RPInputManager.instance.ShowNotice("올라와!");
-                    Debug.Log("올라와"); return ; 
+                    RPInputManager.instance.ShowNotice("올라오세요!");
+                    Debug.Log("올라오세요"); return ; 
                 }
                 timer += Time.unscaledDeltaTime;
                 if(timer > maxTime)
@@ -174,8 +174,8 @@ public class PlankAction : Action
             }
             else
             {
-                RPInputManager.instance.ShowNotice("내려오세용.");
-                Debug.Log("내려오세용.");
+                RPInputManager.instance.ShowNotice("내려오세요!.");
+                Debug.Log("내려오세요!.");
             }
         }
     }
