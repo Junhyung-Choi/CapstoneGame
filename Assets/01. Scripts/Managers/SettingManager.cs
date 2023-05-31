@@ -25,14 +25,13 @@ public class SettingManager : MonoBehaviour
     bool isSettingReady = false;
 
     GameObject instructionCanvasObject;
-    TMPro.TMP_Text instructionText, valueText, guideText;
+    TMPro.TMP_Text instructionText, valueText;
 
     private void Start() {
         instructionCanvasObject = GameObject.Find("Instruction Canvas");
         instructionText = instructionCanvasObject.transform.Find("Instruction").GetComponent<TMPro.TMP_Text>();
         valueText = instructionCanvasObject.transform.Find("Value").GetComponent<TMPro.TMP_Text>();
-        guideText = instructionCanvasObject.transform.Find("Guide").GetComponent<TMPro.TMP_Text>();
-
+       
         userAge = PlayerPrefs.GetInt("UserAge",20);
         userWeight = PlayerPrefs.GetInt("UserWeight",50);
         

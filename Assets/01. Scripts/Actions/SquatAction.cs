@@ -65,6 +65,15 @@ public class SquatAction : Action
 
     public void SetThreshold(float threshold) 
     {
+        if(PlayerPrefs.GetInt("UserWeight") > 60)
+        {
+
+        }
+        else
+        {
+            
+        }
+
         isThresholdSet = true;
         this.threshold = threshold;
         this.start_threshold = threshold * 0.1f;
