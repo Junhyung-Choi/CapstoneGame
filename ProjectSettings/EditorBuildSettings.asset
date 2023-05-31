@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/02. Scenes/RealStart.unity
     guid: 3d66a3da4f65a432ea7ed159bf21e195
+  - enabled: 1
+    path: Assets/02. Scenes/Ranking.unity
+    guid: e44b1d25b1a4f734983067aa177f62f3
   m_configObjects: {}

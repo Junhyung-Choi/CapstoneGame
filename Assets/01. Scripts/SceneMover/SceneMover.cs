@@ -14,4 +14,6 @@ public class SceneMover : MonoBehaviour
     public void MoveToTutorial() { SceneManager.LoadScene("Tutorial"); }
 
     public void MoveToRealStart() {SceneManager.LoadScene("RealStart"); }
+
+    public void MoveToRanking() { SceneManager.LoadScene("Ranking"); }
 }

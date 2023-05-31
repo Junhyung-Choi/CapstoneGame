@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
     public GameObject nearObs;
     float farDistance = 40f, nearDistance = 15f;
 
-    float playTimer = 0f;
+    public float playTimer = 0f;
     bool isPlayStart = false;
 
     public static bool isPaused = false;
