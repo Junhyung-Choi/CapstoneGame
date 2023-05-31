@@ -26,6 +26,8 @@ public class ClimbAction : Action
     int inputCount = 0;
     bool isUserStable = false;
 
+    Coroutine coroutine;
+
     /// <summary>
     /// 1회의 동작을 검사하는 함수.
     /// base.CheckRep() 에선 동작을 본인의 Set에 보낸다.
@@ -112,6 +114,7 @@ public class ClimbAction : Action
         {
             isSideChecked = true;
             resetTimer = 0f;
+            destProgress = 0.5f;
         }
 
         // Debug.Log("isSideRight : " + isSideRight + " / isSideChecked : " + isSideChecked);
@@ -146,6 +149,7 @@ public class ClimbAction : Action
             {
                 isUpped = false;
                 resetTimer = 0f;
+                destProgress = 0f;
             }
         }
         else
@@ -169,12 +173,13 @@ public class ClimbAction : Action
             {
                 CheckUndo();
 
-                if(endPointValue > threshold) { isUpped = true; }
+                if(endPointValue > threshold) { isUpped = true; destProgress = 1f;}
             }
             else
             {
                 if(startPointValue > threshold)
                 {
+                    destProgress = 0f;
                     isUpped = false;
                     base.CheckRep();
                 }

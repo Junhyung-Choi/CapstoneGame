@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class InstructionManager : MonoBehaviour
 {
+    Image progress;
     TMPro.TMP_Text startWaitTimerText, playTimerText;
 
     Fade initNoticeFade;
@@ -14,6 +15,7 @@ public class InstructionManager : MonoBehaviour
     public void SetPauseActive(bool isActive)
     {
         transform.Find("Pause").gameObject.SetActive(isActive);
+        progress = transform.Find("Image").GetComponent<Image>();
     }
 
     public void SetPlayTimer(float time)
@@ -51,5 +53,8 @@ public class InstructionManager : MonoBehaviour
     void Update()
     {
         isInitNoticeFaded = initNoticeFade.isFadeOut;
+
+        progress.fillAmount = GameManager.instance.actionProgress;
+
     }
 }
