@@ -11,6 +11,8 @@ public class ActionManager : MonoBehaviour
     ActionSet set = new WalkActionSet();
 
     int beforeRep = 0;
+    
+    public float progress;
 
     public void ChangeAction(ChunkType action)
     {
@@ -53,6 +55,11 @@ public class ActionManager : MonoBehaviour
     void CheckAction()
     {
         this.set.action.CheckRep();
+        if(this.progress != this.set.action.destProgress)
+        {
+            StartCoroutine(this.set.action.SetProgress(this.set.action.progress));
+            this.progress = this.set.action.progress;
+        }
     }
 
     void CheckActionSet()

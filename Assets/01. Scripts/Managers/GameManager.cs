@@ -45,7 +45,11 @@ public class GameManager : MonoBehaviour
     public static bool isPaused = false;
     float pauseTimer = 0f, pauseMaxTime = 5f;
 
+<<<<<<< HEAD
+    public float actionProgress = 0f;
+=======
     bool isPlayedVideo = false;
+>>>>>>> 049c5688220bea8ce71e824b231fa732230ce4be
 
     Coroutine coroutine;
     Vector3 camStartPos;
@@ -89,6 +93,8 @@ public class GameManager : MonoBehaviour
         HandleObstacle();
 
         SetAction();
+
+        actionProgress = actionManager.progress;
     }
 
     //---------------------------------------정지 관련 코드들-----------------------------------------------------------

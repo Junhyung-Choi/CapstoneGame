@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 8468944153190018470}
   - component: {fileID: 8468944153190018465}
   - component: {fileID: 8468944153190018464}
+  - component: {fileID: 3287130350742007677}
   m_Layer: 5
   m_Name: Notice
   m_TagString: Untagged
@@ -309,6 +310,18 @@ MonoBehaviour:
   fadeTime: 1
   isFadeOut: 0
   isNotice: 1
+--- !u!225 &3287130350742007677
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8468944153190018466}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8468944153641362781
 GameObject:
   m_ObjectHideFlags: 0
