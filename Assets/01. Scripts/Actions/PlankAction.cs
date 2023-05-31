@@ -57,7 +57,7 @@ public class PlankAction : Action
 
     public override void _TestSquat(float t)
     {
-        RPInputManager.instance.ShowNotice("테스트용 threshold 변경");
+        // RPInputManager.instance.ShowNotice("테스트용 threshold 변경");
         Debug.LogWarning("테스트용 threshold 변경");
         SetThreshold(t);
         isThresholdSet = true;
@@ -115,6 +115,7 @@ public class PlankAction : Action
                     Debug.Log("올라오세요"); return ; 
                 }
                 timer += Time.unscaledDeltaTime;
+                progress = this.Map(timer, 0f, maxTime);
                 if(timer > maxTime)
                 {
                     isJumped = false;
@@ -174,7 +175,7 @@ public class PlankAction : Action
             }
             else
             {
-                RPInputManager.instance.ShowNotice("내려오세요.");
+                // RPInputManager.instance.ShowNotice("내려오세요.");
                 Debug.Log("내려오세요!");
             }
         }

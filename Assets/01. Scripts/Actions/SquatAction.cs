@@ -8,13 +8,13 @@ public class SquatAction : Action
     public float threshold = 30f;
     public bool isThresholdSet = false;
     float timer;
-    float maxTime = 1.5f;
+    float maxTime = 2f;
     bool isSquatStart = false;
     bool isSquatEnd = false;
     float start_threshold = 0f;
     float end_threshold = 0f;
 
-    float stableTimer = 0f, stableMaxTime = 5f;
+    float stableTimer = 0f, stableMaxTime = 3f;
     bool isUserStable = false;
     float[,] inputMatrix = new float[2,4];
     int inputCount = 0;
@@ -124,6 +124,7 @@ public class SquatAction : Action
                 }
                 else{
                     timer += Time.unscaledDeltaTime;
+                    progress = this.Map(timer, 0f, maxTime);
                     if(timer > maxTime)
                     {
                         isSquatEnd = true;

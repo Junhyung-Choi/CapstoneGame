@@ -7,7 +7,7 @@ public class Action
     public ActionSet set;
     public bool isStarted = false;
 
-    public float progress = 0f, destProgress = 0f;
+    public float progress = 0f;
     
     public virtual void CheckRep()
     {
@@ -44,6 +44,18 @@ public class Action
             time += Time.unscaledDeltaTime;
             yield return null;
         }
+    }
+
+    public float Map(float value, float min, float max)
+    {
+        float ret_value = 1f;
+
+        if(value < min) { ret_value = 0f; }
+        else if(value < max)
+        { 
+            ret_value = (value - min) / (max - min);
+        }
+        return ret_value;
     }
 
 }
