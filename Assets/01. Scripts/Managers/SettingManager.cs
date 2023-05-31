@@ -25,12 +25,13 @@ public class SettingManager : MonoBehaviour
     bool isSettingReady = false;
 
     GameObject instructionCanvasObject;
-    TMPro.TMP_Text instructionText, valueText;
+    TMPro.TMP_Text instructionText, valueText,guideText;
 
     private void Start() {
         instructionCanvasObject = GameObject.Find("Instruction Canvas");
         instructionText = instructionCanvasObject.transform.Find("Instruction").GetComponent<TMPro.TMP_Text>();
         valueText = instructionCanvasObject.transform.Find("Value").GetComponent<TMPro.TMP_Text>();
+        guideText = instructionCanvasObject.transform.Find("Guide").GetComponent<TMPro.TMP_Text>();
        
         userAge = PlayerPrefs.GetInt("UserAge",20);
         userWeight = PlayerPrefs.GetInt("UserWeight",50);
@@ -188,6 +189,7 @@ public class SettingManager : MonoBehaviour
             case 1:
                 instructionText.text = "나이를\n 설정하세요!";
                 valueText.text = userAge.ToString();
+                guideText.text = "스텝박스의 같은 위치를 계속 누르고\n 있으면 변화 속도가 빨라집니다.";
                 break;
             case 2:
                 instructionText.text = "몸무게를\n 설정하세요!";

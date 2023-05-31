@@ -52,7 +52,7 @@ public class SquatAction : Action
     public override void StartRep()
     {
         base.StartRep();
-        RPInputManager.instance.ShowNotice("스쿼트를 시작하기 위해선\n 안정화 작업이 필요합니다." + "\n" + "스텝박스 위에 올라가 안정되게 서 주세요.");
+        RPInputManager.instance.ShowNotice("스쿼트를 시작하기 위해선\n 안정화 작업이 필요합니다." + "\n\n" + "스텝박스 위에 올라가 안정되게 서 주세요.");
         Debug.Log("스쿼트를 시작하기 위해선 안정화 작업이 필요합니다.");
         Debug.Log("스텝박스 위에 올라가 안정되게 서 주세요.");
     }
@@ -183,12 +183,12 @@ public class SquatAction : Action
             if(diff < 10)
             {
                 isUserStable = true;
-                RPInputManager.instance.ShowNotice("사용자 안정화 완료\n 스쿼트를 시작해주세요.");
+                RPInputManager.instance.ShowNotice("사용자 안정화 완료\n\n 스쿼트를 시작해주세요.");
                 Debug.Log("사용자 안정화 완료\n 스쿼트를 시작해주세요.");
             }
             else
             {
-                RPInputManager.instance.ShowNotice("사용자 안정화 실패");
+                RPInputManager.instance.ShowNotice("사용자 안정화 작업중입니다\n 안정된 자세로 잠시 기다려주세요.");
                 Debug.Log("사용자 안정화 실패");
             }
         }

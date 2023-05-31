@@ -114,7 +114,6 @@ public class ClimbAction : Action
         {
             isSideChecked = true;
             resetTimer = 0f;
-            progress = 0.5f;
         }
 
         // Debug.Log("isSideRight : " + isSideRight + " / isSideChecked : " + isSideChecked);
@@ -149,7 +148,6 @@ public class ClimbAction : Action
             {
                 isUpped = false;
                 resetTimer = 0f;
-                progress = 0f;
             }
         }
         else
@@ -173,13 +171,12 @@ public class ClimbAction : Action
             {
                 CheckUndo();
 
-                if(endPointValue > threshold) { isUpped = true; progress = 1f;}
+                if(endPointValue > threshold) { isUpped = true;}
             }
             else
             {
                 if(startPointValue > threshold)
                 {
-                    progress = 0f;
                     isUpped = false;
                     base.CheckRep();
                 }
@@ -218,7 +215,7 @@ public class ClimbAction : Action
             if(diff < 5)
             {
                 isUserStable = true;
-                RPInputManager.instance.ShowNotice("암워크 운동입니다");
+                RPInputManager.instance.ShowNotice("영상에 나온 동작을 따라해주세요.");
                 Debug.Log("암워크 운동입니다");
             }
             else
