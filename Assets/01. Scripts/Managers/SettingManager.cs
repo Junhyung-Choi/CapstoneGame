@@ -31,7 +31,7 @@ public class SettingManager : MonoBehaviour
         instructionCanvasObject = GameObject.Find("Instruction Canvas");
         instructionText = instructionCanvasObject.transform.Find("Instruction").GetComponent<TMPro.TMP_Text>();
         valueText = instructionCanvasObject.transform.Find("Value").GetComponent<TMPro.TMP_Text>();
-
+       
         userAge = PlayerPrefs.GetInt("UserAge",20);
         userWeight = PlayerPrefs.GetInt("UserWeight",50);
         
@@ -183,13 +183,14 @@ public class SettingManager : MonoBehaviour
             case 0:
                 instructionText.text = "성별을 설정하세요!";
                 valueText.text = isMale ? "남성" : "여성";
+               // guideText = 
                 break;
             case 1:
                 instructionText.text = "나이를 설정하세요!";
                 valueText.text = userAge.ToString();
                 break;
             case 2:
-                instructionText.text = "몸무게를 설정하세요!";
+                instructionText.text = "몸무게를 \n설정하세요!";
                 valueText.text = userWeight.ToString();
                 break;
             default:

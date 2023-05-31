@@ -111,7 +111,7 @@ public class TutorialChecker : SceneMover
             case ChunkType.CLIMB:
                 GuideVideoManager.instance.ShowVideo(this.types[tutoCount]);
                 tutorialUIManager.SetActiveStartUI(true);
-                return "스텝박스의 끝(시작점)으로 이동하여 \n암워크를 따라해보아요";
+                return "스텝박스 옆으로 이동하여 암워크를 따라해보아요";
             default:
                 throw new System.Exception("Wrong ChunkType");
         }

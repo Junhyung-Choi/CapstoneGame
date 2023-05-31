@@ -7,9 +7,10 @@ public class FinishLine : SceneMover
     
     void Update()
     {
-        if (transform.position.z < -10)
+        if (transform.position.x < 1f)
         {
             PlayerPrefs.SetFloat("PlayTime",GameManager.instance.playTimer); 
+            MoveToRanking();
         }
     }
 }

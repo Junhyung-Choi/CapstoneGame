@@ -45,7 +45,11 @@ public class GameManager : MonoBehaviour
     public static bool isPaused = false;
     float pauseTimer = 0f, pauseMaxTime = 5f;
 
+<<<<<<< HEAD
     public float actionProgress = 0f;
+=======
+    bool isPlayedVideo = false;
+>>>>>>> 049c5688220bea8ce71e824b231fa732230ce4be
 
     Coroutine coroutine;
     Vector3 camStartPos;
@@ -142,6 +146,8 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         instructionManager.AcitvateStartMessage();
+        GuideVideoManager.instance.ShowVideo(ChunkType.WALK);
+        GuideVideoManager.instance.ShowNotice("영상을 따라서 걸어보세요");
         isPlayStart = true;
     }
 
@@ -186,8 +192,6 @@ public class GameManager : MonoBehaviour
 
             if(chunks[currentChunkIndex] == ChunkType.START )
             {
-                GuideVideoManager.instance.ShowVideo(ChunkType.WALK);
-                GuideVideoManager.instance.ShowNotice("영상을 따라서 걸어보세요");
                 obs.GetComponent<Obstacle>().isStartorEnd = true;
                 NextChunk();
                 actionManager.ChangeAction(chunks[currentChunkIndex]);
@@ -233,6 +237,11 @@ public class GameManager : MonoBehaviour
         {
             if(!nearObs.GetComponent<Obstacle>().isStartorEnd)
             {
+                if(!isPlayedVideo)
+                {
+                    GuideVideoManager.instance.ShowVideo(nearObs.GetComponent<Obstacle>().chunkType);
+                    isPlayedVideo = true;
+                }
                 float timeScale = GetTimeScale(dist);
                 TimeHandler.instance.SetTimeFactor(timeScale);
             }
@@ -356,9 +365,17 @@ public class GameManager : MonoBehaviour
     {
         if(curRep >= maxRep)
         {
+            isPlayedVideo = false;
             actionManager.ChangeAction(chunks[currentChunkIndex]);
-            GuideVideoManager.instance.ShowVideo(chunks[currentChunkIndex]);
-            GuideVideoManager.instance.ShowNotice("영상을 따라해보세요.");
+            if(chunks[currentChunkIndex] != ChunkType.WALK)
+                GuideVideoManager.instance.ShowVideo(chunks[currentChunkIndex]);
+            if(chunks[currentChunkIndex] == ChunkType.SQUAT) {
+                GuideVideoManager.instance.ShowNotice("사용자 안정화 작업이 필요합니다. \n박스에 올라가 안정된 자세를 취해주세요.");
+            } else if (chunks[currentChunkIndex] == ChunkType.PLANK)
+            {
+                GuideVideoManager.instance.ShowNotice("사용자 안정화 작업이 필요합니다. \n박스에서 내려와 안정된 자세를 취해주세요.");
+            } else
+                GuideVideoManager.instance.ShowNotice("영상을 따라해보세요.");
             curRep = 0;
             SetMaxRep();
         }

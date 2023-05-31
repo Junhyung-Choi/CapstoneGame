@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.5256903, g: 0.70981115, b: 0.794488, a: 1}
+  m_IndirectSpecularColor: {r: 0.5256993, g: 0.7098144, b: 0.7944886, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1641,7 +1641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1219889245
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2252,7 +2252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ea5754bf015c748a30f3dff6034e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunks: 000000000100000005000000040000000300000002000000020000000400000005000000010000000100000006000000
+  chunks: 000000000100000005000000040000000300000006000000
   obstacles: []
   currentChunkIndex: 0
   maxRep: 10
@@ -3017,7 +3017,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -72, y: 504}
+  m_AnchoredPosition: {x: 133, y: 504}
   m_SizeDelta: {x: 144, y: 68}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5815520529237209478

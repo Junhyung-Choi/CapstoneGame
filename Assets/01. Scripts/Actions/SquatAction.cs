@@ -25,7 +25,7 @@ public class SquatAction : Action
     /// </summary>
     public override void CheckRep()
     {
-        float backValue = RPInputManager.inputMatrix[1,2] + RPInputManager.inputMatrix[0,3];
+        float backValue = RPInputManager.inputMatrix[1,0] + RPInputManager.inputMatrix[1,1] + RPInputManager.inputMatrix[1,2] + RPInputManager.inputMatrix[1,3];
         // Debug.Log(backValue);
         // Debug.Log("isStarted : " + isStarted + "/ isThresholdSet : " + isThresholdSet);
             
@@ -65,9 +65,18 @@ public class SquatAction : Action
 
     public void SetThreshold(float threshold) 
     {
+        if(PlayerPrefs.GetInt("UserWeight") > 60)
+        {
+
+        }
+        else
+        {
+            
+        }
+
         isThresholdSet = true;
         this.threshold = threshold;
-        this.start_threshold = threshold * 0.2f;
+        this.start_threshold = threshold * 0.1f;
         this.end_threshold = threshold * 0.1f;
         Debug.Log("threshold : " + threshold + "/ start_threshold : " + start_threshold + "/ end_threshold : " + end_threshold);
     }
@@ -78,7 +87,7 @@ public class SquatAction : Action
         isSquatEnd = false;
         timer = 0f;
         
-        float sum = ActionManager.avgInputMatrix[1,2] + ActionManager.avgInputMatrix[0,3];
+        float sum = ActionManager.avgInputMatrix[1,0] + ActionManager.avgInputMatrix[1,1] + ActionManager.avgInputMatrix[1,2] + ActionManager.avgInputMatrix[1,3];
         SetThreshold(sum);
     }
 
@@ -108,16 +117,18 @@ public class SquatAction : Action
             if(!isSquatEnd)
             {
                 // 타이머 체크 도중 밟는게 너무 가벼워짐 -> 회수 인정 안함.
-                if(backValue < end_threshold) { 
+                if(backValue < threshold + end_threshold) { 
                     isSquatStart = false; 
                     isSquatEnd = false; 
                 }
-                timer += Time.unscaledDeltaTime;
-                if(timer > maxTime)
-                {
-                    isSquatEnd = true;
-                    timer = 0.0f;
-                    // base.CheckRep();
+                else{
+                    timer += Time.unscaledDeltaTime;
+                    if(timer > maxTime)
+                    {
+                        isSquatEnd = true;
+                        timer = 0.0f;
+                        // base.CheckRep();
+                    }
                 }
             }
             // 타이머 완료 되어있음.
@@ -133,8 +144,8 @@ public class SquatAction : Action
                 }
                 else
                 {
-                    RPInputManager.instance.ShowNotice("올라와!!");
-                    Debug.Log("올라와!!");
+                    RPInputManager.instance.ShowNotice("올라오세요!");
+                    Debug.Log("올라오세요!");
                 }
             }
         }
