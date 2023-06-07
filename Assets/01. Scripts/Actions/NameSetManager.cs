@@ -44,7 +44,7 @@ public class NameSetManager
             sum += ActionManager.avgInputMatrix[1,i];
         }
         sum /= 8f;
-        threshold = sum * 0.5f;
+        threshold = sum * 0.2f;
     }
 
     void Update()
@@ -57,7 +57,10 @@ public class NameSetManager
         else    // 사이드 체크 됨
         {
             isSideCheckEnd = false;
-            SetMatrix();
+            if(count == 27){ }//등록
+            else if(count == 26)  { }//뒤로 가기 
+            else { }//count에 따라 알파벳 선정 
+            count = 0; x = 0; y = 0;
         }
     }
 
@@ -66,16 +69,21 @@ public class NameSetManager
         if(isSideRight)
         {
             count++;
-            if(count % 7 != 0)  { x++; }
+            if(count == 28){
+                x = 0; y = 0; count = 0;
+            }
+            else if(count % 6 != 0)  { x++; }
             else { y++; x = 0; }
         }
         else
         {
             count--;
-            if(count % 7 != 0) { x--; }
+            if(count == -1){
+                x = 3; y = 4; count = 27;
+            }
+            else if(count % 6 != 5) { x--; }
             else { y--; x = 5; }
         }
-
     }
 
     void GetStep()
@@ -83,26 +91,35 @@ public class NameSetManager
 
         float rightValue = RPInputManager.inputMatrix[0,3] + RPInputManager.inputMatrix[1,3];
         float leftValue = RPInputManager.inputMatrix[0,0] + RPInputManager.inputMatrix[1,0];
+        float midValue = (RPInputManager.inputMatrix[0,1] + RPInputManager.inputMatrix[1,1] + RPInputManager.inputMatrix[0,2] + RPInputManager.inputMatrix[1,2])/2;
 
         if(isSideCheckStart)
         {
             Timer += Time.deltaTime;
             if(isSideRight)
             {
-                if(rightValue < threshold || Timer > MaxTimer) { 
-                    isSideCheckEnd = true;
+                if(rightValue < threshold) { //발을 땜
                     isSideCheckStart = false;
                     Timer = 0f;
+                    SetMatrix();
                     return;
+                }
+                if(Timer > MaxTimer){
+                    Timer = 0f;
+                    SetMatrix();
                 }
             }
             else
             {
-                if(leftValue < threshold || Timer > MaxTimer) { 
-                    isSideCheckEnd = true;
+                if(leftValue < threshold) { 
                     isSideCheckStart = false;
                     Timer = 0f;
+                    SetMatrix();
                     return;
+                }
+                if(Timer > MaxTimer){
+                    Timer = 0f;
+                    SetMatrix();
                 }
             }
         }
@@ -116,6 +133,11 @@ public class NameSetManager
             {
                 isSideCheckStart = true;
                 isSideRight = false;
+            }
+            else if(midValue > threshold)
+            {
+                isSideCheckEnd = true;
+                return;
             }
         }
     }
