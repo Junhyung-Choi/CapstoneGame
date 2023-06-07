@@ -11,13 +11,14 @@ public class NameSetManager : MonoBehaviour
     int x = 0, y = 0;
     int count = 0;
 
-    float Timer = 0f, MaxTimer = 1.5f;
+    float Timer = 0f, MaxTimer = 1.2f;
 
     bool isSideRight = false; // false = 왼쪽, true = 오른쪽
 
     bool isStepStarted = false;
     bool isConfirmClicked = false;
     bool isConfirmStarted = false;
+    bool isKeepPressing = false;
 
     float threshold = 0f; // 기준이 되는 값 
 
@@ -103,13 +104,21 @@ public class NameSetManager : MonoBehaviour
             Timer += Time.unscaledDeltaTime;
             if(isSideRight)
             {
-                if(rightValue < threshold) { //발을 땜
-                    isStepStarted = false;
-                    Timer = 0f;
-                    SetMatrix();
-                    return;
-                }
+                if(rightValue < threshold){
+                    if(!isKeepPressing) { //발을 땜
+                        isStepStarted = false;
+                        Timer = 0f;
+                        return;
+                    }
+                    else{
+                        isKeepPressing = false;
+                        isStepStarted = false;
+                        Timer = 0f;
+                        SetMatrix();
+                        return;
+                    }
                 if(Timer > MaxTimer){
+                    isKeepPressing = true;
                     Timer = 0f;
                     SetMatrix();
                 }
@@ -117,12 +126,21 @@ public class NameSetManager : MonoBehaviour
             else
             {
                 if(leftValue < threshold) { 
-                    isStepStarted = false;
-                    Timer = 0f;
-                    SetMatrix();
-                    return;
+                    if(!isKeepPressing) { //발을 땜
+                        isStepStarted = false;
+                        Timer = 0f;
+                        return;
+                    }
+                    else{
+                        isKeepPressing = false;
+                        isStepStarted = false;
+                        Timer = 0f;
+                        SetMatrix();
+                        return;
+                    }
                 }
                 if(Timer > MaxTimer){
+                    isKeepPressing = true;
                     Timer = 0f;
                     SetMatrix();
                 }
@@ -137,12 +155,12 @@ public class NameSetManager : MonoBehaviour
                 }
             }
 
-            if(rightValue > leftValue + threshold)
+            if(rightValue > leftValue + threshold && rightValue > midValue + threshold )
             {
                 isStepStarted = true;
                 isSideRight = true;
             }
-            else if(leftValue > rightValue + threshold)
+            else if(leftValue > rightValue + threshold && leftValue > midValue + threshold)
             {
                 isStepStarted = true;
                 isSideRight = false;
