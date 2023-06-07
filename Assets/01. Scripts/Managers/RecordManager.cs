@@ -8,7 +8,7 @@ public class RecordManager : MonoBehaviour
 
     public static List<Record> records = new List<Record>();
 
-    string persistenPath;
+    static string persistenPath;
 
     private void Awake() {
         persistenPath = Application.persistentDataPath;
@@ -31,18 +31,26 @@ public class RecordManager : MonoBehaviour
     public static void AddRecord(Record record)
     {
         records.Add(record);
+        for(int i = 0; i < records.Count; i++)
+        {
+            Debug.Log(records[i].userName + " " + records[i].record);
+        }
     }
 
-    void SaveRecord()
+    public static void SaveRecord()
     {
-        string json = JsonUtility.ToJson(records);
+        RecordList recordList = new RecordList();
+        recordList.records = records;
+        string json = JsonUtility.ToJson(recordList);
+        Debug.Log(json);
         System.IO.File.WriteAllText(persistenPath + "/record.json", json);
     }
 
     void LoadRecord()
     {
         string json = System.IO.File.ReadAllText(persistenPath + "/record.json");
-        records = JsonUtility.FromJson<List<Record>>(json);
+        RecordList recordList = JsonUtility.FromJson<RecordList>(json);
+        records = recordList.records;
     }
     
 }
@@ -52,4 +60,16 @@ public class Record
 {
     public string userName;
     public float record;
+
+    public Record(string userName, float record)
+    {
+        this.userName = userName;
+        this.record = record;
+    }
+}
+
+[System.Serializable]
+public class RecordList
+{
+    public List<Record> records;
 }
