@@ -151,7 +151,7 @@ public class TutorialChecker : SceneMover
             if(rightStepTimer > rightStepMaxTime) { this.MoveToGame(); }
         }
         else 
-        { 
+        {
             rightStepTimer = 0; 
             tutorialUIManager.UpdateSlider(0f);
         }
