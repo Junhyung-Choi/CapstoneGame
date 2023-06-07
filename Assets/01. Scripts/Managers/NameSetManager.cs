@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class NameSetManager : MonoBehaviour
 {
+    public bool isDemo = false;
+
     //이름 설정 메트릭스 상의 좌표
     int x = 0, y = 0;
     int count = 0;
@@ -15,6 +17,7 @@ public class NameSetManager : MonoBehaviour
 
     bool isStepStarted = false;
     bool isConfirmClicked = false;
+    bool isConfirmStarted = false;
 
     float threshold = 0f; // 기준이 되는 값 
 
@@ -39,6 +42,8 @@ public class NameSetManager : MonoBehaviour
 
     void SetThreshold()
     {
+        if(isDemo) { threshold = 20f; return; }
+
         float sum = 0f;
         for(int i = 0; i < 4; i++)
         {
@@ -85,19 +90,17 @@ public class NameSetManager : MonoBehaviour
             else if(count % 6 != 5) { x--; }
             else { y--; x = 5; }
         }
-        
+        rankingSceneManager.ChangeCursor(count);
     }
 
     void GetStep()
     {
-
         float rightValue = RPInputManager.inputMatrix[0,3] + RPInputManager.inputMatrix[1,3];
         float leftValue = RPInputManager.inputMatrix[0,0] + RPInputManager.inputMatrix[1,0];
         float midValue = (RPInputManager.inputMatrix[0,1] + RPInputManager.inputMatrix[1,1] + RPInputManager.inputMatrix[0,2] + RPInputManager.inputMatrix[1,2])/2;
-
         if(isStepStarted)
         {
-            Timer += Time.deltaTime;
+            Timer += Time.unscaledDeltaTime;
             if(isSideRight)
             {
                 if(rightValue < threshold) { //발을 땜
@@ -126,6 +129,14 @@ public class NameSetManager : MonoBehaviour
             }
         }
         else{
+            if(isConfirmStarted){
+                if(midValue < threshold * 0.25) { 
+                   isConfirmClicked = true; 
+                   isConfirmStarted = false;
+                   return;
+                }
+            }
+
             if(rightValue > leftValue + threshold)
             {
                 isStepStarted = true;
@@ -136,10 +147,9 @@ public class NameSetManager : MonoBehaviour
                 isStepStarted = true;
                 isSideRight = false;
             }
-            else if(midValue > threshold)
+            else if((midValue > rightValue + threshold || midValue > leftValue + threshold) && !isConfirmStarted)
             {
-                isConfirmClicked = true;
-                return;
+                isConfirmStarted = true;
             }
         }
     }

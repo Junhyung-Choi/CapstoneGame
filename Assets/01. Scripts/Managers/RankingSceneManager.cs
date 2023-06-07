@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class RankingSceneManager : MonoBehaviour
 {
-    public string userName = "YENA";
+    public string userName = "";
     public float userScore = 100f;
 
     public GameObject rankingCanvas;
@@ -18,7 +18,8 @@ public class RankingSceneManager : MonoBehaviour
 
     int currentCursor = 0;
 
-    
+    Color gray = new Color(0f,0f,0f,0.72f);
+    Color orange = new Color(1,0.5f,0,1);
 
     private void Start()
     {
@@ -28,6 +29,8 @@ public class RankingSceneManager : MonoBehaviour
 
         KeyboardBG = RankingInput.transform.Find("KeyboardBG").gameObject;
         InputBox = RankingInput.transform.Find("InputBox").gameObject;
+
+        userScore = PlayerPrefs.GetFloat("PlayTime", 200f);
     }
 
     public void Update()
@@ -75,8 +78,9 @@ public class RankingSceneManager : MonoBehaviour
     {
         if(count != currentCursor)
         {
-            KeyboardBG.transform.GetChild(currentCursor).GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
-
+            KeyboardBG.transform.GetChild(currentCursor).GetComponent<Image>().color = gray;
+            currentCursor = count;
+            KeyboardBG.transform.GetChild(currentCursor).GetComponent<Image>().color = orange;
         }
     }
 
@@ -85,12 +89,15 @@ public class RankingSceneManager : MonoBehaviour
         char character = (char)('A' + index);
         Debug.Log(character);
         this.userName += character;
+
+        InputBox.transform.Find("Text").GetComponent<TMPro.TMP_Text>().text = this.userName;
     }
 
     public void DeleteCharacter()
     {
         if (this.userName.Length > 0)
             this.userName = this.userName.Substring(0, this.userName.Length - 1);
+        InputBox.transform.Find("Text").GetComponent<TMPro.TMP_Text>().text = this.userName;
     }
 
 }

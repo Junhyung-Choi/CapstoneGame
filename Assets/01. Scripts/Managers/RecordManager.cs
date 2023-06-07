@@ -13,6 +13,7 @@ public class RecordManager : MonoBehaviour
     private void Awake() {
         persistenPath = Application.persistentDataPath;
 
+
         if(instance == null) { instance = this; }
         else { Destroy(gameObject); }
 
@@ -21,6 +22,7 @@ public class RecordManager : MonoBehaviour
 
     private void OnApplicationQuit() {
         SaveRecord();
+        Debug.Log(persistenPath);
     }
 
     public static List<Record> GetRecords()
