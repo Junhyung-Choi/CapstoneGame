@@ -9,12 +9,13 @@ public class NameSetManager : MonoBehaviour
     int x = 0, y = 0;
     int count = 0;
 
-    float Timer = 0f, MaxTimer = 1f;
+    float Timer = 0f, MaxTimer = 1.5f;
 
     bool isSideRight = false; // false = 왼쪽, true = 오른쪽
 
     bool isStepStarted = false;
     bool isConfirmClicked = false;
+    bool isConfirmSatrted = false;
 
     float threshold = 0f; // 기준이 되는 값 
 
@@ -46,7 +47,7 @@ public class NameSetManager : MonoBehaviour
             sum += ActionManager.avgInputMatrix[1,i];
         }
         sum /= 8f;
-        threshold = sum * 0.2f;
+        threshold = sum * 0.3f;
     }
 
     void Update()
@@ -97,7 +98,7 @@ public class NameSetManager : MonoBehaviour
 
         if(isStepStarted)
         {
-            Timer += Time.deltaTime;
+            Timer += Time.UnscaleddeltaTime;
             if(isSideRight)
             {
                 if(rightValue < threshold) { //발을 땜
@@ -126,20 +127,28 @@ public class NameSetManager : MonoBehaviour
             }
         }
         else{
-            if(rightValue > leftValue + threshold)
-            {
-                isStepStarted = true;
-                isSideRight = true;
+            if(isConfirmSatrted){
+                if(midValue < rightValue + threshold || midValue < leftValue + threshold) { 
+                   isConfirmClicked = true; 
+                   isConfirmSatrted = false;
+                   return;
+                }
             }
-            else if(leftValue > rightValue + threshold)
-            {
-                isStepStarted = true;
-                isSideRight = false;
-            }
-            else if(midValue > threshold)
-            {
-                isConfirmClicked = true;
-                return;
+            else{
+                if(rightValue > leftValue + threshold)
+                {
+                    isStepStarted = true;
+                    isSideRight = true;
+                }
+                else if(leftValue > rightValue + threshold)
+                {
+                    isStepStarted = true;
+                    isSideRight = false;
+                }
+                else if((midValue > rightValue + threshold || midValue > leftValue + threshold) && !isConfirmSatrted)
+                {
+                    isConfirmSatrted = true;
+                }
             }
         }
     }
