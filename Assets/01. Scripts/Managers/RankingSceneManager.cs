@@ -10,16 +10,24 @@ public class RankingSceneManager : MonoBehaviour
 
     public GameObject rankingCanvas;
     public GameObject RankingInput, InitialBox, RankingOutput;
+    public GameObject KeyboardBG, InputBox;
 
     List<Record> records = new List<Record>();
 
     Coroutine coroutine;
+
+    int currentCursor = 0;
+
+    
 
     private void Start()
     {
         RankingInput = rankingCanvas.transform.Find("RankingInput").gameObject;
         InitialBox = rankingCanvas.transform.Find("InitialBox").gameObject;
         RankingOutput = rankingCanvas.transform.Find("RankingOutput").gameObject;
+
+        KeyboardBG = RankingInput.transform.Find("KeyboardBG").gameObject;
+        InputBox = RankingInput.transform.Find("InputBox").gameObject;
     }
 
     public void Update()
@@ -61,6 +69,28 @@ public class RankingSceneManager : MonoBehaviour
             rankingBox.Find("Time").GetComponent<TMPro.TMP_Text>().text = System.TimeSpan.FromSeconds(records[i].record).ToString(@"mm\:ss");
             rankingBox.gameObject.SetActive(true);
         }
+    }
+
+    public void ChangeCursor(int count)
+    {
+        if(count != currentCursor)
+        {
+            KeyboardBG.transform.GetChild(currentCursor).GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.5f);
+
+        }
+    }
+
+    public void AddCharacter(int index)
+    {
+        char character = (char)('A' + index);
+        Debug.Log(character);
+        this.userName += character;
+    }
+
+    public void DeleteCharacter()
+    {
+        if (this.userName.Length > 0)
+            this.userName = this.userName.Substring(0, this.userName.Length - 1);
     }
 
 }

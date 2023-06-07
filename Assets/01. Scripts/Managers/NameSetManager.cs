@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NameSetManager
+public class NameSetManager : MonoBehaviour
 {
     //이름 설정 메트릭스 상의 좌표
-    int x = 0;
-    int y = 0;
+    int x = 0, y = 0;
     int count = 0;
 
-    float Timer = 0f;
-    float MaxTimer = 1f;
+    float Timer = 0f, MaxTimer = 1f;
 
     bool isSideRight = false; // false = 왼쪽, true = 오른쪽
 
-    bool isSideCheckStart = false; // false = 체크 시작 안함, true = 체크 시작함
-    bool isSideCheckEnd = false;
+    bool isStepStarted = false;
+    bool isConfirmClicked = false;
 
     float threshold = 0f; // 기준이 되는 값 
+
+    RankingSceneManager rankingSceneManager;
 
     void Start()
     {
@@ -29,10 +29,12 @@ public class NameSetManager
     void initVariables()
     {
         isSideRight = false;
-        isSideCheckStart = false;
-        isSideCheckEnd = false;
+        isStepStarted = false;
+        isConfirmClicked = false;
         count = 0; x = 0; y = 0;
         Timer = 0f;
+
+        rankingSceneManager = this.transform.GetComponent<RankingSceneManager>();
     }
 
     void SetThreshold()
@@ -44,20 +46,22 @@ public class NameSetManager
             sum += ActionManager.avgInputMatrix[1,i];
         }
         sum /= 8f;
-        threshold = sum * 0.5f;
+        threshold = sum * 0.2f;
     }
 
     void Update()
     {
-        // 아직 사이드 체크 안 됨
-        if(!isSideCheckEnd)
+        // 아직 확인버튼 안눌림.
+        if(!isConfirmClicked)
         {
             GetStep();
         }
-        else    // 사이드 체크 됨
+        else    // 확인버튼 클릭 시
         {
-            isSideCheckEnd = false;
-            SetMatrix();
+            isConfirmClicked = false; // 초기화 
+            if(count == 27){ rankingSceneManager.CompleteName(); } //등록
+            else if(count == 26)  { rankingSceneManager.DeleteCharacter(); }//뒤로 가기 
+            else { rankingSceneManager.AddCharacter(count); }//count에 따라 알파벳 선정 
         }
     }
 
@@ -66,16 +70,22 @@ public class NameSetManager
         if(isSideRight)
         {
             count++;
-            if(count % 7 != 0)  { x++; }
+            if(count == 28){
+                x = 0; y = 0; count = 0;
+            }
+            else if(count % 6 != 0)  { x++; }
             else { y++; x = 0; }
         }
         else
         {
             count--;
-            if(count % 7 != 0) { x--; }
+            if(count == -1){
+                x = 3; y = 4; count = 27;
+            }
+            else if(count % 6 != 5) { x--; }
             else { y--; x = 5; }
         }
-
+        
     }
 
     void GetStep()
@@ -83,39 +93,53 @@ public class NameSetManager
 
         float rightValue = RPInputManager.inputMatrix[0,3] + RPInputManager.inputMatrix[1,3];
         float leftValue = RPInputManager.inputMatrix[0,0] + RPInputManager.inputMatrix[1,0];
+        float midValue = (RPInputManager.inputMatrix[0,1] + RPInputManager.inputMatrix[1,1] + RPInputManager.inputMatrix[0,2] + RPInputManager.inputMatrix[1,2])/2;
 
-        if(isSideCheckStart)
+        if(isStepStarted)
         {
             Timer += Time.deltaTime;
             if(isSideRight)
             {
-                if(rightValue < threshold || Timer > MaxTimer) { 
-                    isSideCheckEnd = true;
-                    isSideCheckStart = false;
+                if(rightValue < threshold) { //발을 땜
+                    isStepStarted = false;
                     Timer = 0f;
+                    SetMatrix();
                     return;
+                }
+                if(Timer > MaxTimer){
+                    Timer = 0f;
+                    SetMatrix();
                 }
             }
             else
             {
-                if(leftValue < threshold || Timer > MaxTimer) { 
-                    isSideCheckEnd = true;
-                    isSideCheckStart = false;
+                if(leftValue < threshold) { 
+                    isStepStarted = false;
                     Timer = 0f;
+                    SetMatrix();
                     return;
+                }
+                if(Timer > MaxTimer){
+                    Timer = 0f;
+                    SetMatrix();
                 }
             }
         }
         else{
             if(rightValue > leftValue + threshold)
             {
-                isSideCheckStart = true;
+                isStepStarted = true;
                 isSideRight = true;
             }
             else if(leftValue > rightValue + threshold)
             {
-                isSideCheckStart = true;
+                isStepStarted = true;
                 isSideRight = false;
+            }
+            else if(midValue > threshold)
+            {
+                isConfirmClicked = true;
+                return;
             }
         }
     }
