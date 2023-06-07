@@ -31,6 +31,7 @@ public class RankingSceneManager : MonoBehaviour
         InputBox = RankingInput.transform.Find("InputBox").gameObject;
 
         userScore = PlayerPrefs.GetFloat("PlayTime", 200f);
+        rankingCanvas.transform.Find("Score").GetComponent<TMPro.TMP_Text>().text = "내 기록: " + System.TimeSpan.FromSeconds(userScore).ToString(@"mm\:ss");
     }
 
     public void Update()

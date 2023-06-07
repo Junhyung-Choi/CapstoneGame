@@ -55,6 +55,15 @@ public class TutorialUIManager : MonoBehaviour
 
     public void UpdateSlider(float value)
     {
+        if(value < 0.5f)
+        {
+            slider.gameObject.SetActive(false);
+            return;
+        }
+        if(slider.gameObject.activeSelf == false)
+        {
+            slider.gameObject.SetActive(true);
+        }
         if(slider.maxValue == 1)
         {
             slider.maxValue = rightStepMaxTime;
