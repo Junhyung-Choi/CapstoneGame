@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class TutorialUIManager : MonoBehaviour
 {
+    public TutorialChecker tutorial;
     GameObject InitMessage;
     GameObject Ment, Stop, SmallGuide, startUI;
     Slider slider;
     TMPro.TMP_Text scoreText;
+
+    Image progress;
 
     public float rightStepMaxTime;
 
@@ -23,6 +26,7 @@ public class TutorialUIManager : MonoBehaviour
         slider = this.transform.Find("Slider").GetComponent<Slider>();
         
         scoreText = this.transform.Find("Score").GetComponent<TMPro.TMP_Text>();
+        progress = this.transform.Find("Image").GetComponent<Image>();
     }
 
     public void ShowMent(string ment)
@@ -63,6 +67,10 @@ public class TutorialUIManager : MonoBehaviour
         startUI.SetActive(value);
     }
 
+
+    private void Update() {
+        progress.fillAmount = tutorial.progress;
+    }
 
 
 }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class TutorialChecker : SceneMover
 {
     public TutorialUIManager tutorialUIManager;
+
+    public float progress;
     
     float rightStepTimer = 0f;
     float rightStepMaxTime = 5f;
@@ -56,6 +58,8 @@ public class TutorialChecker : SceneMover
             DoAction();              
             ControlTutorial();
             CheckTutorialEnd();
+
+            progress = this.actionSet.action.progress;
         }
     }
     public void DoAction()
