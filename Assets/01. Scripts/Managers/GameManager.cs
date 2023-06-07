@@ -394,30 +394,30 @@ public class GameManager : MonoBehaviour
 
     void SetMaxObstacle()
     {
-        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxObstacleSpawnNum = 7;}
-        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxObstacleSpawnNum = 7;}
-        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxObstacleSpawnNum = 5;}
-        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxObstacleSpawnNum = 5;}
-        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxObstacleSpawnNum = 5;}
+        if(chunks[currentChunkIndex] == ChunkType.WALK) { maxObstacleSpawnNum = 4;}
+        else if(chunks[currentChunkIndex] == ChunkType.STEPUP) { maxObstacleSpawnNum = 4;}
+        else if(chunks[currentChunkIndex] == ChunkType.CLIMB) { maxObstacleSpawnNum = 4;}
+        else if(chunks[currentChunkIndex] == ChunkType.PLANK) { maxObstacleSpawnNum = 4;}
+        else if(chunks[currentChunkIndex] == ChunkType.SQUAT) { maxObstacleSpawnNum = 4;}
     }
 
     void SetMaxRep()
     {
         if(nearObs == null) { return; } 
-        if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.WALK) { maxRep = 7;}
-        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.STEPUP) { maxRep = 7;}
-        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.CLIMB) { maxRep = 5;}
-        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.PLANK) { maxRep = 5;}
-        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.SQUAT) { maxRep = 5;}
+        if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.WALK) { maxRep = 4;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.STEPUP) { maxRep = 4;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.CLIMB) { maxRep = 4;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.PLANK) { maxRep = 4;}
+        else if( obstacles[1].GetComponent<Obstacle>().chunkType == ChunkType.SQUAT) { maxRep = 4;}
     }
 
     int InitMaxRep()
     {
-        if(chunks[1] == ChunkType.WALK) { return 7;}
-        else if(chunks[1] == ChunkType.STEPUP) { return 7;}
-        else if(chunks[1] == ChunkType.CLIMB) { return 5;}
-        else if(chunks[1] == ChunkType.PLANK) { return 5;}
-        else if(chunks[1] == ChunkType.SQUAT) { return 5;}
+        if(chunks[1] == ChunkType.WALK) { return 4;}
+        else if(chunks[1] == ChunkType.STEPUP) { return 4;}
+        else if(chunks[1] == ChunkType.CLIMB) { return 4;}
+        else if(chunks[1] == ChunkType.PLANK) { return 4;}
+        else if(chunks[1] == ChunkType.SQUAT) { return 4;}
         else { return 0; }
     }
 }

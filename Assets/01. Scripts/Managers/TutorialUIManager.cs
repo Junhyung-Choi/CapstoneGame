@@ -55,7 +55,12 @@ public class TutorialUIManager : MonoBehaviour
 
     public void UpdateSlider(float value)
     {
-        if(slider.gameObject.activeSelf == false || value == 0)
+        if(value < 0.5f)
+        {
+            slider.gameObject.SetActive(false);
+            return;
+        }
+        if(slider.gameObject.activeSelf == false)
         {
             slider.gameObject.SetActive(true);
         }
