@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+// using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SettingManager : MonoBehaviour
+public class SettingManager : SceneMover
 {
     bool isMale = true;
     int userAge, userWeight;
@@ -88,7 +88,8 @@ public class SettingManager : MonoBehaviour
                 SetWeight();
                 break;
             case 3:
-                SceneManager.LoadScene("Start");
+                this.MoveToStart();
+                // SceneManager.LoadScene("Start");
                 break;
             default:
                 Debug.LogError("SettingManager.cs: SetSetting() - modeIndex Error");
@@ -110,8 +111,9 @@ public class SettingManager : MonoBehaviour
     void SetSex() 
     {
         // 가운데를 누르면 다음 모드로 넘어감
-        if(threshold < middleValue && leftValue < threshold * 0.5f && rightValue < threshold && !isKeepPressing)
+        if(threshold < middleValue && leftValue < threshold * 0.5f && rightValue < threshold * 0.5f && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             qunatifyTimer = 0.0f;
             keepPressTimer = 0.0f;
@@ -122,12 +124,14 @@ public class SettingManager : MonoBehaviour
         // 오른쪽을 누르면 값이 증가함.
         if(leftValue + diff < rightValue && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             isMale = !isMale;
         }
         // 왼쪽을 누르면 값이 감소함.
         if(rightValue + diff < leftValue && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             isMale = !isMale;
         }
@@ -137,6 +141,7 @@ public class SettingManager : MonoBehaviour
     {
         if(threshold < middleValue && leftValue < threshold * 0.5f && rightValue < threshold * 0.5f && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             qunatifyTimer = 0.0f;
             keepPressTimer = 0.0f;
@@ -145,11 +150,13 @@ public class SettingManager : MonoBehaviour
         }
         if(leftValue + diff < rightValue && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             userAge += 1;
         }
         if(rightValue + diff < leftValue && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             userAge -= 1;
         }
@@ -159,6 +166,7 @@ public class SettingManager : MonoBehaviour
     {
         if(threshold < middleValue && leftValue < threshold * 0.5f && rightValue < threshold * 0.5f && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             qunatifyTimer = 0.0f;
             keepPressTimer = 0.0f;
@@ -167,11 +175,13 @@ public class SettingManager : MonoBehaviour
         }
         if(leftValue + diff < rightValue && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             userWeight += 1;
         }
         if(rightValue + diff < leftValue && !isKeepPressing)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             isKeepPressing = true;
             userWeight -= 1;
         }

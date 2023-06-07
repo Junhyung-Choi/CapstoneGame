@@ -5,17 +5,38 @@ using UnityEngine.SceneManagement;
 
 public class SceneMover : MonoBehaviour
 {
-    public void MoveToSetting() { SceneManager.LoadScene("Setting"); }
+    public void MoveToSetting() { 
+        AudioManager.instance.PlaySettingBGM();
+        SceneManager.LoadScene("Setting"); 
+    }
 
-    public void MoveToGame() { SceneManager.LoadScene("Game"); }
+    public void MoveToGame() { 
+        AudioManager.instance.PlayGameBGM();
+        SceneManager.LoadScene("Game"); 
+    }
 
-    public void MoveToGameStart() { SceneManager.LoadScene("GameStart"); }
+    public void MoveToGameStart() { 
+        AudioManager.instance.PlayTutorialBGM();
+        SceneManager.LoadScene("GameStart"); 
+    }
 
-    public void MoveToTutorial() { SceneManager.LoadScene("Tutorial"); }
+    public void MoveToTutorial() {
+        AudioManager.instance.PlayTutorialBGM();
+        SceneManager.LoadScene("Tutorial"); 
+    }
 
-    public void MoveToRealStart() {SceneManager.LoadScene("RealStart"); }
+    public void MoveToRealStart() {
+        AudioManager.instance.PlaySettingBGM();
+        SceneManager.LoadScene("RealStart"); 
+    }
 
-    public void MoveToRanking() { SceneManager.LoadScene("Ranking"); }
+    public void MoveToRanking() {
+        AudioManager.instance.PlayRankingBGM();
+        SceneManager.LoadScene("Ranking"); 
+    }
 
-    public void MoveToStart() { SceneManager.LoadScene("Start"); }
+    public void MoveToStart() { 
+        AudioManager.instance.PlaySettingBGM();
+        SceneManager.LoadScene("Start"); 
+    }
 }

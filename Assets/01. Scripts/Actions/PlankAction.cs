@@ -98,6 +98,7 @@ public class PlankAction : Action
         {
             isPlankStart = false;
             resetTimer = 0.0f;
+            progress = 0f;
         }
     }
 
@@ -121,6 +122,7 @@ public class PlankAction : Action
                     isJumped = false;
                     // isPlankStart = false;
                     timer = 0.0f;
+                    AudioManager.instance.PlayEndRepEffect();
                 }
             }
             else
@@ -130,6 +132,7 @@ public class PlankAction : Action
                     isJumped = true;
                     isPlankStart = false;
                     timer = 0.0f;
+                    progress = 0f;
                     this.DoRep();
                 }
                 else

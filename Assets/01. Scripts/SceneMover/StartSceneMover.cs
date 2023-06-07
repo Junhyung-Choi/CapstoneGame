@@ -43,10 +43,12 @@ public class StartSceneMover : SceneMover
     {
         if(left + diff < right)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             this.MoveToGameStart();
         }
         if(right + diff < left)
         {
+            AudioManager.instance.PlayClickButtonEffect();
             this.MoveToSetting();
         }
     }

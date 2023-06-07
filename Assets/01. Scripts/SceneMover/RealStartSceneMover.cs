@@ -15,6 +15,10 @@ public class RealStartSceneMover : SceneMover
         }
 
         if(totalValue > 5f)
+        {
+            AudioManager.instance.PlayClickButtonEffect();
             MoveToSetting();
+
+        }
     }
 }

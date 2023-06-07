@@ -45,6 +45,8 @@ public class RankingSceneManager : MonoBehaviour
         coroutine = StartCoroutine(ShowRanking());
         RecordManager.AddRecord(new Record(userName, userScore));
         RecordManager.SaveRecord();
+
+        this.transform.GetComponent<RankingSceneMover>().enabled = true;
     }
 
     IEnumerator ShowRanking()

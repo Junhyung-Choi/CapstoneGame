@@ -121,12 +121,15 @@ public class SquatAction : Action
                 if(backValue < threshold + end_threshold) { 
                     isSquatStart = false; 
                     isSquatEnd = false; 
+                    timer = 0.0f;
+                    progress = this.Map(timer, 0f, maxTime);
                 }
                 else{
                     timer += Time.unscaledDeltaTime;
                     progress = this.Map(timer, 0f, maxTime);
                     if(timer > maxTime)
                     {
+                        AudioManager.instance.PlayEndRepEffect();
                         isSquatEnd = true;
                         timer = 0.0f;
                         // base.CheckRep();
