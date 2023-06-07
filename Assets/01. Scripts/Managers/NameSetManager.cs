@@ -128,7 +128,7 @@ public class NameSetManager : MonoBehaviour
         }
         else{
             if(isConfirmSatrted){
-                if(midValue < rightValue + threshold || midValue < leftValue + threshold) { 
+                if(midValue < rightValue + threshold && midValue < leftValue + threshold) { 
                    isConfirmClicked = true; 
                    isConfirmSatrted = false;
                    return;
@@ -145,7 +145,7 @@ public class NameSetManager : MonoBehaviour
                     isStepStarted = true;
                     isSideRight = false;
                 }
-                else if((midValue > rightValue + threshold || midValue > leftValue + threshold) && !isConfirmSatrted)
+                else if((midValue > rightValue + threshold && midValue > leftValue + threshold) && !isConfirmSatrted)
                 {
                     isConfirmSatrted = true;
                 }
